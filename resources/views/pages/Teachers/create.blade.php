@@ -37,14 +37,14 @@
                             <div class="form-row">
                                 <div class="col">
                                     <label for="title">{{trans('Teacher_trans.Email')}}</label>
-                                    <input type="email" name="Email" class="form-control">
+                                    <input type="email" name="email" class="form-control">
                                     @error('Email')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="col">
                                     <label for="title">{{trans('Teacher_trans.Password')}}</label>
-                                    <input type="password" name="Password" class="form-control">
+                                    <input type="password" name="password" class="form-control">
                                     @error('Password')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
@@ -54,38 +54,33 @@
 
 
                             <div class="form-row">
-                                <div class="col">
-                                    <label for="title">{{trans('Teacher_trans.Name_ar')}}</label>
-                                    <input type="text" name="Name_ar" class="form-control">
-                                    @error('Name_ar')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="col">
-                                    <label for="title">{{trans('Teacher_trans.Name_en')}}</label>
-                                    <input type="text" name="Name_en" class="form-control">
-                                    @error('Name_en')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
+                                @foreach (config('app.languages') as $key => $lang)
+                                    <div class="col">
+                                        <label for="Name_{{ $key }}">{{trans('Teacher_trans.Name_' . $key)}}</label>
+                                        <input type="text"  name="{{ $key }}[Name]" class="form-control" id="Name_{{ $key }}">
+                                        @error('Name_'.$key)
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                @endforeach
                             </div>
                             <br>
                             <div class="form-row">
                                 <div class="form-group col">
                                     <label for="inputCity">{{trans('Teacher_trans.specialization')}}</label>
-                                    <select class="custom-select my-1 mr-sm-2" name="Specialization_id">
+                                    <select class="custom-select my-1 mr-sm-2" name="specialization_id">
                                         <option selected disabled>{{trans('Parent_trans.Choose')}}...</option>
                                         @foreach($specializations as $specialization)
                                             <option value="{{$specialization->id}}">{{$specialization->Name}}</option>
                                         @endforeach
                                     </select>
-                                    @error('Specialization_id')
+                                    @error('specialization_id')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="form-group col">
                                     <label for="inputState">{{trans('Teacher_trans.Gender')}}</label>
-                                    <select class="custom-select my-1 mr-sm-2" name="Gender_id">
+                                    <select class="custom-select my-1 mr-sm-2" name="gender_id">
                                         <option selected disabled>{{trans('Parent_trans.Choose')}}...</option>
                                         @foreach($genders as $gender)
                                             <option value="{{$gender->id}}">{{$gender->Name}}</option>
@@ -111,14 +106,25 @@
                             </div>
                             <br>
 
-                            <div class="form-group">
-                                <label for="exampleFormControlTextarea1">{{trans('Teacher_trans.Address')}}</label>
+                            <div class="form-row">
+                                @foreach (config('app.languages') as $key => $lang)
+                                    <div class="col">
+                                        <label for="exampleFormControlTextarea_{{ $key }}">{{trans('Teacher_trans.Address_'. $key)}}</label>
+                                        <textarea class="form-control" name="{{ $key }}[Address]"
+                                          id="exampleFormControlTextarea_{{ $key }}" rows="2"></textarea>
+                                        @error('Address_'.$key)
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                @endforeach
+                                {{-- <label for="exampleFormControlTextarea1">{{trans('Teacher_trans.Address')}}</label>
                                 <textarea class="form-control" name="Address"
                                           id="exampleFormControlTextarea1" rows="4"></textarea>
                                 @error('Address')
                                 <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
+                                @enderror --}}
                             </div>
+                            <br>
 
                             <button class="btn btn-success btn-sm nextBtn btn-lg pull-right" type="submit">{{trans('Parent_trans.Next')}}</button>
                     </form>

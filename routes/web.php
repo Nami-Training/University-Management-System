@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\TeacherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,10 @@ Route::group(['verified'], function()
     //==============================Section============================
     Route::delete('Sections/{id}', [SectionController::class, 'delete'])->name('Sections.delete');
     Route::resource('Sections', SectionController::class);
+
+    //==============================Teacher============================
+    Route::delete('Teachers/{id}', [TeacherController::class, 'delete'])->name('Teachers.delete');
+    Route::resource('Teachers', TeacherController::class);
 
 
 

@@ -13,6 +13,22 @@ class Teacher extends Model
     use Translatable, HasFactory, SoftDeletes, HasEagerLimit;
 
     public $translatedAttributes = ['Name'];
-    protected $fillable = ['email', 'password', 'Joining_Date'];
+    protected $fillable = ['email', 'password', 'Joining_Date', 'specialization_id', 'gender_id'];
     public $timestamps = true;
+
+
+    public function gender()
+    {
+        return $this->belongsTo(Gender::class);
+    }
+
+    public function specialization()
+    {
+        return $this->belongsTo(Specialization::class);
+    }
+
+    public function sections()
+    {
+        return $this->belongsToMany(Section::class,'teacher_section');
+    }
 }

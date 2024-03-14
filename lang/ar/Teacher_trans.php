@@ -12,6 +12,9 @@ return [
     'specialization'=>'التخصص',
     'Gender'=>'النوع',
     'Joining_Date'=>'تاريخ التعين',
-    'Address'=>'العنوان',
-
+    'Address_ar'=>'العنوان بالعربية',
+    'Address_en'=>'العنوان بالانجلزية',
+    'Processes'=>'العمليات',
+    'Warning_delete'=> 'هل انت متاكد من عملية الحذف ؟',
+    'Update' => 'تحديث',
 ];

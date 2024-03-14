@@ -34,28 +34,28 @@
                                             <th>{{trans('Teacher_trans.Gender')}}</th>
                                             <th>{{trans('Teacher_trans.Joining_Date')}}</th>
                                             <th>{{trans('Teacher_trans.specialization')}}</th>
-                                            <th>العمليات</th>
+                                            <th>{{trans('Teacher_trans.Processes')}}</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <?php $i = 0; ?>
-                                        @foreach($Teachers as $Teacher)
+                                        @foreach($teachers as $teacher)
                                             <tr>
                                             <?php $i++; ?>
                                             <td>{{ $i }}</td>
-                                            <td>{{$Teacher->Name}}</td>
-                                            <td>{{$Teacher->genders->Name}}</td>
-                                            <td>{{$Teacher->Joining_Date}}</td>
-                                            <td>{{$Teacher->specializations->Name}}</td>
+                                            <td>{{$teacher->Name}}</td>
+                                            <td>{{$teacher->gender->Name}}</td>
+                                            <td>{{$teacher->Joining_Date}}</td>
+                                            <td>{{$teacher->specialization->Name}}</td>
                                                 <td>
-                                                    <a href="{{route('Teachers.edit',$Teacher->id)}}" class="btn btn-info btn-sm" role="button" aria-pressed="true"><i class="fa fa-edit"></i></a>
-                                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete_Teacher{{ $Teacher->id }}" title="{{ trans('Grades_trans.Delete') }}"><i class="fa fa-trash"></i></button>
+                                                    <a href="{{route('Teachers.edit',$teacher->id)}}" class="btn btn-info btn-sm" role="button" aria-pressed="true"><i class="fa fa-edit"></i></a>
+                                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete_Teacher{{ $teacher->id }}" title="{{ trans('Grades_trans.Delete') }}"><i class="fa fa-trash"></i></button>
                                                 </td>
                                             </tr>
 
-                                            <div class="modal fade" id="delete_Teacher{{$Teacher->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal fade" id="delete_Teacher{{$teacher->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
-                                                    <form action="{{route('Teachers.destroy','test')}}" method="post">
+                                                    <form action="{{route('Teachers.delete', $teacher->id)}}" method="post">
                                                         {{method_field('delete')}}
                                                         {{csrf_field()}}
                                                     <div class="modal-content">
@@ -66,8 +66,8 @@
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <p> {{ trans('My_Classes_trans.Warning_Grade') }}</p>
-                                                            <input type="hidden" name="id"  value="{{$Teacher->id}}">
+                                                            <p> {{ trans('Teacher_trans.Warning_delete') }}</p>
+                                                            <input type="hidden" name="id"  value="{{$teacher->id}}">
                                                         </div>
                                                         <div class="modal-footer">
                                                             <div class="modal-footer">

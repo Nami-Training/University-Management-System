@@ -30,21 +30,21 @@
                     <div class="col-xs-12">
                         <div class="col-md-12">
                             <br>
-                            <form action="{{route('Teachers.update','test')}}" method="post">
-                             {{method_field('patch')}}
+                            <form action="{{route('Teachers.update', $teacher->id)}}" method="post">
+                             @method('patch')
                              @csrf
                             <div class="form-row">
                                 <div class="col">
                                     <label for="title">{{trans('Teacher_trans.Email')}}</label>
-                                    <input type="hidden" value="{{$Teachers->id}}" name="id">
-                                    <input type="email" name="Email" value="{{$Teachers->email}}" class="form-control">
+                                    <input type="hidden" value="{{$teacher->id}}" name="id">
+                                    <input type="email" name="email" value="{{$teacher->email}}" class="form-control">
                                     @error('Email')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="col">
                                     <label for="title">{{trans('Teacher_trans.Password')}}</label>
-                                    <input type="password" name="Password" value="{{$Teachers->Password}}" class="form-control">
+                                    <input type="password" name="password" value="{{$teacher->password}}" class="form-control">
                                     @error('Password')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
@@ -54,29 +54,23 @@
 
 
                             <div class="form-row">
-                                <div class="col">
-                                    <label for="title">{{trans('Teacher_trans.Name_ar')}}</label>
-                                    <input type="text" name="Name_ar" value="{{ $Teachers->getTranslation('Name', 'ar') }}" class="form-control">
-                                    @error('Name_ar')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="col">
-                                    <label for="title">{{trans('Teacher_trans.Name_en')}}</label>
-                                    <input type="text" name="Name_en" value="{{ $Teachers->getTranslation('Name', 'en') }}" class="form-control">
-                                    @error('Name_en')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
+                                @foreach (config('app.languages') as $key => $lang)
+                                    <div class="col">
+                                        <label for="Name_{{$key}}">{{trans('Teacher_trans.Name_'. $key)}}</label>
+                                        <input type="text" id="Name_{{$key}}" name="{{$key}}[Name]" value="{{ $teacher->translate($key)->Name }}" class="form-control">
+                                        @error('Name_', $key)
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                @endforeach
                             </div>
                             <br>
                             <div class="form-row">
                                 <div class="form-group col">
                                     <label for="inputCity">{{trans('Teacher_trans.specialization')}}</label>
-                                    <select class="custom-select my-1 mr-sm-2" name="Specialization_id">
-                                        <option value="{{$Teachers->Specialization_id}}">{{$Teachers->specializations->Name}}</option>
+                                    <select class="custom-select my-1 mr-sm-2" name="specialization_id">
                                         @foreach($specializations as $specialization)
-                                            <option value="{{$specialization->id}}">{{$specialization->Name}}</option>
+                                            <option value="{{$specialization->id}}" @selected($teacher->specialization->Name == $specialization->Name)>{{$specialization->Name}}</option>
                                         @endforeach
                                     </select>
                                     @error('Specialization_id')
@@ -85,10 +79,9 @@
                                 </div>
                                 <div class="form-group col">
                                     <label for="inputState">{{trans('Teacher_trans.Gender')}}</label>
-                                    <select class="custom-select my-1 mr-sm-2" name="Gender_id">
-                                        <option value="{{$Teachers->Gender_id}}">{{$Teachers->genders->Name}}</option>
+                                    <select class="custom-select my-1 mr-sm-2" name="gender_id">
                                         @foreach($genders as $gender)
-                                            <option value="{{$gender->id}}">{{$gender->Name}}</option>
+                                            <option value="{{$gender->id}}" @selected($teacher->gender->Name == $gender->Name)>{{$gender->Name}}</option>
                                         @endforeach
                                     </select>
                                     @error('Gender_id')
@@ -102,7 +95,7 @@
                                 <div class="col">
                                     <label for="title">{{trans('Teacher_trans.Joining_Date')}}</label>
                                     <div class='input-group date'>
-                                        <input class="form-control" type="text"  id="datepicker-action"  value="{{$Teachers->Joining_Date}}" name="Joining_Date" data-date-format="yyyy-mm-dd"  required>
+                                        <input class="form-control" type="text"  id="datepicker-action"  value="{{$teacher->Joining_Date}}" name="Joining_Date" data-date-format="yyyy-mm-dd"  required>
                                     </div>
                                     @error('Joining_Date')
                                     <div class="alert alert-danger">{{ $message }}</div>
@@ -111,16 +104,21 @@
                             </div>
                             <br>
 
-                            <div class="form-group">
-                                <label for="exampleFormControlTextarea1">{{trans('Teacher_trans.Address')}}</label>
-                                <textarea class="form-control" name="Address"
-                                          id="exampleFormControlTextarea1" rows="4">{{$Teachers->Address}}</textarea>
-                                @error('Address')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
+                            <div class="form-row">
+                                @foreach (config('app.languages') as $key => $lang)
+                                    <div class="col">
+                                        <label for="exampleFormControlTextarea_{{$key}}">{{trans('Teacher_trans.Address_' . $key)}}</label>
+                                        <textarea class="form-control" name="{{$key}}[Address]"
+                                                id="exampleFormControlTextarea_{{$key}}" rows="2">{{$teacher->translate($key)->Address}}</textarea>
+                                        @error('Address_'. $key)
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                @endforeach
                             </div>
+                            <br>
 
-                            <button class="btn btn-success btn-sm nextBtn btn-lg pull-right" type="submit">{{trans('Parent_trans.Next')}}</button>
+                            <button class="btn btn-success btn-sm nextBtn btn-lg pull-right" type="submit">{{trans('Teacher_trans.Update')}}</button>
                     </form>
                         </div>
                     </div>

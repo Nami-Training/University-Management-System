@@ -12,5 +12,10 @@ return [
     'specialization'=>'specialization',
     'Gender'=>'Gender',
     'Joining_Date'=>'Joining_Date',
-    'Address'=>'Address',
+    'Address_ar'=>'Address_ar',
+    'Address_en'=>'Address_en',
+    'Processes'=>'Processes',
+    'Warning_delete'=> 'Are Sure Of The Deleting Process ?',
+    'Update' => 'Update',
+
 ];
