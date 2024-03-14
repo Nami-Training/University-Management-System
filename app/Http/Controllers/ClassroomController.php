@@ -19,6 +19,16 @@ class ClassroomController extends Controller
         return view('pages.My_Classes.My_Classes', compact('My_Classes', 'Grades'));
     }
 
+    public function getGradeClasses(string $grade_id)
+    {
+        $data = [];
+        $classes = Classroom::where('Grade_id', $grade_id)->get();
+        foreach($classes as $class){
+            $data[$class->id] = $class->Name;
+        }
+        return $data;
+    }
+
     /**
      * Show the form for creating a new resource.
      */

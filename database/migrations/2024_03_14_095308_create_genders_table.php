@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sections', function (Blueprint $table) {
+        Schema::create('genders', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('Status');
-            $table->bigInteger('grade_id')->unsigned();
-            $table->bigInteger('classroom_id')->unsigned();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sections');
+        Schema::dropIfExists('genders');
     }
 };

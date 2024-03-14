@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SectionRequest;
 use App\Models\Grade;
+use App\Models\Classroom;
+use App\Models\Section;
 use Illuminate\Http\Request;
 
 class SectionController extends Controller
@@ -13,7 +16,9 @@ class SectionController extends Controller
     public function index()
     {
         $Grades = Grade::all();
-        return view('pages.Sections.Sections', compact('Grades'));
+        $Classes = Classroom::all();
+        $teachers = [];
+        return view('pages.Sections.Sections', compact('Grades', 'Classes', 'teachers'));
     }
 
     /**
@@ -27,9 +32,10 @@ class SectionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SectionRequest $request)
     {
-        //
+        Section::create($request->validated());
+        return redirect()->route('Sections.index');
     }
 
     /**
@@ -51,14 +57,18 @@ class SectionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(SectionRequest $request, string $id)
     {
-        //
+        $section = Section::findOrFail($id);
+        $section->update($request->validated());
+        return redirect()->route('Sections.index');
     }
 
     public function delete(string $id)
     {
-
+        $section = Section::findOrFail($id);
+        $section->delete();
+        return redirect()->route('Sections.index');
     }
     /**
      * Remove the specified resource from storage.

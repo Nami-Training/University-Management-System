@@ -15,4 +15,10 @@ class Grade extends Model
     public $translatedAttributes = ['Name'];
     protected $fillable=['Notes'];
     public $timestamps = true;
+
+
+    public function Sections()
+    {
+        return $this->hasMany(Section::class);
+    }
 }

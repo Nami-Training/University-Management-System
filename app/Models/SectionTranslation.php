@@ -5,8 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ClassroomTranslation extends Model
+class SectionTranslation extends Model
 {
     public $timestamps = false;
     protected $fillable = ['Name'];
+
+    public function classroom()
+    {
+        return $this->belongsTo(Classroom::class);
+    }
+
+    
 }

@@ -35,6 +35,7 @@ Route::group(['verified'], function()
     Route::delete('Classrooms/{id}', [ClassroomController::class, 'delete'])->name('Classrooms.delete');
     Route::post('Classrooms/delete_all', [ClassroomController::class, 'delete_all'])->name('Classrooms.delete_all');
     Route::post('Filter_Classes', [ClassroomController::class, 'Filter_Classes'])->name('Filter_Classes');
+    Route::get('Classrooms/getClasses/{garde_id}', [ClassroomController::class, 'getGradeClasses'])->name('Classrooms.getGradeClasses');
     Route::resource('Classrooms', ClassroomController::class);
 
     //==============================Section============================

@@ -11,6 +11,7 @@ return [
     'Section_name_ar' => 'Section name Ar',
     'Section_name_en' => 'Section name En',
     'Select_Grade' => '-- Select Grade --',
+    'Select_Class' => '-- Select Class --',
     'Name_Grade' => 'Name Grade',
     'submit' => 'submit',
     'Name_Section'=>'Name Section',

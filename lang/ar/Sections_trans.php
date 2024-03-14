@@ -11,6 +11,7 @@ return [
     'Section_name_ar' => 'اسم القسم باللغة العربية',
     'Section_name_en' => 'اسم القسم باللغة الانجليزية',
     'Select_Grade' => '-- حدد المرحلة --',
+    'Select_Class' => '-- حدد الصف --',
     'Name_Grade' => 'اسم المرحلة',
     'Notes' => 'Notes',
     'submit' => 'حفظ البيانات',
@@ -29,5 +30,6 @@ return [
     'Edit'=>'تعديل',
     'Delete'=>'حذف',
     'Close' => 'اغلاق',
+
 
 ];

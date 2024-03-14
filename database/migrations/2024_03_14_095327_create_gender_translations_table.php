@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('section_translations', function (Blueprint $table) {
+        Schema::create('gender_translations', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('section_id')->unsigned();
+            $table->integer('gender_id')->unsigned();
             $table->string('locale')->index();
             $table->string('Name');
 
-            $table->unique(['section_id', 'locale']);
-            $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
+            $table->unique(['gender_id', 'locale']);
+            $table->foreign('gender_id')->references('id')->on('genders')->onDelete('cascade');
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('section_translation');
+        Schema::dropIfExists('gender_translations');
     }
 };
