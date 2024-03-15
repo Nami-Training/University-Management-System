@@ -47,7 +47,8 @@ Route::group(['verified'], function()
     Route::delete('Teachers/{id}', [TeacherController::class, 'delete'])->name('Teachers.delete');
     Route::resource('Teachers', TeacherController::class);
 
-
+    //==============================parents============================
+    // Route::view('add_parent','livewire.show_Form')->name('add_parent');
 
 
     //==============================Profile============================
