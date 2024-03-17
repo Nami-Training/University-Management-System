@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
 
 /*
@@ -46,6 +47,10 @@ Route::group(['verified'], function()
     //==============================Teacher============================
     Route::delete('Teachers/{id}', [TeacherController::class, 'delete'])->name('Teachers.delete');
     Route::resource('Teachers', TeacherController::class);
+
+    //==============================Subject============================
+    Route::delete('Subjects/{id}', [SubjectController::class, 'delete'])->name('Subjects.delete');
+    Route::resource('Subjects', SubjectController::class);
 
     //==============================parents============================
     // Route::view('add_parent','livewire.show_Form')->name('add_parent');

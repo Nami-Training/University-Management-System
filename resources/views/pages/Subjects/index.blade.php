@@ -2,13 +2,13 @@
 @section('css')
     @toastr_css
 @section('title')
-    قائمة المواد الدراسية
+    {{ trans('subject.subjects_list') }}
 @stop
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
 @section('PageTitle')
-    قائمة المواد الدراسية
+    {{ trans('subject.subjects_list') }}
 @stop
 <!-- breadcrumb -->
 @endsection
@@ -21,8 +21,8 @@
                     <div class="col-xl-12 mb-30">
                         <div class="card card-statistics h-100">
                             <div class="card-body">
-                                <a href="{{route('subjects.create')}}" class="btn btn-success btn-sm" role="button"
-                                   aria-pressed="true">اضافة مادة جديدة</a><br><br>
+                                <a href="{{route('Subjects.create')}}" class="btn btn-success btn-sm" role="button"
+                                   aria-pressed="true">{{ trans('subject.add_subject') }}</a><br><br>
                                 <div class="table-responsive">
                                     <table id="datatable" class="table  table-hover table-sm table-bordered p-0"
                                            data-page-length="50"
@@ -30,11 +30,11 @@
                                         <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>اسم المادة</th>
-                                            <th>المرحلة الدراسية</th>
-                                            <th>الصف الدراسي</th>
-                                            <th>اسم المعلم</th>
-                                            <th>العمليات</th>
+                                            <th>{{ trans('subject.subject_name') }}</th>
+                                            <th>{{ trans('subject.grade') }}</th>
+                                            <th>{{ trans('subject.classroom') }}</th>
+                                            <th>{{ trans('subject.teacher_name') }}</th>
+                                            <th>{{ trans('subject.processing') }}</th>
                                         </tr>
                                         </thead>
                                         <tbody>

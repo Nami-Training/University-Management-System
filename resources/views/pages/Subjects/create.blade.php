@@ -2,13 +2,13 @@
 @section('css')
     @toastr_css
 @section('title')
-    اضافة مادة دراسية
+    {{ trans('subject.add_subject') }}
 @stop
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
 @section('PageTitle')
-    اضافة مادة دراسية
+    {{ trans('subject.add_subject') }}
 @stop
 <!-- breadcrumb -->
 @endsection
@@ -30,25 +30,23 @@
                     <div class="col-xs-12">
                         <div class="col-md-12">
                             <br>
-                            <form action="{{route('subjects.store')}}" method="post" autocomplete="off">
+                            <form action="{{route('Subjects.store')}}" method="post" autocomplete="off">
                                 @csrf
 
                                 <div class="form-row">
-                                    <div class="col">
-                                        <label for="title">اسم المادة باللغة العربية</label>
-                                        <input type="text" name="Name_ar" class="form-control">
-                                    </div>
-                                    <div class="col">
-                                        <label for="title">اسم المادة باللغة الانجليزية</label>
-                                        <input type="text" name="Name_en" class="form-control">
-                                    </div>
+                                    @foreach (config('app.languages') as $key => $value)
+                                        <div class="col">
+                                            <label for="title_{{$key}}">{{ trans('subject.subjectName_'. $key) }}</label>
+                                            <input type="text" name="{{$key}}[Name]" class="form-control" id="title_{{$key}}">
+                                        </div>
+                                    @endforeach
                                 </div>
                                 <br>
 
                                 <div class="form-row">
                                     <div class="form-group col">
-                                        <label for="inputState">المرحلة الدراسية</label>
-                                        <select class="custom-select my-1 mr-sm-2" name="Grade_id">
+                                        <label for="inputState">{{ trans('subject.grade') }}</label>
+                                        <select class="custom-select my-1 mr-sm-2" name="grade_id">
                                             <option selected disabled>{{trans('Parent_trans.Choose')}}...</option>
                                             @foreach($grades as $grade)
                                                 <option value="{{$grade->id}}">{{$grade->Name}}</option>
@@ -57,13 +55,14 @@
                                     </div>
 
                                     <div class="form-group col">
-                                        <label for="inputState">الصف الدراسي</label>
-                                        <select name="Class_id" class="custom-select"></select>
+                                        <label for="inputState">{{ trans('subject.classroom') }}</label>
+                                        <select class="custom-select my-1 mr-sm-2" name="classroom_id">
+                                            <option selected disabled>{{trans('Parent_trans.Choose')}}...</option>
+                                        </select>
                                     </div>
 
-
                                     <div class="form-group col">
-                                        <label for="inputState">اسم المعلم</label>
+                                        <label for="inputState">{{ trans('subject.teacher_name') }}</label>
                                         <select class="custom-select my-1 mr-sm-2" name="teacher_id">
                                             <option selected disabled>{{trans('Parent_trans.Choose')}}...</option>
                                             @foreach($teachers as $teacher)
@@ -72,7 +71,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <button class="btn btn-success btn-sm nextBtn btn-lg pull-right" type="submit">حفظ البيانات</button>
+                                <button class="btn btn-success btn-sm nextBtn btn-lg pull-right" type="submit">{{trans('subject.add')}}</button>
                             </form>
                         </div>
                     </div>
@@ -87,17 +86,17 @@
     @toastr_render
     <script>
         $(document).ready(function () {
-            $('select[name="Grade_id"]').on('change', function () {
-                var Grade_id = $(this).val();
-                if (Grade_id) {
+            $('select[name="grade_id"]').on('change', function () {
+                var grade_id = $(this).val();
+                if (grade_id) {
                     $.ajax({
-                        url: "{{ URL::to('classes') }}/" + Grade_id,
+                        url: "{{ URL::to('Classrooms/getClasses') }}/" + grade_id,
                         type: "GET",
                         dataType: "json",
                         success: function (data) {
-                            $('select[name="Class_id"]').empty();
+                            $('select[name="classroom_id"]').empty();
                             $.each(data, function (key, value) {
-                                $('select[name="Class_id"]').append('<option value="' + key + '">' + value + '</option>');
+                                $('select[name="classroom_id"]').append('<option value="' + key + '">' + value + '</option>');
                             });
                         },
                     });
