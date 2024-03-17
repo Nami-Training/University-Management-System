@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SectionRequest extends FormRequest
+class SubjectRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class SectionRequest extends FormRequest
         $data = [
             'grade_id' => 'required|string',
             'classroom_id' => 'required|string',
-            'teacher_id' => 'required|array',
-            'Status' => 'required|integer|in:1,0',
+            'teacher_id' => 'required|string',
         ];
         foreach(config('app.languages') as $key => $value){
             $data[$key.'*.Name'] = 'required|string';

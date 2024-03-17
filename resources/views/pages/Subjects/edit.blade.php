@@ -2,13 +2,13 @@
 @section('css')
     @toastr_css
 @section('title')
-    اضافة مادة دراسية
+    {{ trans('subject.add_subject') }}
 @stop
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
 @section('PageTitle')
-    اضافة مادة دراسية
+    {{ trans('subject.add_subject') }}
 @stop
 <!-- breadcrumb -->
 @endsection
@@ -30,60 +30,55 @@
                     <div class="col-xs-12">
                         <div class="col-md-12">
                             <br>
-                            <form action="{{route('subjects.update','test')}}" method="post" autocomplete="off">
+                            <form action="{{route('Subjects.update',$subject->id)}}" method="post" autocomplete="off">
                                 {{ method_field('patch') }}
                                 @csrf
                                 <div class="form-row">
-                                    <div class="col">
-                                        <label for="title">اسم المادة باللغة العربية</label>
-                                        <input type="text" name="Name_ar"
-                                               value="{{ $subject->getTranslation('name', 'ar') }}"
-                                               class="form-control">
-                                        <input type="hidden" name="id" value="{{$subject->id}}">
-                                    </div>
-                                    <div class="col">
-                                        <label for="title">اسم المادة باللغة الانجليزية</label>
-                                        <input type="text" name="Name_en"
-                                               value="{{ $subject->getTranslation('name', 'en') }}"
-                                               class="form-control">
-                                    </div>
+                                    @foreach (config('app.languages') as $key => $value)
+                                        <div class="col">
+                                            <label for="title_{{$key}}">{{ trans('subject.subjectName_'. $key) }}</label>
+                                            <input type="text" name="{{$key}}[Name]" class="form-control" id="title_{{$key}}"
+                                                value="{{ $subject->translate($key)->Name }}">
+                                            <input type="hidden" name="id" value="{{$subject->id}}">
+                                        </div>
+                                    @endforeach
                                 </div>
                                 <br>
 
                                 <div class="form-row">
                                     <div class="form-group col">
-                                        <label for="inputState">المرحلة الدراسية</label>
-                                        <select class="custom-select my-1 mr-sm-2" name="Grade_id">
+                                        <label for="inputState">{{ trans('subject.grade') }}</label>
+                                        <select class="custom-select my-1 mr-sm-2" name="grade_id">
                                             <option selected disabled>{{trans('Parent_trans.Choose')}}...</option>
                                             @foreach($grades as $grade)
                                                 <option
-                                                    value="{{$grade->id}}" {{$grade->id == $subject->grade_id ?'selected':''}}>{{$grade->Name }}</option>
+                                                    value="{{$grade->id}}" @selected($grade->id == $subject->grade_id)>{{$grade->Name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
 
                                     <div class="form-group col">
-                                        <label for="inputState">الصف الدراسي</label>
-                                        <select name="Class_id" class="custom-select">
+                                        <label for="inputState">{{ trans('subject.classroom') }}</label>
+                                        <select name="classroom_id" class="custom-select my-1 mr-sm-2">
                                             <option
-                                                value="{{ $subject->classroom->id }}">{{ $subject->classroom->Name_Class }}
+                                                value="{{ $subject->classroom->id }}">{{ $subject->classroom->Name }}
                                             </option>
                                         </select>
                                     </div>
 
                                     <div class="form-group col">
-                                        <label for="inputState">اسم المعلم</label>
+                                        <label for="inputState">{{ trans('subject.teacher_name') }}</label>
                                         <select class="custom-select my-1 mr-sm-2" name="teacher_id">
                                             <option selected disabled>{{trans('Parent_trans.Choose')}}...</option>
                                             @foreach($teachers as $teacher)
                                                 <option
-                                                    value="{{$teacher->id}}" {{$teacher->id == $subject->teacher_id ?'selected':''}}>{{$teacher->Name}}</option>
+                                                    value="{{$teacher->id}}" @selected($teacher->id == $subject->teacher_id)>{{$teacher->Name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
-                                <button class="btn btn-success btn-sm nextBtn btn-lg pull-right" type="submit">حفظ
-                                    البيانات
+                                <button class="btn btn-success btn-sm nextBtn btn-lg pull-right" type="submit">
+                                    {{ trans('subject.update') }}
                                 </button>
                             </form>
                         </div>

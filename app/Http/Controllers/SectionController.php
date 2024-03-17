@@ -6,6 +6,7 @@ use App\Http\Requests\SectionRequest;
 use App\Models\Grade;
 use App\Models\Classroom;
 use App\Models\Section;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 
 class SectionController extends Controller
@@ -17,7 +18,7 @@ class SectionController extends Controller
     {
         $Grades = Grade::all();
         $Classes = Classroom::all();
-        $teachers = [];
+        $teachers = Teacher::all();
         return view('pages.Sections.Sections', compact('Grades', 'Classes', 'teachers'));
     }
 

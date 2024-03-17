@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SubjectRequest;
 use App\Models\Grade;
 use App\Models\Subject;
 use App\Models\Teacher;
@@ -31,9 +32,10 @@ class SubjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SubjectRequest $request)
     {
-        dd($request->all());
+        Subject::create($request->validated());
+        return redirect()->route('Subjects.index');
     }
 
     /**
@@ -49,20 +51,27 @@ class SubjectController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $subject = Subject::findOrFail($id);
+        $teachers = Teacher::all();
+        $grades = Grade::all();
+        return view('pages.Subjects.edit', compact('subject', 'teachers', 'grades'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(SubjectRequest $request, string $id)
     {
-        //
+        $subject = Subject::findOrFail($id);
+        $subject->update($request->validated());
+        return redirect()->route('Subjects.index');
     }
 
-    public function delete()
+    public function delete(string $id)
     {
-
+        $subject = Subject::findOrFail($id);
+        $subject->delete();
+        return redirect()->route('Subjects.index');
     }
 
     /**

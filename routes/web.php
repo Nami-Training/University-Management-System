@@ -4,6 +4,8 @@ use App\Http\Controllers\ClassroomController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\QuizzController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
@@ -51,6 +53,15 @@ Route::group(['verified'], function()
     //==============================Subject============================
     Route::delete('Subjects/{id}', [SubjectController::class, 'delete'])->name('Subjects.delete');
     Route::resource('Subjects', SubjectController::class);
+
+    //==============================Quizz============================
+     Route::delete('Quizzes/{id}', [QuizzController::class, 'delete'])->name('Quizzes.delete');
+     Route::resource('Quizzes', QuizzController::class);
+
+    //==============================Question============================
+    Route::delete('Questions/{id}', [QuestionController::class, 'delete'])->name('Questions.delete');
+    Route::resource('Questions', QuestionController::class);
+
 
     //==============================parents============================
     // Route::view('add_parent','livewire.show_Form')->name('add_parent');
