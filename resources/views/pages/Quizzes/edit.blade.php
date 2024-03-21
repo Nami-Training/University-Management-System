@@ -2,13 +2,13 @@
 @section('css')
     @toastr_css
 @section('title')
-    تعديل اختبار {{$quizz->name}}
+    {{ trans('quizz.edit_Quiz') }} {{$quizz->name}}
 @stop
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
 @section('PageTitle')
-    تعديل اختبار {{$quizz->name}}
+    {{ trans('quizz.edit_Quiz') }} {{$quizz->name}}
 @stop
 <!-- breadcrumb -->
 @endsection
@@ -30,21 +30,17 @@
                     <div class="col-xs-12">
                         <div class="col-md-12">
                             <br>
-                            <form action="{{route('Quizzes.update','test')}}" method="post">
+                            <form action="{{route('Quizzes.update', $quizz->id)}}" method="post">
                                 @csrf
                                 @method('PUT')
                                 <div class="form-row">
-
-                                    <div class="col">
-                                        <label for="title">اسم الاختبار باللغة العربية</label>
-                                        <input type="text" name="Name_ar" value="{{$quizz->getTranslation('name','ar')}}" class="form-control">
+                                    @foreach (config('app.languages') as $key => $value)
+                                        <div class="col">
+                                            <label for="title_{{$key}}">{{ trans('quizz.quizzName_'.$key) }}</label>
+                                            <input type="text" name="{{$key}}[Name]" class="form-control" id="title_{{$key}}" value="{{$quizz->translate($key)->Name}}">
+                                        </div>
+                                        @endforeach
                                         <input type="hidden" name="id" value="{{$quizz->id}}">
-                                    </div>
-
-                                    <div class="col">
-                                        <label for="title">اسم الاختبار باللغة الانجليزية</label>
-                                        <input type="text" name="Name_en" value="{{$quizz->getTranslation('name','en')}}" class="form-control">
-                                    </div>
                                 </div>
                                 <br>
 
@@ -52,10 +48,10 @@
 
                                     <div class="col">
                                         <div class="form-group">
-                                            <label for="Grade_id">المادة الدراسية : <span class="text-danger">*</span></label>
+                                            <label for="subject_id"> {{ trans('quizz.subject') }} : <span class="text-danger">*</span></label>
                                             <select class="custom-select mr-sm-2" name="subject_id">
                                                 @foreach($subjects as $subject)
-                                                    <option value="{{ $subject->id }}" {{$subject->id == $quizz->subject_id ? "selected":""}}>{{ $subject->name }}</option>
+                                                    <option value="{{ $subject->id }}" @selected($subject->id == $quizz->subject_id)>{{ $subject->Name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -63,10 +59,10 @@
 
                                     <div class="col">
                                         <div class="form-group">
-                                            <label for="Grade_id">اسم المعلم : <span class="text-danger">*</span></label>
+                                            <label for="teacher_id">{{ trans('quizz.teacher name') }} : <span class="text-danger">*</span></label>
                                             <select class="custom-select mr-sm-2" name="teacher_id">
                                                 @foreach($teachers as $teacher)
-                                                    <option  value="{{ $teacher->id }}" {{$teacher->id == $quizz->teacher_id ? "selected":""}}>{{ $teacher->Name }}</option>
+                                                    <option  value="{{ $teacher->id }}" @selected($teacher->id == $quizz->teacher_id)>{{ $teacher->Name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -78,10 +74,10 @@
 
                                     <div class="col">
                                         <div class="form-group">
-                                            <label for="Grade_id">{{trans('Students_trans.Grade')}} : <span class="text-danger">*</span></label>
-                                            <select class="custom-select mr-sm-2" name="Grade_id">
+                                            <label for="grade_id">{{trans('quizz.grade')}} : <span class="text-danger">*</span></label>
+                                            <select class="custom-select mr-sm-2" name="grade_id">
                                                 @foreach($grades as $grade)
-                                                    <option  value="{{ $grade->id }}" {{$grade->id == $quizz->grade_id ? "selected":""}}>{{ $grade->Name }}</option>
+                                                    <option  value="{{ $grade->id }}" @selected($grade->id == $quizz->grade_id) >{{ $grade->Name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -89,22 +85,25 @@
 
                                     <div class="col">
                                         <div class="form-group">
-                                            <label for="Classroom_id">{{trans('Students_trans.classrooms')}} : <span class="text-danger">*</span></label>
-                                            <select class="custom-select mr-sm-2" name="Classroom_id">
-                                                <option value="{{$quizz->classroom_id}}">{{$quizz->classroom->Name_Class}}</option>                                            </select>
+                                            <label for="classroom_id">{{trans('quizz.classroom')}} : <span class="text-danger">*</span></label>
+                                            <select class="custom-select mr-sm-2" name="classroom_id">
+                                                <option value="{{$quizz->classroom_id}}">{{$quizz->classroom->Name}}</option>
+                                            </select>
                                         </div>
                                     </div>
 
                                     <div class="col">
                                         <div class="form-group">
-                                            <label for="section_id">{{trans('Students_trans.section')}} : </label>
+                                            <label for="section_id">{{trans('quizz.section')}} : </label>
                                             <select class="custom-select mr-sm-2" name="section_id">
-                                                <option value="{{$quizz->section_id}}">{{$quizz->section->Name_Section}}</option>
+                                                @foreach ($sections as $section)
+                                                    <option value="{{$section->id}}" @selected($section->Name == $quizz->section->Name)>{{$section->Name}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
                                 </div><br>
-                                <button class="btn btn-success btn-sm nextBtn btn-lg pull-right" type="submit">تاكيد البيانات</button>
+                                <button class="btn btn-success btn-sm nextBtn btn-lg pull-right" type="submit">{{ trans('quizz.update') }} </button>
                             </form>
                         </div>
                     </div>
@@ -119,17 +118,17 @@
     @toastr_render
     <script>
         $(document).ready(function () {
-            $('select[name="Grade_id"]').on('change', function () {
-                var Grade_id = $(this).val();
-                if (Grade_id) {
+            $('select[name="grade_id"]').on('change', function () {
+                var grade_id = $(this).val();
+                if (grade_id) {
                     $.ajax({
-                        url: "{{ URL::to('classes') }}/" + Grade_id,
+                        url: "{{ URL::to('Classrooms/getClasses') }}/" + grade_id,
                         type: "GET",
                         dataType: "json",
                         success: function (data) {
-                            $('select[name="Class_id"]').empty();
+                            $('select[name="classroom_id"]').empty();
                             $.each(data, function (key, value) {
-                                $('select[name="Class_id"]').append('<option value="' + key + '">' + value + '</option>');
+                                $('select[name="classroom_id"]').append('<option value="' + key + '">' + value + '</option>');
                             });
                         },
                     });

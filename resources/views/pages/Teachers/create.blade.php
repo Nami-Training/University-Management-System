@@ -117,12 +117,6 @@
                                         @enderror
                                     </div>
                                 @endforeach
-                                {{-- <label for="exampleFormControlTextarea1">{{trans('Teacher_trans.Address')}}</label>
-                                <textarea class="form-control" name="Address"
-                                          id="exampleFormControlTextarea1" rows="4"></textarea>
-                                @error('Address')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror --}}
                             </div>
                             <br>
 

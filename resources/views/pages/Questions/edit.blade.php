@@ -2,13 +2,13 @@
 @section('css')
     @toastr_css
 @section('title')
-    تعديل سؤال
+    {{ trans('quizz.edit question') }}
 @stop
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
 @section('PageTitle')
-    تعديل سؤال :<span class="text-danger">{{$question->title}}</span>
+    {{ trans('quizz.edit question') }} :<span class="text-danger">{{$question->title}}</span>
 @stop
 <!-- breadcrumb -->
 @endsection
@@ -30,64 +30,68 @@
                     <div class="col-xs-12">
                         <div class="col-md-12">
                             <br>
-                            <form action="{{ route('questions.update','test') }}" method="post" autocomplete="off">
+                            <form action="{{ route('Questions.update',$question->id) }}" method="post" autocomplete="off">
                                 @method('PUT')
                                 @csrf
                                 <div class="form-row">
-
-                                    <div class="col">
-                                        <label for="title">اسم السؤال</label>
-                                        <input type="text" name="title" id="input-name"
-                                               class="form-control form-control-alternative" value="{{$question->title}}">
-                                        <input type="hidden" name="id" value="{{$question->id}}">
-                                    </div>
+                                    @foreach (config('app.languages') as $key => $lang)
+                                        <div class="col">
+                                            <label for="Question_{{$key}}">{{ trans('quizz.question_'. $key) }}</label>
+                                            <input type="text" name="{{$key}}[title]" id="Question_{{$key}}" value="{{$question->translate($key)->title}}" class="form-control form-control-alternative" autofocus>
+                                        </div>
+                                    @endforeach
+                                    <input type="hidden" name="id" value="{{$question->id}}">
                                 </div>
                                 <br>
 
                                 <div class="form-row">
-                                    <div class="col">
-                                        <label for="title">الاجابات</label>
-                                        <textarea name="answers" class="form-control" id="exampleFormControlTextarea1" rows="4">{{$question->answers}}</textarea>
-                                    </div>
+                                    @foreach (config('app.languages') as $key => $lang)
+                                        <div class="col">
+                                            <label for="answers_{{$key}}">{{ trans('quizz.answers_' . $key) }}</label>
+                                            <textarea name="{{$key}}[answers]" class="form-control" id="answers_{{$key}}"
+                                                    rows="4">{{$question->translate($key)->answers}}</textarea>
+                                        </div>
+                                    @endforeach
                                 </div>
                                 <br>
 
                                 <div class="form-row">
-                                    <div class="col">
-                                        <label for="title">الاجابة الصحيحة</label>
-                                        <input type="text" name="right_answer" id="input-name" class="form-control form-control-alternative" value="{{$question->right_answer}}">
-                                    </div>
+                                    @foreach (config('app.languages') as $key => $lang)
+                                        <div class="col">
+                                            <label for="right_answer_{{$key}}">{{ trans('quizz.risght answer_' . $key) }}</label>
+                                            <input id="right_answer_{{ $key }}" type="text" name="{{ $key }}[right_answer]" value="{{$question->translate($key)->right_answer}}"class="form-control form-control-alternative" autofocus>
+                                        </div>
+                                    @endforeach
                                 </div>
                                 <br>
 
                                 <div class="form-row">
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label for="Grade_id">اسم الاختبار : <span
+                                            <label for="quizzes_id">{{ trans('quizz.quiz name') }} : <span
                                                     class="text-danger">*</span></label>
-                                            <select class="custom-select mr-sm-2" name="quizze_id">
-                                                <option selected disabled>حدد اسم الاختبار...</option>
+                                            <select class="custom-select mr-sm-2" name="quiz_id">
                                                 @foreach($quizzes as $quizze)
-                                                    <option value="{{ $quizze->id }}" {{$quizze->id == $question->quizze_id ? 'selected':'' }} >{{ $quizze->name }}</option>
+                                                    <option value="{{ $quizze->id }}" @selected($quizze->Name == $question->quiz->Name)>{{ $quizze->Name }} </option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label for="Grade_id">الدرجة : <span class="text-danger">*</span></label>
+                                            <label for="Grade_id">{{trans('quizz.score')}} : <span class="text-danger">*</span></label>
                                             <select class="custom-select mr-sm-2" name="score">
-                                                <option selected disabled> حدد الدرجة...</option>
-                                                <option value="5" {{$question->score == 5 ? 'selected':''}}>5</option>
-                                                <option value="10" {{$question->score == 10 ? 'selected':''}}>10</option>
-                                                <option value="15" {{$question->score == 15 ? 'selected':''}}>15</option>
-                                                <option value="20" {{$question->score == 20 ? 'selected':''}}>20</option>
+                                                <option selected disabled>{{ trans('quizz.choose score') }} ...</option>
+                                                <option value="5" @selected($question->score == 5)>5</option>
+                                                <option value="10" @selected($question->score == 10)>10</option>
+                                                <option value="15" @selected($question->score == 15)>15</option>
+                                                <option value="20" @selected($question->score == 20)>20</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                                 <br>
-                                <button class="btn btn-success btn-sm nextBtn btn-lg pull-right" type="submit">حفظ البيانات</button>
+                                <button class="btn btn-success btn-sm nextBtn btn-lg pull-right" type="submit">{{trans('quizz.update')}}</button>
                             </form>
                         </div>
                     </div>
