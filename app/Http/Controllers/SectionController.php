@@ -2,23 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SectionRequest;
 use App\Models\Grade;
-use App\Models\Classroom;
 use App\Models\Section;
 use App\Models\Teacher;
+use App\Models\Classroom;
 use Illuminate\Http\Request;
+use App\Services\SectionService;
+use App\Http\Requests\SectionRequest;
+use App\Services\ClassroomService;
+use App\Services\GradeService;
+use App\Services\TeacherService;
 
 class SectionController extends Controller
 {
+
+    private $sectionService;
+    private $classroomService;
+    private $teacherService;
+    private $gradeService;
+
+    function __construct(SectionService $sectionService, ClassroomService $classroomService, TeacherService $teacherService, GradeService $gradeService)
+    {
+        $this->sectionService = $sectionService;
+        $this->classroomService = $classroomService;
+        $this->teacherService = $teacherService;
+        $this->gradeService = $gradeService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $Grades = Grade::all();
-        $Classes = Classroom::all();
-        $teachers = Teacher::all();
+        $Grades = $this->gradeService->all();
+        $Classes = $this->classroomService->all();
+        $teachers = $this->teacherService->all();
         return view('pages.Sections.Sections', compact('Grades', 'Classes', 'teachers'));
     }
 
@@ -35,7 +53,8 @@ class SectionController extends Controller
      */
     public function store(SectionRequest $request)
     {
-        Section::create($request->validated());
+        $section = $this->sectionService->create($request->validated());
+        $section->teachers()->attach($request->teacher_id);
         return redirect()->route('Sections.index');
     }
 
@@ -60,15 +79,13 @@ class SectionController extends Controller
      */
     public function update(SectionRequest $request, string $id)
     {
-        $section = Section::findOrFail($id);
-        $section->update($request->validated());
+        $this->sectionService->update($id, $request->validated());
         return redirect()->route('Sections.index');
     }
 
     public function delete(string $id)
     {
-        $section = Section::findOrFail($id);
-        $section->delete();
+        $this->sectionService->delete($id);
         return redirect()->route('Sections.index');
     }
     /**
@@ -76,6 +93,7 @@ class SectionController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $this->sectionService->forceDelete($id);
+        return redirect()->route('Sections.index');
     }
 }

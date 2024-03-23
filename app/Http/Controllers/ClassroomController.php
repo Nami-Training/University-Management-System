@@ -5,28 +5,36 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ClassroomRequest;
 use App\Models\Grade;
 use App\Models\Classroom;
+use App\Services\ClassroomService;
+use App\Services\GradeService;
 use Illuminate\Http\Request;
 
 class ClassroomController extends Controller
 {
+
+    private $classroomService;
+    private $gradeService;
+
+
+    function __construct(ClassroomService $classroomService, GradeService $gradeService)
+    {
+        $this->classroomService = $classroomService;
+        $this->gradeService = $gradeService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $My_Classes = Classroom::all();
-        $Grades = Grade::all();
+        $My_Classes = $this->classroomService->all();
+        $Grades = $this->gradeService->all();
         return view('pages.My_Classes.My_Classes', compact('My_Classes', 'Grades'));
     }
 
     public function getGradeClasses(string $grade_id)
     {
-        $data = [];
-        $classes = Classroom::where('Grade_id', $grade_id)->get();
-        foreach($classes as $class){
-            $data[$class->id] = $class->Name;
-        }
-        return $data;
+        return $this->classroomService->getData('Grade_id', $grade_id);
     }
 
     /**
@@ -42,7 +50,7 @@ class ClassroomController extends Controller
      */
     public function store(ClassroomRequest $request)
     {
-        Classroom::create($request->validated());
+        $this->classroomService->create($request->validated());
         return redirect()->route('Classrooms.index');
     }
 
@@ -67,44 +75,35 @@ class ClassroomController extends Controller
      */
     public function update(ClassroomRequest $request, string $id)
     {
-        // dd($request->all());
-        $class = Classroom::findOrFail($id);
-        $class->update($request->validated());
+        $this->classroomService->update($id, $request->validated());
         return redirect()->route('Classrooms.index');
     }
 
     public function delete(string $id)
     {
-        $class = Classroom::findOrFail($id);
-        $class->delete();
+        $this->classroomService->delete($id);
         return redirect()->route('Classrooms.index');
     }
 
     public function delete_all(Request $request)
     {
-        $delete_all_id = explode(",", $request->delete_all_id);
-
-        foreach($delete_all_id as $id){
-            $class = Classroom::findOrFail($id);
-            $class->delete();
-        }
-        // Classroom::whereIn('id', $delete_all_id)->Delete();
-        // toastr()->error(trans('messages.Delete'));
+        $this->classroomService->deletAll($request->delete_all_id);
         return redirect()->route('Classrooms.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Classroom $classroom)
+    public function destroy($id)
     {
-        //
+        $this->classroomService->forceDelete($id);
+        return redirect()->route('Classrooms.index');
     }
 
     public function Filter_Classes(Request $request)
     {
-        $Grades = Grade::all();
-        $Search = Classroom::select('*')->where('Grade_id','=',$request->Grade_id)->get();
+        $Grades = $this->gradeService->all();
+        $Search = $this->classroomService->findByColumn('Grade_id',$request->Grade_id);
         return view('pages.My_Classes.My_Classes',compact('Grades'))->withDetails($Search);
 
     }

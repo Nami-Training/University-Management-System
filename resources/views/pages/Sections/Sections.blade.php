@@ -99,7 +99,7 @@
                                                                         </tr>
 
 
-                                                                        <!--تعديل قسم جديد -->
+                                                                        <!-- Edit srction -->
                                                                         <div class="modal fade"
                                                                             id="edit{{ $list_Sections->id }}"
                                                                             tabindex="-1" role="dialog"
@@ -195,13 +195,15 @@
                                                                                             <div class="col">
                                                                                                 <label for="inputName" class="control-label">{{ trans('Sections_trans.Name_Teacher') }}</label>
                                                                                                 <select multiple name="teacher_id[]" class="form-control" id="exampleFormControlSelect2">
-                                                                                                    {{-- @foreach($list_Sections->teachers as $teacher)
-                                                                                                        <option selected value="{{$teacher['id']}}">{{$teacher['Name']}}</option>
-                                                                                                    @endforeach --}}
+                                                                                                    {{var_dump($list_Sections)}}
+                                                                                                    @foreach($list_Sections->teachers as $teacher)
 
-                                                                                                    {{-- @foreach($teachers as $teacher)
+                                                                                                        <option selected value="{{$teacher->id}}">{{$teacher->Name}}</option>
+                                                                                                    @endforeach
+
+                                                                                                    @foreach($teachers as $teacher)
                                                                                                         <option value="{{$teacher->id}}">{{$teacher->Name}}</option>
-                                                                                                    @endforeach --}}
+                                                                                                    @endforeach
                                                                                                 </select>
                                                                                             </div>
 
@@ -340,8 +342,8 @@
                                         <div class="col">
                                             <label for="inputName" class="control-label">{{ trans('Sections_trans.Name_Teacher') }}</label>
                                             <select multiple name="teacher_id[]" class="form-control" id="exampleFormControlSelect2">
-                                                @foreach($Grades as $grade)
-                                                    <option value="{{$grade->id}}">{{$grade->Name}}</option>
+                                                @foreach($teachers as $teacher)
+                                                    <option value="{{$teacher->id}}">{{$teacher->Name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>

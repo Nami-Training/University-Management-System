@@ -233,21 +233,6 @@
                                                 <input class="form-control" type="text" name="{{ $key }}[Name]" id="Name_{{ $key }}"/>
                                             </div>
                                         @endforeach
-                                        {{-- <div class="col">
-                                            <label for="Name"
-                                                class="mr-sm-2">{{ trans('My_Classes_trans.Name_class_ar') }}
-                                                :</label>
-                                            <input class="form-control" type="text" name="Name_class_ar" />
-                                        </div>
-
-                                        <div class="col">
-                                            <label for="Name"
-                                                class="mr-sm-2">{{ trans('My_Classes_trans.Name_class_en') }}
-                                                :</label>
-                                            <input class="form-control" type="text" name="Name_class_en" />
-                                        </div> --}}
-
-
                                         <div class="col">
                                             <label for="Name_en"
                                                 class="mr-sm-2">{{ trans('My_Classes_trans.Name_Grade') }}

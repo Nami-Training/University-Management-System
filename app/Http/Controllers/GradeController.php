@@ -4,17 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\GradeRequest;
 use App\Models\Grade;
+use App\Repositories\GradeRepository;
+use App\Services\GradeService;
 use Illuminate\Http\Request;
 use Termwind\Components\Dd;
 
 class GradeController extends Controller
 {
+
+    private $gradeService;
+
+    function __construct(GradeService $gradeService)
+    {
+        $this->gradeService = $gradeService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $Grades = Grade::all();
+        $Grades = $this->gradeService->all();
         return view('pages.Grades.Grades', compact('Grades'));
     }
 
@@ -31,7 +41,7 @@ class GradeController extends Controller
      */
     public function store(GradeRequest $request)
     {
-        Grade::create($request->validated());
+        $this->gradeService->create($request->validated());
         return redirect()->route('Grades.index');
     }
 
@@ -56,16 +66,14 @@ class GradeController extends Controller
      */
     public function update(GradeRequest $request, string $id)
     {
-        $garde = Grade::findOrFail($id);
-        $garde->update($request->validated());
+        $this->gradeService->update($id, $request->validated());
         return redirect()->route('Grades.index');
     }
 
 
     public function delete(string $id)
     {
-        $garde = Grade::findOrFail($id);
-        $garde->delete();
+        $this->gradeService->delete($id);
         return redirect()->route('Grades.index');
     }
     /**
@@ -73,6 +81,7 @@ class GradeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $this->gradeService->forceDelete($id);
+        return redirect()->route('Grades.index');
     }
 }

@@ -23,9 +23,9 @@ use App\Http\Controllers\TeacherController;
 
 Route::get('/', function () {
     return view('auth.login');
-})->middleware('auth');
+});
 
-Route::group(['verified'], function()
+Route::group(['verified', 'middleare' => 'auth'], function()
 {
     Route::get('/dashboard', function () {
         return view('dashboard');
