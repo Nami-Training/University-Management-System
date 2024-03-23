@@ -34,7 +34,7 @@
                 <div class="clearfix"></div>
             </a>
             <ul id="classes-menu" class="collapse" data-parent="#sidebarnav">
-                <li><a href="{{route('Classrooms.index')}}">{{trans('main_trans.List_classes')}}</a></li>
+                <li><a href="{{ route('Classrooms.index') }}">{{ trans('main_trans.List_classes') }}</a></li>
             </ul>
         </li>
 
@@ -48,7 +48,7 @@
                 <div class="clearfix"></div>
             </a>
             <ul id="sections-menu" class="collapse" data-parent="#sidebarnav">
-                <li><a href="{{route('Sections.index')}}">{{trans('main_trans.List_sections')}}</a></li>
+                <li><a href="{{ route('Sections.index') }}">{{ trans('main_trans.List_sections') }}</a></li>
             </ul>
         </li>
 
@@ -56,26 +56,26 @@
         <!-- students-->
         <li>
             <a href="javascript:void(0);" data-toggle="collapse" data-target="#students-menu"><i
-                    class="fas fa-user-graduate"></i>{{ trans('main_trans.students') }}<div class="pull-right"><i
+                    class="fas fa-user-graduate"></i>{{ trans('Students_trans.Sudents') }}<div class="pull-right"><i
                         class="ti-plus"></i></div>
                 <div class="clearfix"></div>
             </a>
             <ul id="students-menu" class="collapse">
                 <li>
                     <a href="javascript:void(0);" data-toggle="collapse"
-                        data-target="#Student_information">{{ trans('main_trans.Student_information') }}<div
-                            class="pull-right"><i class="ti-plus"></i></div>
+                        data-target="#Student_information">{{ trans('Students_trans.students_info') }}<div class="pull-right">
+                            <i class="ti-plus"></i></div>
                         <div class="clearfix"></div>
                     </a>
                     <ul id="Student_information" class="collapse">
-                        {{-- <li> <a href="{{route('Students.create')}}">{{trans('main_trans.add_student')}}</a></li>
-                        <li> <a href="{{route('Students.index')}}">{{trans('main_trans.list_students')}}</a></li> --}}
+                        <li> <a href="{{ route('Students.create') }}">{{ trans('Students_trans.add_student') }}</a></li>
+                        <li> <a href="{{ route('Students.index') }}">{{ trans('Students_trans.students list') }}</a></li>
                     </ul>
                 </li>
 
                 <li>
                     <a href="javascript:void(0);" data-toggle="collapse"
-                        data-target="#Students_upgrade">{{ trans('main_trans.Students_Promotions') }}<div
+                        data-target="#Students_upgrade">{{ trans('Student.Students_Promotions') }}<div
                             class="pull-right"><i class="ti-plus"></i></div>
                         <div class="clearfix"></div>
                     </a>
@@ -110,13 +110,13 @@
                 <div class="clearfix"></div>
             </a>
             <ul id="Teachers-menu" class="collapse" data-parent="#sidebarnav">
-                <li> <a href="{{route('Teachers.index')}}">{{trans('main_trans.List_Teachers')}}</a> </li>
+                <li> <a href="{{ route('Teachers.index') }}">{{ trans('main_trans.List_Teachers') }}</a> </li>
             </ul>
         </li>
 
 
         <!-- Parents-->
-        <li>
+        {{-- <li>
             <a href="javascript:void(0);" data-toggle="collapse" data-target="#Parents-menu">
                 <div class="pull-left"><i class="fas fa-user-tie"></i><span
                         class="right-nav-text">{{ trans('main_trans.Parents') }}</span></div>
@@ -124,9 +124,9 @@
                 <div class="clearfix"></div>
             </a>
             <ul id="Parents-menu" class="collapse" data-parent="#sidebarnav">
-                {{-- <li> <a href="{{ url('add_parent') }}">{{ trans('main_trans.List_Parents') }}</a> </li> --}}
+                <li> <a href="{{ url('add_parent') }}">{{ trans('main_trans.List_Parents') }}</a> </li>
             </ul>
-        </li>
+        </li> --}}
 
         <!-- Accounts-->
         <li>
@@ -146,7 +146,7 @@
         </li>
 
         <!-- Attendance-->
-        <li>
+        {{-- <li>
             <a href="javascript:void(0);" data-toggle="collapse" data-target="#Attendance-icon">
                 <div class="pull-left"><i class="fas fa-calendar-alt"></i><span
                         class="right-nav-text">{{ trans('main_trans.Attendance') }}</span></div>
@@ -154,33 +154,35 @@
                 <div class="clearfix"></div>
             </a>
             <ul id="Attendance-icon" class="collapse" data-parent="#sidebarnav">
-                {{-- <li> <a href="{{route('Attendance.index')}}">قائمة الطلاب</a> </li> --}}
+                <li> <a href="{{route('Attendance.index')}}">قائمة الطلاب</a> </li>
             </ul>
-        </li>
+        </li> --}}
 
         <!-- Subjects-->
         <li>
             <a href="javascript:void(0);" data-toggle="collapse" data-target="#Subjects">
-                <div class="pull-left"><i class="fas fa-book-open"></i><span class="right-nav-text">{{ trans('subject.subjects') }}</span></div>
+                <div class="pull-left"><i class="fas fa-book-open"></i><span
+                        class="right-nav-text">{{ trans('subject.subjects') }}</span></div>
                 <div class="pull-right"><i class="ti-plus"></i></div>
                 <div class="clearfix"></div>
             </a>
             <ul id="Subjects" class="collapse" data-parent="#sidebarnav">
-                <li> <a href="{{route('Subjects.index')}}">{{ trans('subject.subjects_list') }}</a> </li>
+                <li> <a href="{{ route('Subjects.index') }}">{{ trans('subject.subjects_list') }}</a> </li>
             </ul>
         </li>
 
         <!-- Quizzes-->
         <li>
             <a href="javascript:void(0);" data-toggle="collapse" data-target="#Exams-icon">
-                <div class="pull-left"><i class="fas fa-book-open"></i><span class="right-nav-text">{{ trans('quizz.quizzes') }}</span>
+                <div class="pull-left"><i class="fas fa-book-open"></i><span
+                        class="right-nav-text">{{ trans('quizz.quizzes') }}</span>
                 </div>
                 <div class="pull-right"><i class="ti-plus"></i></div>
                 <div class="clearfix"></div>
             </a>
             <ul id="Exams-icon" class="collapse" data-parent="#sidebarnav">
-                <li> <a href="{{route('Quizzes.index')}}">{{ trans('quizz.quizzes_list') }}</a> </li>
-                <li> <a href="{{route('Questions.index')}}">{{ trans('quizz.questions_list') }}</a> </li>
+                <li> <a href="{{ route('Quizzes.index') }}">{{ trans('quizz.quizzes_list') }}</a> </li>
+                <li> <a href="{{ route('Questions.index') }}">{{ trans('quizz.questions_list') }}</a> </li>
             </ul>
         </li>
 

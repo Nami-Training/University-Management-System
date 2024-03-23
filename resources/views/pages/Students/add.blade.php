@@ -2,13 +2,13 @@
 @section('css')
     @toastr_css
 @section('title')
-    {{trans('main_trans.add_student')}}
+    {{trans('Students_trans.add_student')}}
 @stop
 @endsection
 @section('page-header')
 <!-- breadcrumb -->
 @section('PageTitle')
-    {{trans('main_trans.add_student')}}
+    {{trans('Students_trans.add_student')}}
 @stop
 <!-- breadcrumb -->
 @endsection
@@ -33,19 +33,12 @@
                     @csrf
                     <h6 style="font-family: 'Cairo', sans-serif;color: blue">{{trans('Students_trans.personal_information')}}</h6><br>
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>{{trans('Students_trans.name_ar')}} : <span class="text-danger">*</span></label>
-                                    <input  type="text" name="name_ar"  class="form-control">
+                            @foreach (config('app.languages') as $key => $lang)
+                                <div class="col">
+                                    <label for="Name_{{ $key }}">{{trans('Students_trans.name_' . $key)}} : <span class="text-danger">*</span></label>
+                                    <input type="text"  name="{{ $key }}[Name]" class="form-control" id="Name_{{ $key }}">
                                 </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>{{trans('Students_trans.name_en')}} : <span class="text-danger">*</span></label>
-                                    <input  class="form-control" name="name_en" type="text" >
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
 
                         <div class="row">
@@ -55,7 +48,6 @@
                                     <input type="email"  name="email" class="form-control" >
                                 </div>
                             </div>
-
 
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -93,8 +85,8 @@
                                     <label for="bg_id">{{trans('Students_trans.blood_type')}} : </label>
                                     <select class="custom-select mr-sm-2" name="blood_id">
                                         <option selected disabled>{{trans('Parent_trans.Choose')}}...</option>
-                                        @foreach($bloods as $bg)
-                                            <option value="{{ $bg->id }}">{{ $bg->Name }}</option>
+                                        @foreach($bloods as $blood)
+                                            <option value="{{ $blood->id }}">{{ $blood->Name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -103,7 +95,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>{{trans('Students_trans.Date_of_Birth')}}  :</label>
-                                    <input class="form-control" type="text"  id="datepicker-action" name="Date_Birth" data-date-format="yyyy-mm-dd">
+                                    <input class="form-control" type="text"  id="datepicker-action" name="date_birth" data-date-format="yyyy-mm-dd">
                                 </div>
                             </div>
 
@@ -114,10 +106,10 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="Grade_id">{{trans('Students_trans.Grade')}} : <span class="text-danger">*</span></label>
-                                    <select class="custom-select mr-sm-2" name="Grade_id">
+                                    <select class="custom-select mr-sm-2" name="grade_id">
                                         <option selected disabled>{{trans('Parent_trans.Choose')}}...</option>
-                                        @foreach($my_classes as $c)
-                                            <option  value="{{ $c->id }}">{{ $c->Name }}</option>
+                                        @foreach($grades as $grade)
+                                            <option  value="{{ $grade->id }}">{{ $grade->Name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -126,8 +118,11 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="Classroom_id">{{trans('Students_trans.classrooms')}} : <span class="text-danger">*</span></label>
-                                    <select class="custom-select mr-sm-2" name="Classroom_id">
-
+                                    <select class="custom-select mr-sm-2" name="classroom_id">
+                                        <option selected disabled>{{trans('Parent_trans.Choose')}}...</option>
+                                        @foreach($classes as $class)
+                                            <option  value="{{ $class->id }}">{{ $class->Name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -136,18 +131,9 @@
                                 <div class="form-group">
                                     <label for="section_id">{{trans('Students_trans.section')}} : </label>
                                     <select class="custom-select mr-sm-2" name="section_id">
-
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="parent_id">{{trans('Students_trans.parent')}} : <span class="text-danger">*</span></label>
-                                    <select class="custom-select mr-sm-2" name="parent_id">
                                         <option selected disabled>{{trans('Parent_trans.Choose')}}...</option>
-                                       @foreach($parents as $parent)
-                                            <option value="{{ $parent->id }}">{{ $parent->Name_Father }}</option>
+                                        @foreach($sections as $section)
+                                            <option  value="{{ $section->id }}">{{ $section->Name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -161,7 +147,7 @@
                                     @php
                                         $current_year = date("Y");
                                     @endphp
-                                    @for($year=$current_year; $year<=$current_year +1 ;$year++)
+                                    @for($year=$current_year; $year<=$current_year +5 ;$year++)
                                         <option value="{{ $year}}">{{ $year }}</option>
                                     @endfor
                                 </select>
@@ -172,11 +158,9 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="academic_year">{{trans('Students_trans.Attachments')}} : <span class="text-danger">*</span></label>
-                            <input type="file" accept="image/*" name="photos[]" multiple>
+                            <input type="file" accept="image/*" name="photo" multiple>
                         </div>
                     </div>
-
-
 
                     <button class="btn btn-success btn-sm nextBtn btn-lg pull-right" type="submit">{{trans('Students_trans.submit')}}</button>
                 </form>
@@ -190,5 +174,26 @@
 @section('js')
     @toastr_js
     @toastr_render
-
+    <script>
+        $(document).ready(function () {
+            $('select[name="grade_id"]').on('change', function () {
+                var grade_id = $(this).val();
+                if (grade_id) {
+                    $.ajax({
+                        url: "{{ URL::to('Classrooms/getClasses') }}/" + grade_id,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            $('select[name="classroom_id"]').empty();
+                            $.each(data, function (key, value) {
+                                $('select[name="classroom_id"]').append('<option value="' + key + '">' + value + '</option>');
+                            });
+                        },
+                    });
+                } else {
+                    console.log('AJAX load did not work');
+                }
+            });
+        });
+    </script>
 @endsection

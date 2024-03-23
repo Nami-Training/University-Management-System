@@ -39,31 +39,31 @@
                                         <tbody>
                                         <tr>
                                             <th scope="row">{{trans('Students_trans.name')}}</th>
-                                            <td>{{ $Student->name }}</td>
+                                            <td>{{ $student->Name }}</td>
                                             <th scope="row">{{trans('Students_trans.email')}}</th>
-                                            <td>{{$Student->email}}</td>
+                                            <td>{{$student->email}}</td>
                                             <th scope="row">{{trans('Students_trans.gender')}}</th>
-                                            <td>{{$Student->gender->Name}}</td>
+                                            <td>{{$student->gender->Name}}</td>
                                             <th scope="row">{{trans('Students_trans.Nationality')}}</th>
-                                            <td>{{$Student->Nationality->Name}}</td>
+                                            <td>{{$student->Nationality->Name}}</td>
                                         </tr>
 
                                         <tr>
                                             <th scope="row">{{trans('Students_trans.Grade')}}</th>
-                                            <td>{{ $Student->grade->Name }}</td>
+                                            <td>{{ $student->grade->Name }}</td>
                                             <th scope="row">{{trans('Students_trans.classrooms')}}</th>
-                                            <td>{{$Student->classroom->Name_Class}}</td>
+                                            <td>{{$student->classroom->Name}}</td>
                                             <th scope="row">{{trans('Students_trans.section')}}</th>
-                                            <td>{{$Student->section->Name_Section}}</td>
+                                            <td>{{$student->section->Name}}</td>
                                             <th scope="row">{{trans('Students_trans.Date_of_Birth')}}</th>
-                                            <td>{{ $Student->Date_Birth}}</td>
+                                            <td>{{ $student->date_birth}}</td>
                                         </tr>
 
                                         <tr>
-                                            <th scope="row">{{trans('Students_trans.parent')}}</th>
-                                            <td>{{ $Student->myparent->Name_Father}}</td>
+                                            {{-- <th scope="row">{{trans('Students_trans.parent')}}</th>
+                                            <td>{{ $student->myparent->Name_Father}}</td> --}}
                                             <th scope="row">{{trans('Students_trans.academic_year')}}</th>
-                                            <td>{{ $Student->academic_year }}</td>
+                                            <td>{{ $student->academic_year }}</td>
                                             <th scope="row"></th>
                                             <td></td>
                                             <th scope="row"></th>
@@ -77,16 +77,16 @@
                                      aria-labelledby="profile-02-tab">
                                     <div class="card card-statistics">
                                         <div class="card-body">
-                                            <form method="post" action="{{route('Upload_attachment')}}" enctype="multipart/form-data">
+                                            <form method="post" action="{{route('Students.Upload_attachment')}}" enctype="multipart/form-data">
                                                 {{ csrf_field() }}
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label
                                                             for="academic_year">{{trans('Students_trans.Attachments')}}
                                                             : <span class="text-danger">*</span></label>
-                                                        <input type="file" accept="image/*" name="photos[]" multiple required>
-                                                        <input type="hidden" name="student_name" value="{{$Student->name}}">
-                                                        <input type="hidden" name="student_id" value="{{$Student->id}}">
+                                                        <input type="file" accept="image/*" name="photo" multiple required>
+                                                        <input type="hidden" name="student_name" value="{{$student->name}}">
+                                                        <input type="hidden" name="student_id" value="{{$student->id}}">
                                                     </div>
                                                 </div>
                                                 <br><br>
@@ -107,7 +107,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach($Student->images as $attachment)
+                                            {{-- @foreach($student->images as $attachment)
                                                 <tr style='text-align:center;vertical-align:middle'>
                                                     <td>{{$loop->iteration}}</td>
                                                     <td>{{$attachment->filename}}</td>
@@ -126,7 +126,7 @@
                                                     </td>
                                                 </tr>
                                                 @include('pages.Students.Delete_img')
-                                            @endforeach
+                                            @endforeach --}}
                                             </tbody>
                                         </table>
                                     </div>

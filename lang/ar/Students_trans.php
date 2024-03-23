@@ -2,6 +2,11 @@
 
 return [
 
+    'Sudents' => 'الطلاب',
+    'students list' => 'قائمة الطلاب',
+    'add_student' => 'اضافة طالب',
+    'students_info' => 'معلومات الطلاب',
+    'Students_Promotions' => 'ترقيات الطلاب',
     'personal_information' => 'المعلومات الشخصية',
     'name' => 'اسم الطالب',
     'name_ar' => 'الاسم باللغة العربية',
@@ -31,6 +36,7 @@ return [
     'created_at' => 'تاريخ الاضافة',
     'Download' => 'تحميل',
     'delete' => 'حذف',
+
 
 
 

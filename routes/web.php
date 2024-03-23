@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuizzController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
 
@@ -62,6 +63,10 @@ Route::group(['verified', 'middleare' => 'auth'], function()
     Route::delete('Questions/{id}', [QuestionController::class, 'delete'])->name('Questions.delete');
     Route::resource('Questions', QuestionController::class);
 
+    //==============================Student============================
+    Route::delete('Students/{id}', [StudentController::class, 'delete'])->name('Students.delete');
+    Route::post('Students/Upload_attachment', [StudentController::class, 'Upload_attachment'])->name('Students.Upload_attachment');
+    Route::resource('Students', StudentController::class);
 
     //==============================parents============================
     // Route::view('add_parent','livewire.show_Form')->name('add_parent');
