@@ -5,16 +5,28 @@ namespace App\Http\Controllers;
 use App\Http\Requests\QuestionRequest;
 use App\Models\Question;
 use App\Models\Quiz;
+use App\Services\QuestionService;
+use App\Services\QuizService;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
+
+    private $questionService;
+    private $quizService;
+
+    function __construct(QuestionService $questionService, QuizService $quizService)
+    {
+        $this->questionService = $questionService;
+        $this->quizService = $quizService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $questions = Question::all();
+        $questions = $this->questionService->all();
         return view('pages.Questions.index', compact('questions'));
     }
 
@@ -23,7 +35,7 @@ class QuestionController extends Controller
      */
     public function create()
     {
-        $quizzes = Quiz::all();
+        $quizzes = $this->quizService->all();
         return view('pages.Questions.create', compact('quizzes'));
     }
 
@@ -32,7 +44,7 @@ class QuestionController extends Controller
      */
     public function store(QuestionRequest $request)
     {
-        Question::create($request->validated());
+        $this->questionService->create($request->validated());
         return redirect()->route('Questions.index');
     }
 
@@ -49,8 +61,8 @@ class QuestionController extends Controller
      */
     public function edit(string $id)
     {
-        $question = Question::findOrFail($id);
-        $quizzes = Quiz::all();
+        $question = $this->questionService->findById($id);
+        $quizzes = $this->quizService->all();
         return view('pages.Questions.edit', compact('question', 'quizzes'));
     }
 
@@ -59,15 +71,13 @@ class QuestionController extends Controller
      */
     public function update(QuestionRequest $request, string $id)
     {
-        $question = Question::findOrFail($id);
-        $question->update($request->validated());
+        $this->questionService->update($id, $request->validated());
         return redirect()->route('Questions.index');
     }
 
     public function delete(String $id)
     {
-        $qustion = Question::findOrFail($id);
-        $qustion->delete();
+        $this->questionService->delete($id);
         return redirect()->route('Questions.index');
     }
 
@@ -76,6 +86,7 @@ class QuestionController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $this->questionService->forceDelete($id);
+        return redirect()->route('Questions.index');
     }
 }

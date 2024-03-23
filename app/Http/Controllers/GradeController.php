@@ -3,11 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\GradeRequest;
-use App\Models\Grade;
-use App\Repositories\GradeRepository;
 use App\Services\GradeService;
-use Illuminate\Http\Request;
-use Termwind\Components\Dd;
 
 class GradeController extends Controller
 {

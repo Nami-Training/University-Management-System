@@ -19,6 +19,11 @@ class MainService
         return $this->repository->all();
     }
 
+    public function findById($id)
+    {
+        return $this->repository->findById($id);
+    }
+
     public function findByColumn($column, $value)
     {
         return $this->repository->findByColumn($column, $value);

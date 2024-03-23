@@ -2,11 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Grade;
-use App\Models\Section;
-use App\Models\Teacher;
-use App\Models\Classroom;
-use Illuminate\Http\Request;
 use App\Services\SectionService;
 use App\Http\Requests\SectionRequest;
 use App\Services\ClassroomService;

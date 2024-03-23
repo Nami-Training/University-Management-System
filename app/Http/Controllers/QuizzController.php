@@ -2,22 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\QuizService;
+use App\Services\GradeService;
+use App\Services\TeacherService;
 use App\Http\Requests\QuizzRequest;
-use App\Models\Grade;
-use App\Models\Quiz;
-use App\Models\Section;
-use App\Models\Subject;
-use App\Models\Teacher;
-use Illuminate\Http\Request;
+use App\Services\SectionService;
+use App\Services\SubjectService;
 
 class QuizzController extends Controller
 {
+    private $quizService;
+    private $teacherService;
+    private $gradeService;
+    private $subjectService;
+    private $sectionService;
+
+    function __construct(QuizService $quizService, TeacherService $teacherService, GradeService $gradeService, SubjectService $subjectService, SectionService $sectionService)
+    {
+        $this->quizService = $quizService;
+        $this->teacherService = $teacherService;
+        $this->gradeService = $gradeService;
+        $this->subjectService = $subjectService;
+        $this->sectionService = $sectionService;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $quizzes = Quiz::all();
+        $quizzes = $this->quizService->all();
         return view('pages.Quizzes.index', compact('quizzes'));
     }
 
@@ -26,10 +39,10 @@ class QuizzController extends Controller
      */
     public function create()
     {
-        $subjects = Subject::all();
-        $teachers = Teacher::all();
-        $grades = Grade::all();
-        $sections = Section::all();
+        $subjects = $this->subjectService->all();
+        $teachers = $this->teacherService->all();
+        $grades = $this->gradeService->all();
+        $sections = $this->sectionService->all();
         return view('pages.Quizzes.create', compact('subjects', 'teachers', 'grades', 'sections'));
     }
 
@@ -38,7 +51,7 @@ class QuizzController extends Controller
      */
     public function store(QuizzRequest $request)
     {
-        Quiz::create($request->validated());
+        $this->quizService->create($request->validated());
         return redirect()->route('Quizzes.index');
     }
 
@@ -55,11 +68,11 @@ class QuizzController extends Controller
      */
     public function edit(string $id)
     {
-        $quizz = Quiz::findOrFail($id);
-        $subjects = Subject::all();
-        $teachers = Teacher::all();
-        $grades = Grade::all();
-        $sections = Section::all();
+        $quizz = $this->quizService->findById($id);
+        $subjects = $this->subjectService->all();
+        $teachers = $this->teacherService->all();
+        $grades = $this->gradeService->all();
+        $sections = $this->sectionService->all();
         return view('pages.Quizzes.edit', compact('quizz', 'subjects', 'teachers', 'grades', 'sections'));
     }
 
@@ -68,15 +81,13 @@ class QuizzController extends Controller
      */
     public function update(QuizzRequest $request, string $id)
     {
-        $quiz = Quiz::findOrFail($id);
-        $quiz->update($request->validated());
+        $this->quizService->update($id, $request->validated());
         return redirect()->route('Quizzes.index');
     }
 
     public function delete(String $id)
     {
-        $quiz = Quiz::findOrFail($id);
-        $quiz->delete();
+        $this->quizService->delete($id);
         return redirect()->route('Quizzes.index');
     }
 
@@ -85,6 +96,7 @@ class QuizzController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $this->quizService->forceDelete($id);
+        return redirect()->route('Quizzes.index');
     }
 }

@@ -6,16 +6,30 @@ use App\Http\Requests\TeacherRequest;
 use App\Models\Gender;
 use App\Models\Specialization;
 use App\Models\Teacher;
-use Illuminate\Http\Request;
+use App\Services\GenderService;
+use App\Services\SpecializationService;
+use App\Services\TeacherService;
 
 class TeacherController extends Controller
 {
+
+    private $teacherService;
+    private $genderService;
+    private $specializationService;
+
+    function __construct(TeacherService $teacherService, GenderService $genderService, SpecializationService $specializationService)
+    {
+        $this->teacherService = $teacherService;
+        $this->genderService = $genderService;
+        $this->specializationService = $specializationService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $teachers = Teacher::all();
+        $teachers = $this->teacherService->all();
         return view('pages.Teachers.Teachers', compact('teachers'));
     }
 
@@ -24,8 +38,8 @@ class TeacherController extends Controller
      */
     public function create()
     {
-        $genders = Gender::all();
-        $specializations = Specialization::all();
+        $genders = $this->genderService->all();
+        $specializations = $this->specializationService->all();
         return view('pages.Teachers.create', compact('genders', 'specializations'));
     }
 
@@ -34,10 +48,7 @@ class TeacherController extends Controller
      */
     public function store(TeacherRequest $request)
     {
-        $data = $request->validated();
-        $data['password'] = bcrypt($request->password);
-        $data['Address'] = strtotime($request->Address);
-        Teacher::create($data);
+        $this->teacherService->createTeacher($request->validated(), $request->password, $request->Address);
         return redirect()->route('Teachers.index');
     }
 
@@ -54,9 +65,9 @@ class TeacherController extends Controller
      */
     public function edit(string $id)
     {
-        $teacher = Teacher::findOrFail($id);
-        $specializations = Specialization::all();
-        $genders = Gender::all();
+        $teacher = $this->teacherService->findById($id);
+        $specializations = $this->specializationService->all();
+        $genders = $this->genderService->all();
         return view('pages.Teachers.Edit', compact('teacher', 'specializations', 'genders'));
     }
 
@@ -65,21 +76,13 @@ class TeacherController extends Controller
      */
     public function update(TeacherRequest $request, string $id)
     {
-        $teacher = Teacher::findOrFail($id);
-        $data = $request->validated();
-        if($data['password'] != $teacher->password){
-            $data['password'] = bcrypt($request->password);
-        }
-        $data['Address'] = strtotime($request->Address);
-        $teacher->update($data);
-
+        $this->teacherService->updateTeacher($id, $request->validated(), $request->password, $request->Address);
         return redirect()->route('Teachers.index');
     }
 
     public function delete(string $id)
     {
-        $teacher = Teacher::findOrFail($id);
-        $teacher->delete();
+        $this->teacherService->delete($id);
         return redirect()->route('Teachers.index');
     }
 
@@ -88,6 +91,7 @@ class TeacherController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $this->teacherService->forceDelete($id);
+        return redirect()->route('Teachers.index');
     }
 }

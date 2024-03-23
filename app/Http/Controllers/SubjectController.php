@@ -2,20 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\GradeService;
+use App\Services\SubjectService;
+use App\Services\TeacherService;
 use App\Http\Requests\SubjectRequest;
-use App\Models\Grade;
-use App\Models\Subject;
-use App\Models\Teacher;
-use Illuminate\Http\Request;
 
 class SubjectController extends Controller
 {
+
+    private $subjectService;
+    private $teacherService;
+    private $gradeService;
+
+    function __construct(SubjectService $subjectService, TeacherService $teacherService, GradeService $gradeService)
+    {
+        $this->subjectService = $subjectService;
+        $this->teacherService = $teacherService;
+        $this->gradeService = $gradeService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $subjects = Subject::all();
+        $subjects = $this->subjectService->all();
         return view('pages.Subjects.index', compact('subjects'));
     }
 
@@ -24,8 +35,8 @@ class SubjectController extends Controller
      */
     public function create()
     {
-        $grades = Grade::all();
-        $teachers = Teacher::all();
+        $grades = $this->gradeService->all();
+        $teachers = $this->teacherService->all();
         return view('pages.Subjects.create', compact('grades', 'teachers'));
     }
 
@@ -34,7 +45,7 @@ class SubjectController extends Controller
      */
     public function store(SubjectRequest $request)
     {
-        Subject::create($request->validated());
+        $this->subjectService->create($request->validated());
         return redirect()->route('Subjects.index');
     }
 
@@ -51,9 +62,10 @@ class SubjectController extends Controller
      */
     public function edit(string $id)
     {
-        $subject = Subject::findOrFail($id);
-        $teachers = Teacher::all();
-        $grades = Grade::all();
+
+        $subject = $this->subjectService->findById($id);
+        $teachers = $this->teacherService->all();
+        $grades = $this->gradeService->all();
         return view('pages.Subjects.edit', compact('subject', 'teachers', 'grades'));
     }
 
@@ -62,15 +74,13 @@ class SubjectController extends Controller
      */
     public function update(SubjectRequest $request, string $id)
     {
-        $subject = Subject::findOrFail($id);
-        $subject->update($request->validated());
+        $this->subjectService->update($id, $request->validated());
         return redirect()->route('Subjects.index');
     }
 
     public function delete(string $id)
     {
-        $subject = Subject::findOrFail($id);
-        $subject->delete();
+        $this->subjectService->delete($id);
         return redirect()->route('Subjects.index');
     }
 
@@ -79,6 +89,7 @@ class SubjectController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $this->subjectService->forceDelete($id);
+        return redirect()->route('Subjects.index');
     }
 }
