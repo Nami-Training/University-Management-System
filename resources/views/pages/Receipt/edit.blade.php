@@ -8,7 +8,7 @@
 @section('page-header')
     <!-- breadcrumb -->
 @section('PageTitle')
-تعديل سند قبض : <label style="color: red">{{$receipt_student->student->name}}</label>
+تعديل سند قبض : <label style="color: red">{{$receipt_student->student->Name}}</label>
 @stop
 <!-- breadcrumb -->
 @endsection
@@ -29,14 +29,14 @@
                         </div>
                     @endif
 
-                            <form action="{{route('receipt_students.update','test')}}" method="post" autocomplete="off">
+                            <form action="{{route('ReceiptStudent.update', $receipt_student->id)}}" method="post" autocomplete="off">
                                 @method('PUT')
                                 @csrf
                             @csrf
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>المبلغ : <span class="text-danger">*</span></label>
+                                        <label>{{ trans('Students_trans.amount') }} : <span class="text-danger">*</span></label>
                                         <input  class="form-control" name="Debit" value="{{$receipt_student->Debit}}" type="number" >
                                         <input  type="hidden" name="student_id" value="{{$receipt_student->student->id}}" class="form-control">
                                         <input  type="hidden" name="id"  value="{{$receipt_student->id}}" class="form-control">
@@ -47,14 +47,14 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>البيان : <span class="text-danger">*</span></label>
+                                        <label>{{ trans('Students_trans.description') }} : <span class="text-danger">*</span></label>
                                         <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3">{{$receipt_student->description}}</textarea>
                                     </div>
                                 </div>
 
                             </div>
 
-                            <button class="btn btn-success btn-sm nextBtn btn-lg pull-right" type="submit">{{trans('Students_trans.submit')}}</button>
+                            <button class="btn btn-success btn-sm nextBtn btn-lg pull-right" type="submit">{{trans('Students_trans.update')}}</button>
                         </form>
 
                 </div>

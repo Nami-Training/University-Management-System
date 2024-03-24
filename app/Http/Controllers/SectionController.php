@@ -35,6 +35,11 @@ class SectionController extends Controller
         return view('pages.Sections.Sections', compact('Grades', 'Classes', 'teachers'));
     }
 
+    public function getClassSection(string $class_id)
+    {
+        return $this->sectionService->getData('classroom_id', $class_id);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

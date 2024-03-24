@@ -84,15 +84,21 @@ class StudentController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $student = $this->studentService->findById($id);
+        $Genders = $this->genderService->all();
+        $nationals = $this->nationalityService->all();
+        $bloods = $this->bloodService->all();
+        $Grades = $this->gradeService->all();
+        return view('pages.Students.edit', compact('student', 'Grades', 'Genders', 'nationals', 'bloods'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StudentRequest $request, string $id)
     {
-        //
+        $this->studentService->updateStudent($id, $request->validated(), $request->password);
+        return redirect()->route('Students.index');
     }
 
     public function Upload_attachment(Request $request)
@@ -107,9 +113,10 @@ class StudentController extends Controller
         return redirect()->route('Students.show', $request->student_id);
     }
 
-    public function delete()
+    public function delete($id)
     {
-
+        $this->studentService->delete($id);
+        return redirect()->route('Students.index');
     }
 
     /**
@@ -117,6 +124,7 @@ class StudentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $this->studentService->forceDelete($id);
+        return redirect()->route('Students.index');
     }
 }

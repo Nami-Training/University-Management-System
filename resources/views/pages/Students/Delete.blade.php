@@ -9,14 +9,14 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{route('Students.destroy','test')}}" method="post">
+                <form action="{{route('Students.delete',$student->id)}}" method="post">
                     @csrf
-                    @method('DELETE')
+                    @method('delete')
 
                     <input type="hidden" name="id" value="{{$student->id}}">
 
                     <h5 style="font-family: 'Cairo', sans-serif;">{{trans('Students_trans.Deleted_Student_tilte')}}</h5>
-                    <input type="text" readonly value="{{$student->name}}" class="form-control">
+                    <input type="text" readonly value="{{$student->Name}}" class="form-control">
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">{{trans('Students_trans.Close')}}</button>

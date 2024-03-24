@@ -29,7 +29,7 @@
                         </div>
                     @endif
 
-                        <form class=" row mb-30" action="{{ route('Fees_Invoices.store') }}" method="POST">
+                        <form class=" row mb-30" action="{{ route('Fee_Invoices.store') }}" method="POST">
                             @csrf
                             <div class="card-body">
                                 <div class="repeater">
@@ -40,7 +40,7 @@
                                                 <div class="col">
                                                     <label for="Name" class="mr-sm-2">اسم الطالب</label>
                                                     <select class="fancyselect" name="student_id" required>
-                                                            <option value="{{ $student->id }}">{{ student->name }}</option>
+                                                            <option value="{{ $student->id }}">{{ $student->Name }}</option>
                                                     </select>
                                                 </div>
 
@@ -49,7 +49,7 @@
                                                     <div class="box">
                                                         <select class="fancyselect" name="fee_id" required>
                                                             <option value="">-- اختار من القائمة --</option>
-                                                            @foreach($Fees as $fee)
+                                                            @foreach($fees as $fee)
                                                                 <option value="{{ $fee->id }}">{{ $fee->title }}</option>
                                                             @endforeach
                                                         </select>
@@ -62,7 +62,7 @@
                                                     <div class="box">
                                                         <select class="fancyselect" name="amount" required>
                                                             <option value="">-- اختار من القائمة --</option>
-                                                            @foreach($fee as $fee)
+                                                            @foreach($fees as $fee)
                                                                 <option value="{{ $fee->amount }}">{{ $fee->amount }}</option>
                                                             @endforeach
                                                         </select>
@@ -88,8 +88,8 @@
                                             <input class="button" data-repeater-create type="button" value="{{ trans('My_Classes_trans.add_row') }}"/>
                                         </div>
                                     </div><br>
-                                    <input type="hidden" name="Grade_id" value="{{$student->Grade_id}}">
-                                    <input type="hidden" name="Classroom_id" value="{{$student->Classroom_id}}">
+                                    <input type="hidden" name="Grade_id" value="{{$student->grade_id}}">
+                                    <input type="hidden" name="Classroom_id" value="{{$student->classroom_id}}">
 
                                     <button type="submit" class="btn btn-primary">تاكيد البيانات</button>
                                 </div>

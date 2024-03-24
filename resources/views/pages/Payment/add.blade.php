@@ -29,7 +29,7 @@
                         </div>
                     @endif
 
-                    <form method="post"  action="{{ route('Payment_students.store') }}" autocomplete="off">
+                    <form method="post"  action="{{ route('PaymentStudent.store') }}" autocomplete="off">
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
@@ -43,7 +43,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>رصيد الطالب : </label>
-                                    <input  class="form-control" name="final_balance" value="{{ number_format($student->student_account->sum('Debit') - $student->student_account->sum('credit'), 2) }}" type="text" readonly>
+                                    {{-- <input  class="form-control" name="final_balance" value="{{ number_format($student->student_account->sum('Debit') - $student->student_account->sum('credit'), 2) }}" type="text" readonly> --}}
                                 </div>
                             </div>
                         </div>

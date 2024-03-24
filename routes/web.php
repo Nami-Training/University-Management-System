@@ -1,15 +1,20 @@
 <?php
 
-use App\Http\Controllers\ClassroomController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FeesController;
 use App\Http\Controllers\GradeController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuizzController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\Fees_InvoicesController;
+use App\Http\Controllers\PaymentStudentController;
+use App\Http\Controllers\ProcessingFeeController;
+use App\Http\Controllers\ReceiptStudentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +50,7 @@ Route::group(['verified', 'middleare' => 'auth'], function()
 
     //==============================Section============================
     Route::delete('Sections/{id}', [SectionController::class, 'delete'])->name('Sections.delete');
+    Route::get('Sections/getSections/{class_id}', [SectionController::class, 'getClassSection'])->name('Sections.getClassSection');
     Route::resource('Sections', SectionController::class);
 
     //==============================Teacher============================
@@ -72,6 +78,24 @@ Route::group(['verified', 'middleare' => 'auth'], function()
     //==============================parents============================
     // Route::view('add_parent','livewire.show_Form')->name('add_parent');
 
+    //==============================Fees============================
+    Route::delete('Fees/{id}', [FeesController::class, 'delete'])->name('Fees.delete');
+    Route::delete('Fee_Invoices/{id}', [Fees_InvoicesController::class, 'delete'])->name('Fee_Invoices.delete');
+    Route::resource('Fees', FeesController::class);
+    Route::resource('Fee_Invoices', Fees_InvoicesController::class);
+
+
+    //==============================ReceiptStudents============================
+    Route::delete('ReceiptStudent/{id}', [ReceiptStudentController::class, 'delete'])->name('ReceiptStudent.delete');
+    Route::resource('ReceiptStudent', ReceiptStudentController::class);
+
+    //==============================payment============================
+    Route::delete('PaymentStudent/{id}', [PaymentStudentController::class, 'delete'])->name('PaymentStudent.delete');
+    Route::resource('PaymentStudent', PaymentStudentController::class);
+
+    //==============================ProcessingFee============================
+    Route::delete('ProcessingFee/{id}', [ProcessingFeeController::class, 'delete'])->name('ProcessingFee.delete');
+    Route::resource('ProcessingFee', ProcessingFeeController::class);
 
     //==============================Profile============================
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

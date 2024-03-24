@@ -2,13 +2,13 @@
 @section('css')
     @toastr_css
 @section('title')
-   سند قبض
+    {{trans('Students_trans.receipt')}}
 @stop
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
 @section('PageTitle')
-سند قبض {{$student->name}}
+{{trans('Students_trans.receipt')}} : {{$student->Name}}
 @stop
 <!-- breadcrumb -->
 @endsection
@@ -29,12 +29,12 @@
                         </div>
                     @endif
 
-                        <form method="post"  action="{{ route('receipt_students.store') }}" autocomplete="off">
+                        <form method="post"  action="{{ route('ReceiptStudent.store') }}" autocomplete="off">
                             @csrf
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>المبلغ : <span class="text-danger">*</span></label>
+                                        <label>{{trans('Students_trans.amount')}} : <span class="text-danger">*</span></label>
                                         <input  class="form-control" name="Debit" type="number" >
                                         <input  type="hidden" name="student_id"  value="{{$student->id}}" class="form-control">
                                     </div>
@@ -44,12 +44,12 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>البيان : <span class="text-danger">*</span></label>
+                                        <label>{{trans('Students_trans.description')}} : <span class="text-danger">*</span></label>
                                         <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3"></textarea>
                                     </div>
                                 </div>
                             </div>
-                            <button class="btn btn-success btn-sm nextBtn btn-lg pull-right" type="submit">{{trans('Students_trans.submit')}}</button>
+                            <button class="btn btn-success btn-sm nextBtn btn-lg pull-right" type="submit">{{trans('Students_trans.add')}}</button>
                         </form>
 
                 </div>

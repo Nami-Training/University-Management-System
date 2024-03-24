@@ -32,7 +32,7 @@ class StudentRequest extends FormRequest
             'section_id' => 'required|integer',
             'date_birth' => 'required|string',
             'academic_year' => 'required|string',
-            'photo' => 'required|image|mimes:jpeg,jpg,png,gif|max:2048',
+            'photo' => 'image|mimes:jpeg,jpg,png,gif|max:2048',
         ];
         foreach(config('app.languages') as $key => $value){
             $data[$key.'*.Name'] = 'required|string';

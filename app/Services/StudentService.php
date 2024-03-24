@@ -24,6 +24,17 @@ class StudentService extends MainService
         $this->Upload_attachment($student->id, $file);
     }
 
+    public function updateStudent($id, $data, $password)
+    {
+        $student = $this->findById($id);
+        if ($student->password == $password){
+            $student->update($data);
+        }else{
+            $data['password'] = bcrypt($password);
+            $student->update($data);
+        }
+    }
+
     public function Delete_attachment($filename, $image_id)
     {
         $image = Image::find($image_id);
