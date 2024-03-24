@@ -19,6 +19,17 @@
             <div class="card card-statistics h-100">
                 <div class="card-body">
                     <div class="card-body">
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
                         <div class="tab nav-border">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
@@ -60,8 +71,6 @@
                                         </tr>
 
                                         <tr>
-                                            {{-- <th scope="row">{{trans('Students_trans.parent')}}</th>
-                                            <td>{{ $student->myparent->Name_Father}}</td> --}}
                                             <th scope="row">{{trans('Students_trans.academic_year')}}</th>
                                             <td>{{ $student->academic_year }}</td>
                                             <th scope="row"></th>
@@ -107,7 +116,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            {{-- @foreach($student->images as $attachment)
+                                            @foreach($student->images as $attachment)
                                                 <tr style='text-align:center;vertical-align:middle'>
                                                     <td>{{$loop->iteration}}</td>
                                                     <td>{{$attachment->filename}}</td>
@@ -126,7 +135,7 @@
                                                     </td>
                                                 </tr>
                                                 @include('pages.Students.Delete_img')
-                                            @endforeach --}}
+                                            @endforeach
                                             </tbody>
                                         </table>
                                     </div>

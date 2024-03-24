@@ -66,6 +66,7 @@ Route::group(['verified', 'middleare' => 'auth'], function()
     //==============================Student============================
     Route::delete('Students/{id}', [StudentController::class, 'delete'])->name('Students.delete');
     Route::post('Students/Upload_attachment', [StudentController::class, 'Upload_attachment'])->name('Students.Upload_attachment');
+    Route::post('Students/Delete_attachment', [StudentController::class, 'Delete_attachment'])->name('Students.Delete_attachment');
     Route::resource('Students', StudentController::class);
 
     //==============================parents============================

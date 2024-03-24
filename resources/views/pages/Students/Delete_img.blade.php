@@ -9,11 +9,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{route('Delete_attachment')}}" method="post">
+                <form action="{{route('Students.Delete_attachment')}}" method="post">
                     @csrf
                     <input type="hidden" name="id" value="{{$attachment->id}}">
 
-                    <input type="hidden" name="student_name" value="{{$attachment->imageable->name}}">
+                    <input type="hidden" name="student_name" value="{{$attachment->imageable->Name}}">
                     <input type="hidden" name="student_id" value="{{$attachment->imageable->id}}">
 
                     <h5 style="font-family: 'Cairo', sans-serif;">{{trans('Students_trans.Delete_attachment_tilte')}}</h5>

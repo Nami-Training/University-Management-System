@@ -95,9 +95,15 @@ class StudentController extends Controller
         //
     }
 
-    public function Upload_attachment(StudentRequest $request)
+    public function Upload_attachment(Request $request)
     {
         $this->studentService->Upload_attachment($request->student_id, $request->file('photo'));
+        return redirect()->route('Students.show', $request->student_id);
+    }
+
+    public function Delete_attachment(Request $request)
+    {
+        $this->studentService->Delete_attachment($request->student_id, $request->filename, $request->id);
         return redirect()->route('Students.show', $request->student_id);
     }
 

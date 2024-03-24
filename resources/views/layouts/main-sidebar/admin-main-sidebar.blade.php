@@ -62,17 +62,8 @@
             </a>
             <ul id="students-menu" class="collapse">
                 <li>
-                    <a href="javascript:void(0);" data-toggle="collapse"
-                        data-target="#Student_information">{{ trans('Students_trans.students_info') }}<div class="pull-right">
-                            <i class="ti-plus"></i></div>
-                        <div class="clearfix"></div>
-                    </a>
-                    <ul id="Student_information" class="collapse">
-                        <li> <a href="{{ route('Students.create') }}">{{ trans('Students_trans.add_student') }}</a></li>
-                        <li> <a href="{{ route('Students.index') }}">{{ trans('Students_trans.students list') }}</a></li>
-                    </ul>
+                    <a href="{{ route('Students.index') }}">{{ trans('Students_trans.students list') }}</a>
                 </li>
-
                 <li>
                     <a href="javascript:void(0);" data-toggle="collapse"
                         data-target="#Students_upgrade">{{ trans('Student.Students_Promotions') }}<div
