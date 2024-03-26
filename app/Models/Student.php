@@ -47,10 +47,10 @@ class Student extends Model
         return $this->hasMany(Image::class, 'imageable_id');
     }
 
-    // public function student_account()
-    // {
-    //     return $this->hasMany(Student_account::class);
-    // }
+    public function student_account()
+    {
+        return $this->hasMany(StudentAccount::class);
+    }
 
     // public function attendance()
     // {

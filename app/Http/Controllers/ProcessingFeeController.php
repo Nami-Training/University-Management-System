@@ -2,19 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProcessingFeeRequest;
 use Illuminate\Http\Request;
 use App\Services\StudentService;
 use App\Services\ProcessingFeeService;
+use App\Services\StudentAccountService;
 
 class ProcessingFeeController extends Controller
 {
     private $processingFeeService;
     private $studentService;
+    private $studentAccountService;
 
-    function __construct(ProcessingFeeService $processingFeeService, StudentService $studentService)
+    function __construct(ProcessingFeeService $processingFeeService, StudentService $studentService, StudentAccountService $studentAccountService)
     {
         $this->processingFeeService = $processingFeeService;
         $this->studentService = $studentService;
+        $this->studentAccountService = $studentAccountService;
     }
 
     /**
@@ -37,39 +41,21 @@ class ProcessingFeeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProcessingFeeRequest $request)
     {
-        // DB::beginTransaction();
+        $ProcessingFee = $this->processingFeeService->create($request->validated());
 
-        // try {
-        //     // حفظ البيانات في جدول معالجة الرسوم
-        //     $ProcessingFee = new ProcessingFee();
-        //     $ProcessingFee->date = date('Y-m-d');
-        //     $ProcessingFee->student_id = $request->student_id;
-        //     $ProcessingFee->amount = $request->Debit;
-        //     $ProcessingFee->description = $request->description;
-        //     $ProcessingFee->save();
+        $this->studentAccountService->create([
+            'date' => now(),
+            'type' => 'ProcessingFee',
+            'processing_id' => $ProcessingFee->id,
+            'student_id' => $request->student_id,
+            'Debit' => 0.00,
+            'credit' => $request->amount,
+            'description' => $request->description,
+        ]);
 
-
-        //     // حفظ البيانات في جدول حساب الطلاب
-        //     $students_accounts = new StudentAccount();
-        //     $students_accounts->date = date('Y-m-d');
-        //     $students_accounts->type = 'ProcessingFee';
-        //     $students_accounts->student_id = $request->student_id;
-        //     $students_accounts->processing_id = $ProcessingFee->id;
-        //     $students_accounts->Debit = 0.00;
-        //     $students_accounts->credit = $request->Debit;
-        //     $students_accounts->description = $request->description;
-        //     $students_accounts->save();
-
-
-        //     DB::commit();
-        //     toastr()->success(trans('messages.success'));
-        //     return redirect()->route('ProcessingFee.index');
-        // } catch (\Exception $e) {
-        //     DB::rollback();
-        //     return redirect()->back()->withErrors(['error' => $e->getMessage()]);
-        // }
+        return redirect()->route('ProcessingFee.index');
     }
 
     /**
@@ -93,38 +79,20 @@ class ProcessingFeeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ProcessingFeeRequest $request, string $id)
     {
-        // DB::beginTransaction();
+        $this->processingFeeService->update($id ,$request->validated());
+        $this->studentAccountService->update($id, [
+            'date' => now(),
+            'type' => 'ProcessingFee',
+            'processing_id' => $id,
+            'student_id' => $request->student_id,
+            'Debit' => 0.00,
+            'credit' => $request->amount,
+            'description' => $request->description,
+        ]);
 
-        // try {
-        //     // تعديل البيانات في جدول معالجة الرسوم
-        //     $ProcessingFee = ProcessingFee::findorfail($request->id);;
-        //     $ProcessingFee->date = date('Y-m-d');
-        //     $ProcessingFee->student_id = $request->student_id;
-        //     $ProcessingFee->amount = $request->Debit;
-        //     $ProcessingFee->description = $request->description;
-        //     $ProcessingFee->save();
-
-        //     // تعديل البيانات في جدول حساب الطلاب
-        //     $students_accounts = StudentAccount::where('processing_id',$request->id)->first();;
-        //     $students_accounts->date = date('Y-m-d');
-        //     $students_accounts->type = 'ProcessingFee';
-        //     $students_accounts->student_id = $request->student_id;
-        //     $students_accounts->processing_id = $ProcessingFee->id;
-        //     $students_accounts->Debit = 0.00;
-        //     $students_accounts->credit = $request->Debit;
-        //     $students_accounts->description = $request->description;
-        //     $students_accounts->save();
-
-
-        //     DB::commit();
-        //     toastr()->success(trans('messages.Update'));
-        //     return redirect()->route('ProcessingFee.index');
-        // } catch (\Exception $e) {
-        //     DB::rollback();
-        //     return redirect()->back()->withErrors(['error' => $e->getMessage()]);
-        // }
+        return redirect()->route('ProcessingFee.index');
     }
 
     public function delete($id)

@@ -50,5 +50,10 @@ return [
     'add' => 'اضافة',
     'Warning'=> 'هل انت متاكد من عملية الحذف ؟',
     'delete_receipt' => 'حذف سند قبض',
+    'student_balance' => 'رصيد الطلاب',
+    'delete_ProcessingFee' => 'حذف رسوم معالجة',
+    'edit_ProcessingFee' => 'تعديل رسوم معالجة',
+
+
 
 ];

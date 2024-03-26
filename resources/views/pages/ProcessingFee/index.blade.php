@@ -2,13 +2,13 @@
 @section('css')
     @toastr_css
 @section('title')
-    معالجات الرسوم الدراسية
+    {{ trans('Students_trans.ProcessingFee') }}
 @stop
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
 @section('PageTitle')
-  معالجات الرسوم الدراسية
+    {{ trans('Students_trans.ProcessingFee') }}
 @stop
 <!-- breadcrumb -->
 @endsection
@@ -28,17 +28,17 @@
                                         <thead>
                                         <tr class="alert-success">
                                             <th>#</th>
-                                            <th>الاسم</th>
-                                            <th>المبلغ</th>
-                                            <th>البيان</th>
-                                            <th>العمليات</th>
+                                            <th>{{ trans('Students_trans.name') }}</th>
+                                            <th>{{ trans('Students_trans.amount') }}</th>
+                                            <th>{{ trans('Students_trans.description') }}</th>
+                                            <th>{{ trans('Students_trans.Processes') }}</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         @foreach($ProcessingFees as $ProcessingFee)
                                             <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{$ProcessingFee->student->name}}</td>
+                                            <td>{{$ProcessingFee->student->Name}}</td>
                                             <td>{{ number_format($ProcessingFee->amount, 2) }}</td>
                                             <td>{{$ProcessingFee->description}}</td>
                                                 <td>

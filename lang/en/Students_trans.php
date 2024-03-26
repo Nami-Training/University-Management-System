@@ -50,5 +50,7 @@ return [
     'add' => 'Add',
     'Warning'=> 'Are Sure Of The Deleting Process ?',
     'delete_receipt' => 'Delete Receipt',
-
+    'student_balance' => 'Student Balance',
+    'delete_ProcessingFee' => 'Delete Processing Fee',
+    'edit_ProcessingFee' => 'Edit Processing Fee',
 ];
