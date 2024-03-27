@@ -49,6 +49,7 @@ class Fees_InvoicesController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         // $List_Fees = $request->List_Fees;
 
         // DB::beginTransaction();
@@ -95,7 +96,7 @@ class Fees_InvoicesController extends Controller
     public function show(string $id)
     {
         $student =$this->studentService->findById($id);
-        $fees = $this->feesService->findByColumn('classroom_id',$student->Classroom_id);
+        $fees = $this->feesService->findByColumn('classroom_id',$student->classroom_id);
         return view('pages.Fees_Invoices.add',compact('student','fees'));
     }
 

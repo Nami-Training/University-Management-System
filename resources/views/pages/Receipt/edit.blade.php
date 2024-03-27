@@ -2,13 +2,13 @@
 @section('css')
     @toastr_css
 @section('title')
-  تعديل سند قبض
+    {{ trans('Students_trans.edit_Receipt') }}
 @stop
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
 @section('PageTitle')
-تعديل سند قبض : <label style="color: red">{{$receipt_student->student->Name}}</label>
+    {{ trans('Students_trans.edit_Receipt') }} : <label style="color: red">{{$receipt_student->student->Name}}</label>
 @stop
 <!-- breadcrumb -->
 @endsection

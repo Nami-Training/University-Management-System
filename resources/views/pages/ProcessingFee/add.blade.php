@@ -8,7 +8,7 @@
 @section('page-header')
     <!-- breadcrumb -->
 @section('PageTitle')
-    {{ trans('Students_trans.Exclude_fees') }} : {{$student->name}}
+    {{ trans('Students_trans.Exclude_fees') }} : {{$student->Name}}
 @stop
 <!-- breadcrumb -->
 @endsection

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Services\FeesService;
 use App\Services\GradeService;
-use Illuminate\Http\Request;
+use App\Http\Requests\FeeRequest;
 
 class FeesController extends Controller
 {
@@ -39,18 +40,10 @@ class FeesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(FeeRequest $request)
     {
-        // $fees = new Fee();
-        // $fees->title = ['en' => $request->title_en, 'ar' => $request->title_ar];
-        // $fees->amount  =$request->amount;
-        // $fees->Grade_id  =$request->Grade_id;
-        // $fees->Classroom_id  =$request->Classroom_id;
-        // $fees->description  =$request->description;
-        // $fees->year  =$request->year;
-        // $fees->Fee_type  =$request->Fee_type;
-        // $fees->save();
-        // return redirect()->route('Fees.create');
+        $this->feesService->create($request->validated());
+        return redirect()->route('Fees.index');
     }
 
     /**
@@ -74,19 +67,10 @@ class FeesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(FeeRequest $request, string $id)
     {
-        // $fees = Fee::findorfail($request->id);
-        // $fees->title = ['en' => $request->title_en, 'ar' => $request->title_ar];
-        // $fees->amount  =$request->amount;
-        // $fees->Grade_id  =$request->Grade_id;
-        // $fees->Classroom_id  =$request->Classroom_id;
-        // $fees->description  =$request->description;
-        // $fees->year  =$request->year;
-        // $fees->Fee_type  =$request->Fee_type;
-        // $fees->save();
-        // toastr()->success(trans('messages.Update'));
-        // return redirect()->route('Fees.index');
+        $this->feesService->update($id, $request->validated());
+        return redirect()->route('Fees.index');
     }
 
     /**

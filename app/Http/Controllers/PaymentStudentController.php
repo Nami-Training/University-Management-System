@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PaymentStudentRequest;
+use App\Services\FundAccountService;
 use App\Services\PaymentStudentService;
+use App\Services\StudentAccountService;
 use App\Services\StudentService;
 use Illuminate\Http\Request;
 
@@ -10,11 +13,15 @@ class PaymentStudentController extends Controller
 {
     private $paymentStudentService;
     private $studentService;
+    private $studentAccountService;
+    private $fundAccountService;
 
-    function __construct(PaymentStudentService $paymentStudentService, StudentService $studentService)
+    function __construct(PaymentStudentService $paymentStudentService, StudentService $studentService, StudentAccountService $studentAccountService, FundAccountService $fundAccountService )
     {
         $this->paymentStudentService = $paymentStudentService;
         $this->studentService = $studentService;
+        $this->studentAccountService = $studentAccountService;
+        $this->fundAccountService = $fundAccountService;
     }
 
     /**
@@ -37,49 +44,28 @@ class PaymentStudentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PaymentStudentRequest $request)
     {
-        // DB::beginTransaction();
+        $payment_students = $this->paymentStudentService->create($request->validated());
 
-        // try {
+        $this->fundAccountService->create([
+            'payment_id' => $payment_students->id,
+            'Debit' => '0.00',
+            'credit' => $request->amount,
+            'description' => $request->description
+        ]);
 
-        //     // حفظ البيانات في جدول سندات الصرف
-        //     $payment_students = new PaymentStudent();
-        //     $payment_students->date = date('Y-m-d');
-        //     $payment_students->student_id = $request->student_id;
-        //     $payment_students->amount = $request->Debit;
-        //     $payment_students->description = $request->description;
-        //     $payment_students->save();
+        $this->studentAccountService->create([
+            'date' => now(),
+            'type' => 'payment',
+            'student_id' => $request->student_id,
+            'payment_id' => $payment_students->id,
+            'Debit' => $request->amount,
+            'credit' => 0.00,
+            'description' => $request->description
+        ]);
 
-
-        //     // حفظ البيانات في جدول الصندوق
-        //     $fund_accounts = new FundAccount();
-        //     $fund_accounts->date = date('Y-m-d');
-        //     $fund_accounts->payment_id = $payment_students->id;
-        //     $fund_accounts->Debit = 0.00;
-        //     $fund_accounts->credit = $request->Debit;
-        //     $fund_accounts->description = $request->description;
-        //     $fund_accounts->save();
-
-
-        //     // حفظ البيانات في جدول حساب الطلاب
-        //     $students_accounts = new StudentAccount();
-        //     $students_accounts->date = date('Y-m-d');
-        //     $students_accounts->type = 'payment';
-        //     $students_accounts->student_id = $request->student_id;
-        //     $students_accounts->payment_id = $payment_students->id;
-        //     $students_accounts->Debit = $request->Debit;
-        //     $students_accounts->credit = 0.00;
-        //     $students_accounts->description = $request->description;
-        //     $students_accounts->save();
-
-        //     DB::commit();
-        //     toastr()->success(trans('messages.success'));
-        //     return redirect()->route('Payment_students.index');
-        // } catch (\Exception $e) {
-        //     DB::rollback();
-        //     return redirect()->back()->withErrors(['error' => $e->getMessage()]);
-        // }
+        return redirect()->route('PaymentStudent.index');
     }
 
     /**
@@ -103,48 +89,28 @@ class PaymentStudentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PaymentStudentRequest $request, string $id)
     {
-        // DB::beginTransaction();
+        $this->paymentStudentService->update($id, $request->validated());
 
-        // try {
+        $this->fundAccountService->update($id, [
+            'payment_id' => $id,
+            'Debit' => '0.00',
+            'credit' => $request->amount,
+            'description' => $request->description
+        ]);
 
-        //     // تعديل البيانات في جدول سندات الصرف
-        //     $payment_students = PaymentStudent::findorfail($request->id);
-        //     $payment_students->date = date('Y-m-d');
-        //     $payment_students->student_id = $request->student_id;
-        //     $payment_students->amount = $request->Debit;
-        //     $payment_students->description = $request->description;
-        //     $payment_students->save();
+        $this->studentAccountService->update($id, [
+            'date' => now(),
+            'type' => 'payment',
+            'student_id' => $request->student_id,
+            'payment_id' => $id,
+            'Debit' => $request->amount,
+            'credit' => 0.00,
+            'description' => $request->description
+        ]);
 
-
-        //     // حفظ البيانات في جدول الصندوق
-        //     $fund_accounts = FundAccount::where('payment_id',$request->id)->first();
-        //     $fund_accounts->date = date('Y-m-d');
-        //     $fund_accounts->payment_id = $payment_students->id;
-        //     $fund_accounts->Debit = 0.00;
-        //     $fund_accounts->credit = $request->Debit;
-        //     $fund_accounts->description = $request->description;
-        //     $fund_accounts->save();
-
-
-        //     // حفظ البيانات في جدول حساب الطلاب
-        //     $students_accounts = StudentAccount::where('payment_id',$request->id)->first();
-        //     $students_accounts->date = date('Y-m-d');
-        //     $students_accounts->type = 'payment';
-        //     $students_accounts->student_id = $request->student_id;
-        //     $students_accounts->payment_id = $payment_students->id;
-        //     $students_accounts->Debit = $request->Debit;
-        //     $students_accounts->credit = 0.00;
-        //     $students_accounts->description = $request->description;
-        //     $students_accounts->save();
-        //     DB::commit();
-        //     toastr()->success(trans('messages.Update'));
-        //     return redirect()->route('Payment_students.index');
-        // } catch (\Exception $e) {
-        //     DB::rollback();
-        //     return redirect()->back()->withErrors(['error' => $e->getMessage()]);
-        // }
+        return redirect()->route('PaymentStudent.index');
     }
 
     public function delete($id)

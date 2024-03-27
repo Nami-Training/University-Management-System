@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('Name');
 
             $table->unique(['student_id', 'locale']);
-            $table->foreign('student_id')->references('id')->on('questions')->onDelete('cascade');
+            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
         });
     }
 

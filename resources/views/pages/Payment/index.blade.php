@@ -2,13 +2,13 @@
 @section('css')
     @toastr_css
 @section('title')
-    سندات الصرف
+    {{ trans('Students_trans.paymentStudent') }}
 @stop
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
 @section('PageTitle')
-   سندات الصرف
+    {{ trans('Students_trans.paymentStudent') }}
 @stop
 <!-- breadcrumb -->
 @endsection
@@ -18,7 +18,7 @@
         <div class="col-md-12 mb-30">
             <div class="card card-statistics h-100">
                 <div class="card-body">
-                    {{-- <a href="{{route('Payment_students.show',$Payment->id)}}" class="btn btn-success btn-sm" role="button"
+                    {{-- <a href="{{route('PaymentStudent.show',$payment_student->id)}}" class="btn btn-success btn-sm" role="button"
                     aria-pressed="true">Add Payment_students</a><br><br> --}}
                     <div class="col-xl-12 mb-30">
                         <div class="card card-statistics h-100">
@@ -30,21 +30,21 @@
                                         <thead>
                                         <tr class="alert-success">
                                             <th>#</th>
-                                            <th>الاسم</th>
-                                            <th>المبلغ</th>
-                                            <th>البيان</th>
-                                            <th>العمليات</th>
+                                            <th>{{ trans('Students_trans.name') }}</th>
+                                            <th>{{ trans('Students_trans.amount') }}</th>
+                                            <th>{{ trans('Students_trans.description') }}</th>
+                                            <th>{{ trans('Students_trans.Processes') }}</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         @foreach($payment_students as $payment_student)
                                             <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{$payment_student->student->name}}</td>
+                                            <td>{{$payment_student->student->Name}}</td>
                                             <td>{{ number_format($payment_student->amount, 2) }}</td>
                                             <td>{{$payment_student->description}}</td>
                                                 <td>
-                                                    <a href="{{route('Payment_students.edit',$payment_student->id)}}" class="btn btn-info btn-sm" role="button" aria-pressed="true"><i class="fa fa-edit"></i></a>
+                                                    <a href="{{route('PaymentStudent.edit',$payment_student->id)}}" class="btn btn-info btn-sm" role="button" aria-pressed="true"><i class="fa fa-edit"></i></a>
                                                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#Delete_receipt{{$payment_student->id}}" ><i class="fa fa-trash"></i></button>
                                                 </td>
                                             </tr>

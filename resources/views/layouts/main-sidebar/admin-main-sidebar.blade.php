@@ -128,11 +128,11 @@
                 <div class="clearfix"></div>
             </a>
             <ul id="Accounts-menu" class="collapse" data-parent="#sidebarnav">
-                <li> <a href="{{route('Fees.index')}}">الرسوم الدراسية</a> </li>
-                <li> <a href="{{route('Fee_Invoices.index')}}">الفواتير</a> </li>
-                <li> <a href="{{route('ReceiptStudent.index')}}">سندات القبض</a> </li>
-                <li> <a href="{{route('ProcessingFee.index')}}">استبعاد رسوم</a> </li>
-                <li> <a href="{{route('PaymentStudent.index')}}">سندت الصرف</a> </li>
+                <li> <a href="{{route('Fees.index')}}">{{ trans('Students_trans.Fees') }}</a> </li>
+                <li> <a href="{{route('Fee_Invoices.index')}}">{{ trans('Students_trans.Fee_invoice') }}</a> </li>
+                <li> <a href="{{route('ReceiptStudent.index')}}">{{ trans('Students_trans.receipt') }}</a> </li>
+                <li> <a href="{{route('ProcessingFee.index')}}">{{ trans('Students_trans.ProcessingFee') }}</a> </li>
+                <li> <a href="{{route('PaymentStudent.index')}}">{{ trans('Students_trans.paymentStudent') }}</a> </li>
             </ul>
         </li>
 
