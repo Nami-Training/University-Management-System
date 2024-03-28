@@ -47,4 +47,9 @@ class MainRepository
     {
         $this->findById($id)->forceDelete();
     }
+
+    public function whereIn($id, $values)
+    {
+        return $this->model::WhereIn($id, $values)->get();
+    }
 }

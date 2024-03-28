@@ -66,25 +66,25 @@
                 </li>
                 <li>
                     <a href="javascript:void(0);" data-toggle="collapse"
-                        data-target="#Students_upgrade">{{ trans('Student.Students_Promotions') }}<div
+                        data-target="#Students_upgrade">{{ trans('Students_trans.students_promotions') }}<div
                             class="pull-right"><i class="ti-plus"></i></div>
                         <div class="clearfix"></div>
                     </a>
                     <ul id="Students_upgrade" class="collapse">
-                        {{-- <li> <a href="{{route('Promotion.index')}}">{{trans('main_trans.add_Promotion')}}</a></li>
-                        <li> <a href="{{route('Promotion.create')}}">{{trans('main_trans.list_Promotions')}}</a> </li> --}}
+                        <li> <a href="{{route('promotion.create')}}">{{trans('Students_trans.add_promotion')}}</a> </li>
+                        <li> <a href="{{route('promotion.index')}}">{{trans('Students_trans.list_promotions')}}</a></li>
                     </ul>
                 </li>
 
                 <li>
                     <a href="javascript:void(0);" data-toggle="collapse"
-                        data-target="#Graduate students">{{ trans('main_trans.Graduate_students') }}<div
+                        data-target="#Graduate students">{{ trans('Students_trans.Graduate_students') }}<div
                             class="pull-right"><i class="ti-plus"></i></div>
                         <div class="clearfix"></div>
                     </a>
                     <ul id="Graduate students" class="collapse">
-                        {{-- <li> <a href="{{route('Graduated.create')}}">{{trans('main_trans.add_Graduate')}}</a> </li>
-                        <li> <a href="{{route('Graduated.index')}}">{{trans('main_trans.list_Graduate')}}</a> </li> --}}
+                        <li> <a href="{{route('graduated.create')}}">{{trans('Students_trans.add_Graduate')}}</a> </li>
+                        <li> <a href="{{route('graduated.index')}}">{{trans('Students_trans.list_Graduate')}}</a> </li>
                     </ul>
                 </li>
             </ul>

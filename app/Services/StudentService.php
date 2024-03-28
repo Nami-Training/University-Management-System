@@ -11,9 +11,12 @@ class StudentService extends MainService
 {
     use UploadImage;
 
+    private $Student;
+
     public function __construct()
     {
         parent::__construct(new Student);
+        $this->Student = new Student;
     }
 
     public function createStudent($data,$password, $file)
@@ -59,5 +62,19 @@ class StudentService extends MainService
             'imageable_id' => $student->id,
             'imageable_type' => Student::class,
         ]);
+    }
+
+    public function where($column, $value)
+    {
+        return $this->findByColumn($column, $value);
+
+        return $this;
+    }
+
+    public function updateWhereIn($id, $ids, $data)
+    {
+        return $this->Student->whereIn($id, $ids)->update($data);
+
+        return $this;
     }
 }

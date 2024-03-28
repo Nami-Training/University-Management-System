@@ -48,10 +48,10 @@
                                                 <div class="col">
                                                     <label class="mr-sm-2">{{ trans('Students_trans.Type_of_fees') }}</label>
                                                     <div class="box">
-                                                        <select class="fancyselect" name="Fee_type" required>
+                                                        <select class="fancyselect" name="fee_id" required>
                                                             <option value="">-- {{ trans('Students_trans.choose') }} --</option>
                                                             @foreach($fees as $fee)
-                                                                <option value="{{ $fee->title }}">{{ $fee->title }}</option>
+                                                                <option value="{{ $fee->id }}">{{ $fee->title }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -90,8 +90,8 @@
                                         </div>
                                     </div> --}}
                                     <br>
-                                    <input type="hidden" name="Grade_id" value="{{$student->grade_id}}">
-                                    <input type="hidden" name="Classroom_id" value="{{$student->classroom_id}}">
+                                    <input type="hidden" name="grade_id" value="{{$student->grade_id}}">
+                                    <input type="hidden" name="classroom_id" value="{{$student->classroom_id}}">
 
                                     <button type="submit" class="btn btn-primary">{{ trans('Students_trans.add') }}</button>
                                 </div>

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FeeInvoicesRequest;
 use App\Models\FeeInvoice;
 use App\Services\FeeInvoicesService;
 use App\Services\FeesService;
 use App\Services\GradeService;
+use App\Services\StudentAccountService;
 use App\Services\StudentService;
 use Illuminate\Http\Request;
 
@@ -16,13 +18,15 @@ class Fees_InvoicesController extends Controller
     private $gradeService;
     private $studentService;
     private $feesService;
+    private $studentAccountService;
 
-    function __construct(FeeInvoicesService $feeInvoicesService, GradeService $gradeService, StudentService $studentService, FeesService $feesService)
+    function __construct(FeeInvoicesService $feeInvoicesService, GradeService $gradeService, StudentService $studentService, FeesService $feesService, StudentAccountService $studentAccountService)
     {
         $this->feeInvoicesService = $feeInvoicesService;
         $this->gradeService = $gradeService;
         $this->studentService = $studentService;
         $this->feesService = $feesService;
+        $this->studentAccountService = $studentAccountService;
     }
 
     /**
@@ -47,47 +51,21 @@ class Fees_InvoicesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(FeeInvoicesRequest $request)
     {
-        dd($request->all());
-        // $List_Fees = $request->List_Fees;
+        $fee = $this->feeInvoicesService->create($request->validated());
 
-        // DB::beginTransaction();
+        $this->studentAccountService->create([
+            'date' => now(),
+            'type' => 'invoice',
+            'fee_invoice_id' => $fee->id,
+            'student_id' => $request->student_id,
+            'Debit' => $request->amount,
+            'credit' => 0.00,
+            'description' => $request->description
+        ]);
 
-        // try {
-
-        //     foreach ($List_Fees as $List_Fee) {
-        //         // حفظ البيانات في جدول فواتير الرسوم الدراسية
-        //         $Fees = new Fee_invoice();
-        //         $Fees->invoice_date = date('Y-m-d');
-        //         $Fees->student_id = $List_Fee['student_id'];
-        //         $Fees->Grade_id = $request->Grade_id;
-        //         $Fees->Classroom_id = $request->Classroom_id;;
-        //         $Fees->fee_id = $List_Fee['fee_id'];
-        //         $Fees->amount = $List_Fee['amount'];
-        //         $Fees->description = $List_Fee['description'];
-        //         $Fees->save();
-
-        //         // حفظ البيانات في جدول حسابات الطلاب
-        //         $StudentAccount = new StudentAccount();
-        //         $StudentAccount->date = date('Y-m-d');
-        //         $StudentAccount->type = 'invoice';
-        //         $StudentAccount->fee_invoice_id = $Fees->id;
-        //         $StudentAccount->student_id = $List_Fee['student_id'];
-        //         $StudentAccount->Debit = $List_Fee['amount'];
-        //         $StudentAccount->credit = 0.00;
-        //         $StudentAccount->description = $List_Fee['description'];
-        //         $StudentAccount->save();
-        //     }
-
-        //     DB::commit();
-
-        //     toastr()->success(trans('messages.success'));
-        //     return redirect()->route('Fees_Invoices.index');
-        // } catch (\Exception $e) {
-        //     DB::rollback();
-        //     return redirect()->back()->withErrors(['error' => $e->getMessage()]);
-        // }
+        return redirect()->route('Fee_Invoices.index');
     }
 
     /**
@@ -106,7 +84,7 @@ class Fees_InvoicesController extends Controller
     public function edit(string $id)
     {
         $fee_invoices = $this->feeInvoicesService->findById($id);
-        $fees = $this->feesService->findByColumn('Classroom_id',$fee_invoices->Classroom_id);
+        $fees = $this->feesService->findByColumn('Classroom_id',$fee_invoices->classroom_id);
         return view('pages.Fees_Invoices.edit',compact('fee_invoices','fees'));
     }
 
@@ -115,7 +93,19 @@ class Fees_InvoicesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $this->feeInvoicesService->update($id, $request->only('student_id', 'amount', 'fee_id', 'description'));
+
+        $this->studentAccountService->update($id, [
+            'date' => now(),
+            'type' => 'invoice',
+            'fee_invoice_id' => $id,
+            'student_id' => $request->student_id,
+            'Debit' => $request->amount,
+            'credit' => 0.00,
+            'description' => $request->description
+        ]);
+
+        return redirect()->route('Fee_Invoices.index');
     }
 
     public function delete($id)

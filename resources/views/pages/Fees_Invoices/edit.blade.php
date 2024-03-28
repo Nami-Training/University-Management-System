@@ -2,13 +2,13 @@
 @section('css')
     @toastr_css
 @section('title')
-    تعديل رسوم دراسية
+    {{ trans('Students_trans.edit_fee_Invoice') }}
 @stop
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
 @section('PageTitle')
-    تعديل رسوم دراسية
+    {{ trans('Students_trans.edit_fee_Invoice') }}
 @stop
 <!-- breadcrumb -->
 @endsection
@@ -29,19 +29,20 @@
                         </div>
                     @endif
 
-                    <form action="{{route('Fees_Invoices.update','test')}}" method="post" autocomplete="off">
+                    <form action="{{route('Fee_Invoices.update',$fee_invoices->id)}}" method="post" autocomplete="off">
                         @method('PUT')
                         @csrf
                         <div class="form-row">
                             <div class="form-group col">
-                                <label for="inputEmail4">اسم الطالب</label>
-                                <input type="text" value="{{$fee_invoices->student->name}}" readonly name="title_ar" class="form-control">
+                                <label for="inputEmail4">{{ trans('Students_trans.Student_name') }}</label>
+                                <input type="text" value="{{$fee_invoices->student->Name}}" readonly name="title_ar" class="form-control">
                                 <input type="hidden" value="{{$fee_invoices->id}}" name="id" class="form-control">
+                                <input type="hidden" value="{{$fee_invoices->student->id}}" name="student_id" class="form-control">
                             </div>
 
 
                             <div class="form-group col">
-                                <label for="inputEmail4">المبلغ</label>
+                                <label for="inputEmail4">{{ trans('Students_trans.amount') }}</label>
                                 <input type="number" value="{{$fee_invoices->amount}}" name="amount" class="form-control">
                             </div>
 
@@ -51,10 +52,10 @@
                         <div class="form-row">
 
                             <div class="form-group col">
-                                <label for="inputZip">نوع الرسوم</label>
+                                <label for="inputZip">{{ trans('Students_trans.Type_of_fees') }}</label>
                                 <select class="custom-select mr-sm-2" name="fee_id">
                                     @foreach($fees as $fee)
-                                        <option value="{{$fee->id}}" {{$fee->id == $fee_invoices->fee_id ? 'selected':"" }}>{{$fee->title}}</option>
+                                        <option value="{{$fee->id}}" {@selected($fee->id == $fee_invoices->fee_id)>{{$fee->title}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -62,12 +63,12 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="inputAddress">ملاحظات</label>
+                            <label for="inputAddress">{{ trans('Students_trans.description') }}</label>
                             <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="4">{{$fee_invoices->description}}</textarea>
                         </div>
                         <br>
 
-                        <button type="submit" class="btn btn-primary">تاكيد</button>
+                        <button type="submit" class="btn btn-primary">{{ trans('Students_trans.update') }}</button>
 
                     </form>
 

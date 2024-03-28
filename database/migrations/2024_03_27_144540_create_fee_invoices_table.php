@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('fee_invoices', function (Blueprint $table) {
             $table->increments('id');
-            $table->date('invoice_date');
+            $table->date('invoice_date')->default(now());
             $table->Integer('student_id')->unsigned();
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
             $table->Integer('grade_id')->unsigned();

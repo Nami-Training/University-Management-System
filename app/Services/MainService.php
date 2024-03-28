@@ -41,11 +41,16 @@ class MainService
 
     public function delete($id)
     {
-        return $this->repository->delete($id,);
+        return $this->repository->delete($id);
     }
 
     public function forceDelete($id)
     {
         return $this->repository->forceDelete($id,);
+    }
+
+    public function truncate()
+    {
+        $this->repository->truncate();
     }
 }

@@ -12,9 +12,12 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\Fees_InvoicesController;
+use App\Http\Controllers\GraduatedController;
 use App\Http\Controllers\PaymentStudentController;
 use App\Http\Controllers\ProcessingFeeController;
+use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\ReceiptStudentController;
+use App\Models\Promotion;
 
 /*
 |--------------------------------------------------------------------------
@@ -96,6 +99,15 @@ Route::group(['verified', 'middleare' => 'auth'], function()
     //==============================ProcessingFee============================
     Route::delete('ProcessingFee/{id}', [ProcessingFeeController::class, 'delete'])->name('ProcessingFee.delete');
     Route::resource('ProcessingFee', ProcessingFeeController::class);
+
+    //==============================Promotion============================
+    Route::delete('promotion/delete_all', [PromotionController::class, 'delete_all'])->name('promotion.delete_all');
+    Route::resource('promotion', PromotionController::class);
+
+    //==============================Graduated============================
+    Route::delete('graduated/delete_all', [GraduatedController::class, 'delete_all'])->name('graduated.delete_all');
+    Route::resource('graduated', GraduatedController::class);
+
 
     //==============================Profile============================
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
