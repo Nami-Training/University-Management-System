@@ -21,7 +21,7 @@ class GradeController extends Controller
     public function index()
     {
         $Grades = $this->gradeService->all();
-        return view('pages.Grades.Grades', compact('Grades'));
+        return view('pages.Grades.Grades', get_defined_vars());
     }
 
     /**

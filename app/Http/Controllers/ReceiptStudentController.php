@@ -34,7 +34,7 @@ class ReceiptStudentController extends Controller
     public function index()
     {
         $receipt_students = $this->receiptStudentService->all();
-        return view('pages.Receipt.index',compact('receipt_students'));
+        return view('pages.Receipt.index',get_defined_vars());
     }
 
     /**
@@ -78,7 +78,7 @@ class ReceiptStudentController extends Controller
     public function show(string $id)
     {
         $student = $this->studentService->findById($id);
-        return view('pages.Receipt.add',compact('student'));
+        return view('pages.Receipt.add',get_defined_vars());
     }
 
     /**
@@ -87,7 +87,7 @@ class ReceiptStudentController extends Controller
     public function edit(string $id)
     {
         $receipt_student = $this->receiptStudentService->findById($id);
-        return view('pages.Receipt.edit',compact('receipt_student'));
+        return view('pages.Receipt.edit',get_defined_vars());
     }
 
     /**
@@ -116,46 +116,6 @@ class ReceiptStudentController extends Controller
         ]);
 
         return redirect()->route('ReceiptStudent.index');
-        // DB::beginTransaction();
-
-        // try {
-        //     // تعديل البيانات في جدول سندات القبض
-        //     $receipt_students = ReceiptStudent::findorfail($request->id);
-        //     $receipt_students->date = date('Y-m-d');
-        //     $receipt_students->student_id = $request->student_id;
-        //     $receipt_students->Debit = $request->Debit;
-        //     $receipt_students->description = $request->description;
-        //     $receipt_students->save();
-
-        //     // تعديل البيانات في جدول الصندوق
-        //     $fund_accounts = FundAccount::where('receipt_id',$request->id)->first();
-        //     $fund_accounts->date = date('Y-m-d');
-        //     $fund_accounts->receipt_id = $receipt_students->id;
-        //     $fund_accounts->Debit = $request->Debit;
-        //     $fund_accounts->credit = 0.00;
-        //     $fund_accounts->description = $request->description;
-        //     $fund_accounts->save();
-
-        //     // تعديل البيانات في جدول الصندوق
-
-        //     $fund_accounts = StudentAccount::where('receipt_id',$request->id)->first();
-        //     $fund_accounts->date = date('Y-m-d');
-        //     $fund_accounts->type = 'receipt';
-        //     $fund_accounts->student_id = $request->student_id;
-        //     $fund_accounts->receipt_id = $receipt_students->id;
-        //     $fund_accounts->Debit = 0.00;
-        //     $fund_accounts->credit = $request->Debit;
-        //     $fund_accounts->description = $request->description;
-        //     $fund_accounts->save();
-
-
-        //     DB::commit();
-        //     toastr()->success(trans('messages.Update'));
-        //     return redirect()->route('receipt_students.index');
-        // } catch (\Exception $e) {
-        //     DB::rollback();
-        //     return redirect()->back()->withErrors(['error' => $e->getMessage()]);
-        // }
     }
 
     public function delete(string $id)

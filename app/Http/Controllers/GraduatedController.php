@@ -27,7 +27,7 @@ class GraduatedController extends Controller
     public function index()
     {
         $students = $this->studentService->onlyTrashed();
-        return view('pages.Students.Graduated.index', compact('students'));
+        return view('pages.Students.Graduated.index', get_defined_vars());
     }
 
     /**
@@ -36,7 +36,7 @@ class GraduatedController extends Controller
     public function create()
     {
         $Grades = $this->gradeService->all();
-        return view('pages.Students.Graduated.create', compact('Grades'));
+        return view('pages.Students.Graduated.create', get_defined_vars());
     }
 
     /**

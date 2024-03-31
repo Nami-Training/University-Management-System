@@ -30,7 +30,7 @@ class PaymentStudentController extends Controller
     public function index()
     {
         $payment_students = $this->paymentStudentService->all();
-        return view('pages.Payment.index',compact('payment_students'));
+        return view('pages.Payment.index',get_defined_vars());
     }
 
     /**
@@ -74,7 +74,7 @@ class PaymentStudentController extends Controller
     public function show(string $id)
     {
         $student = $this->studentService->findById($id);
-        return view('pages.Payment.add',compact('student'));
+        return view('pages.Payment.add',get_defined_vars());
     }
 
     /**
@@ -83,7 +83,7 @@ class PaymentStudentController extends Controller
     public function edit(string $id)
     {
         $payment_student = $this->paymentStudentService->findById($id);
-        return view('pages.Payment.edit',compact('payment_student'));
+        return view('pages.Payment.edit',get_defined_vars());
     }
 
     /**

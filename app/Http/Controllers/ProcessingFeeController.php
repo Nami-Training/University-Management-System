@@ -27,7 +27,7 @@ class ProcessingFeeController extends Controller
     public function index()
     {
         $ProcessingFees = $this->processingFeeService->all();
-        return view('pages.ProcessingFee.index',compact('ProcessingFees'));
+        return view('pages.ProcessingFee.index',get_defined_vars());
     }
 
     /**
@@ -64,7 +64,7 @@ class ProcessingFeeController extends Controller
     public function show(string $id)
     {
         $student = $this->studentService->findById($id);
-        return view('pages.ProcessingFee.add',compact('student'));
+        return view('pages.ProcessingFee.add',get_defined_vars());
     }
 
     /**
@@ -73,7 +73,7 @@ class ProcessingFeeController extends Controller
     public function edit(string $id)
     {
         $ProcessingFee = $this->processingFeeService->findById($id);
-        return view('pages.ProcessingFee.edit',compact('ProcessingFee'));
+        return view('pages.ProcessingFee.edit',get_defined_vars());
     }
 
     /**

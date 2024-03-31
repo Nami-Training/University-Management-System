@@ -30,7 +30,7 @@ class TeacherController extends Controller
     public function index()
     {
         $teachers = $this->teacherService->all();
-        return view('pages.Teachers.Teachers', compact('teachers'));
+        return view('pages.Teachers.Teachers', get_defined_vars());
     }
 
     /**
@@ -40,7 +40,7 @@ class TeacherController extends Controller
     {
         $genders = $this->genderService->all();
         $specializations = $this->specializationService->all();
-        return view('pages.Teachers.create', compact('genders', 'specializations'));
+        return view('pages.Teachers.create', get_defined_vars());
     }
 
     /**
@@ -68,7 +68,7 @@ class TeacherController extends Controller
         $teacher = $this->teacherService->findById($id);
         $specializations = $this->specializationService->all();
         $genders = $this->genderService->all();
-        return view('pages.Teachers.Edit', compact('teacher', 'specializations', 'genders'));
+        return view('pages.Teachers.Edit', get_defined_vars());
     }
 
     /**

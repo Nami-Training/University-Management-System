@@ -40,7 +40,7 @@ class StudentController extends Controller
     public function index()
     {
         $students = $this->studentService->all();
-        return view('pages.Students.index', compact('students'));
+        return view('pages.Students.index', get_defined_vars());
     }
 
     /**
@@ -54,7 +54,7 @@ class StudentController extends Controller
         $classes = $this->classroomService->all();
         $grades = $this->gradeService->all();
         $sections = $this->sectionService->all();
-        return view('pages.Students.add', compact('Genders', 'nationals', 'bloods', 'classes', 'grades', 'sections'));
+        return view('pages.Students.add', get_defined_vars());
     }
 
     /**
@@ -72,7 +72,7 @@ class StudentController extends Controller
     public function show(string $id)
     {
         $student = $this->studentService->findById($id);
-        return view('pages.Students.show', compact('student'));
+        return view('pages.Students.show', get_defined_vars());
     }
 
     /**
@@ -85,7 +85,7 @@ class StudentController extends Controller
         $nationals = $this->nationalityService->all();
         $bloods = $this->bloodService->all();
         $Grades = $this->gradeService->all();
-        return view('pages.Students.edit', compact('student', 'Grades', 'Genders', 'nationals', 'bloods'));
+        return view('pages.Students.edit', get_defined_vars());
     }
 
     /**

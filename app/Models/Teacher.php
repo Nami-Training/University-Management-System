@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Astrotomic\Translatable\Translatable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Teacher extends Model
+class Teacher extends Authenticatable
 {
     use Translatable, HasFactory, SoftDeletes, HasEagerLimit;
 

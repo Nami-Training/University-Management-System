@@ -112,8 +112,8 @@ header start-->
                 <div class="dropdown-header">
                     <div class="media">
                         <div class="media-body">
-                            {{-- <h5 class="mt-0 mb-0">{{ Auth::user()->name }}</h5> --}}
-                            {{-- <span>{{ Auth::user()->email }}</span> --}}
+                            <h5 class="mt-0 mb-0">{{ Auth::user()->name }}</h5>
+                            <span>{{ Auth::user()->email }}</span>
                         </div>
                     </div>
                 </div>
@@ -125,24 +125,20 @@ header start-->
                         class="badge badge-info">6</span> </a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#"><i class="text-info ti-settings"></i>Settings</a>
-                {{-- @if(auth('student')->check()) --}}
-                    {{-- <form method="GET" action="{{ route('logout','student') }}"> --}}
+                @if(auth('student')->check())
+                    <form method="GET" action="{{ route('Logout','student') }}">
                         <form method="GET" action="">
-                        {{-- @elseif(auth('teacher')->check()) --}}
-                            {{-- <form method="GET" action="{{ route('logout','teacher') }}"> --}}
-                                <form method="GET" action="">
-                                {{-- @elseif(auth('parent')->check()) --}}
-                                    {{-- <form method="GET" action="{{ route('logout','parent') }}"> --}}
-                                        <form method="GET" action="">
-                                        {{-- @else --}}
-                                            {{-- <form method="GET" action="{{ route('logout','web') }}"> --}}
-                                                <form method="GET" action="">
-                                                {{-- @endif --}}
+                @elseif(auth('teacher')->check())
+                    <form method="GET" action="{{ route('Logout','teacher') }}">
+                        <form method="GET" action="">
+                @else
+                    <form method="GET" action="{{ route('Logout','web') }}">
+                        <form method="GET" action="">
+                @endif
 
-                                                @csrf
-                                                <a class="dropdown-item" href="#" onclick="event.preventDefault();this.closest('form').submit();"><i class="bx bx-log-out"></i>تسجيل الخروج</a>
-                                            </form>
-
+                        @csrf
+                        <a class="dropdown-item" href="#" onclick="event.preventDefault();this.closest('form').submit();"><i class="bx bx-log-out"></i>تسجيل الخروج</a>
+                    </form>
             </div>
         </li>
     </ul>

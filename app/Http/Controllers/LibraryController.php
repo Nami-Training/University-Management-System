@@ -35,7 +35,7 @@ class LibraryController extends Controller
     public function index()
     {
         $books = $this->libraryService->all();
-        return view('pages.library.index', compact('books'));
+        return view('pages.library.index', get_defined_vars());
     }
 
     /**
@@ -44,7 +44,7 @@ class LibraryController extends Controller
     public function create()
     {
         $grades = $this->gradeService->all();
-        return view('pages.library.create',compact('grades'));
+        return view('pages.library.create',get_defined_vars());
     }
 
     /**
@@ -71,7 +71,7 @@ class LibraryController extends Controller
     {
         $grades = $this->gradeService->all();
         $book = $this->libraryService->findById($id);
-        return view('pages.library.edit',compact('book','grades'));
+        return view('pages.library.edit',get_defined_vars());
     }
 
     /**

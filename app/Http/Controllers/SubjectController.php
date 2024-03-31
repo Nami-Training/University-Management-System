@@ -27,7 +27,7 @@ class SubjectController extends Controller
     public function index()
     {
         $subjects = $this->subjectService->all();
-        return view('pages.Subjects.index', compact('subjects'));
+        return view('pages.Subjects.index', get_defined_vars());
     }
 
     /**
@@ -37,7 +37,7 @@ class SubjectController extends Controller
     {
         $grades = $this->gradeService->all();
         $teachers = $this->teacherService->all();
-        return view('pages.Subjects.create', compact('grades', 'teachers'));
+        return view('pages.Subjects.create', get_defined_vars());
     }
 
     /**
@@ -66,7 +66,7 @@ class SubjectController extends Controller
         $subject = $this->subjectService->findById($id);
         $teachers = $this->teacherService->all();
         $grades = $this->gradeService->all();
-        return view('pages.Subjects.edit', compact('subject', 'teachers', 'grades'));
+        return view('pages.Subjects.edit', get_defined_vars());
     }
 
     /**

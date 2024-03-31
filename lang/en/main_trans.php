@@ -33,7 +33,14 @@ return [
     'Settings'=>'Settings',
     'Users'=>'Users',
     'Copyright' => 'Copyright',
-    'Name_Programer' => 'Xdevloper'
-
-
+    'Name_Programer' => 'Xdevloper',
+    'students_number' => 'Students Number',
+    'teachers_number' => 'Teachers Number',
+    'classrooms_number' => 'Classrooms Number',
+    'invoices' => 'Invoices',
+    'Latest_operations' => 'Latest operations on the system',
+    'logout' => 'Logout',
+    'login' => 'LogIn',
+    'show' => 'Show',
+    'there_no_data' => 'There is No Data'
 ];

@@ -31,7 +31,7 @@ class QuizzController extends Controller
     public function index()
     {
         $quizzes = $this->quizService->all();
-        return view('pages.Quizzes.index', compact('quizzes'));
+        return view('pages.Quizzes.index', get_defined_vars());
     }
 
     /**
@@ -43,7 +43,7 @@ class QuizzController extends Controller
         $teachers = $this->teacherService->all();
         $grades = $this->gradeService->all();
         $sections = $this->sectionService->all();
-        return view('pages.Quizzes.create', compact('subjects', 'teachers', 'grades', 'sections'));
+        return view('pages.Quizzes.create', get_defined_vars());
     }
 
     /**
@@ -73,7 +73,7 @@ class QuizzController extends Controller
         $teachers = $this->teacherService->all();
         $grades = $this->gradeService->all();
         $sections = $this->sectionService->all();
-        return view('pages.Quizzes.edit', compact('quizz', 'subjects', 'teachers', 'grades', 'sections'));
+        return view('pages.Quizzes.edit', get_defined_vars());
     }
 
     /**

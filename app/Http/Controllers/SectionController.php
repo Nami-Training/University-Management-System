@@ -32,7 +32,7 @@ class SectionController extends Controller
         $Grades = $this->gradeService->all();
         $Classes = $this->classroomService->all();
         $teachers = $this->teacherService->all();
-        return view('pages.Sections.Sections', compact('Grades', 'Classes', 'teachers'));
+        return view('pages.Sections.Sections', get_defined_vars());
     }
 
     public function getClassSection(string $class_id)

@@ -25,7 +25,7 @@ class FeesController extends Controller
     {
         $fees = $this->feesService->all();
         $Grades = $this->gradeService->all();
-        return view('pages.Fees.index',compact('fees','Grades'));
+        return view('pages.Fees.index',get_defined_vars());
     }
 
     /**
@@ -34,7 +34,7 @@ class FeesController extends Controller
     public function create()
     {
         $Grades =  $this->gradeService->all();
-        return view('pages.Fees.add',compact('Grades'));
+        return view('pages.Fees.add',get_defined_vars());
     }
 
     /**
@@ -61,7 +61,7 @@ class FeesController extends Controller
     {
         $fee = $this->feesService->findById($id);
         $Grades = $this->gradeService->all();
-        return view('pages.Fees.edit',compact('fee','Grades'));
+        return view('pages.Fees.edit',get_defined_vars());
     }
 
     /**

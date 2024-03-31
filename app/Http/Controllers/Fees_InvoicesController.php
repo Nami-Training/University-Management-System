@@ -36,7 +36,7 @@ class Fees_InvoicesController extends Controller
     {
         $Fee_invoices = $this->feeInvoicesService->all();
         $Grades = $this->gradeService->all();
-        return view('pages.Fees_Invoices.index',compact('Fee_invoices','Grades'));
+        return view('pages.Fees_Invoices.index',get_defined_vars());
     }
 
     /**
@@ -45,7 +45,7 @@ class Fees_InvoicesController extends Controller
     public function create()
     {
         $student = $this->studentService->all();
-        return view('pages.Fees_Invoices.add',compact('student'));
+        return view('pages.Fees_Invoices.add',get_defined_vars());
     }
 
     /**
@@ -75,7 +75,7 @@ class Fees_InvoicesController extends Controller
     {
         $student =$this->studentService->findById($id);
         $fees = $this->feesService->findByColumn('classroom_id',$student->classroom_id);
-        return view('pages.Fees_Invoices.add',compact('student','fees'));
+        return view('pages.Fees_Invoices.add',get_defined_vars());
     }
 
     /**
@@ -85,7 +85,7 @@ class Fees_InvoicesController extends Controller
     {
         $fee_invoices = $this->feeInvoicesService->findById($id);
         $fees = $this->feesService->findByColumn('Classroom_id',$fee_invoices->classroom_id);
-        return view('pages.Fees_Invoices.edit',compact('fee_invoices','fees'));
+        return view('pages.Fees_Invoices.edit',get_defined_vars());
     }
 
     /**

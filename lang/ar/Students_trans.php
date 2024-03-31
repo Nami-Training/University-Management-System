@@ -95,4 +95,9 @@ return [
     'list_Graduate' => 'قائمة الخريجين',
     'return_student' => 'ارجاع الطالب',
     'forceDelete_student' => 'حذف الطالب',
+    'join_date' => 'تاريخ الانضمام',
+    'specialization' => 'التخصص',
+    'work_date' => 'تاريخ التعين',
+    'invoice_date' => 'تاريخ الفاتورة',
+    'created_date' => 'تاريخ الاضافة',
 ];

@@ -27,7 +27,7 @@ class QuestionController extends Controller
     public function index()
     {
         $questions = $this->questionService->all();
-        return view('pages.Questions.index', compact('questions'));
+        return view('pages.Questions.index', get_defined_vars());
     }
 
     /**
@@ -36,7 +36,7 @@ class QuestionController extends Controller
     public function create()
     {
         $quizzes = $this->quizService->all();
-        return view('pages.Questions.create', compact('quizzes'));
+        return view('pages.Questions.create', get_defined_vars());
     }
 
     /**
@@ -63,7 +63,7 @@ class QuestionController extends Controller
     {
         $question = $this->questionService->findById($id);
         $quizzes = $this->quizService->all();
-        return view('pages.Questions.edit', compact('question', 'quizzes'));
+        return view('pages.Questions.edit', get_defined_vars());
     }
 
     /**

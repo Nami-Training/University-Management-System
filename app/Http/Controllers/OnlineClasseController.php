@@ -28,7 +28,7 @@ class OnlineClasseController extends Controller
     public function index()
     {
         $online_classes = $this->onlineClassService->all();
-        return view('pages.online_classes.index', compact('online_classes'));
+        return view('pages.online_classes.index', get_defined_vars());
     }
 
     /**
@@ -37,7 +37,7 @@ class OnlineClasseController extends Controller
     public function create()
     {
         $Grades = $this->gradeService->all();
-        return view('pages.online_classes.add', compact('Grades'));
+        return view('pages.online_classes.add', get_defined_vars());
     }
 
     /**

@@ -36,7 +36,14 @@ return [
     'Settings'=>'الاعدادات',
     'Users'=>'المستخدمين',
     'Copyright' => 'جميع الحقوق محفوظة ',
-    'Name_Programer' => 'Xdevloper'
-
-
+    'Name_Programer' => 'Xdevloper',
+    'students_number' => 'عدد الطلاب',
+    'teachers_number' => 'عدد المعلمين',
+    'classrooms_number' => 'عدد الصفوف',
+    'invoices' => 'الفواتير',
+    'Latest_operations' => 'اخر العمليات علي النظام',
+    'logout' => 'تسجيل خروج',
+    'login' => 'تسجيل دخول',
+    'show' => 'عرض',
+    'there_no_data' => 'لا توجد بيانات',
 ];

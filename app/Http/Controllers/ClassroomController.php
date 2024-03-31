@@ -29,7 +29,7 @@ class ClassroomController extends Controller
     {
         $My_Classes = $this->classroomService->all();
         $Grades = $this->gradeService->all();
-        return view('pages.My_Classes.My_Classes', compact('My_Classes', 'Grades'));
+        return view('pages.My_Classes.My_Classes', get_defined_vars());
     }
 
     public function getGradeClasses(string $grade_id)
@@ -104,7 +104,7 @@ class ClassroomController extends Controller
     {
         $Grades = $this->gradeService->all();
         $Search = $this->classroomService->findByColumn('Grade_id',$request->Grade_id);
-        return view('pages.My_Classes.My_Classes',compact('Grades'))->withDetails($Search);
+        return view('pages.My_Classes.My_Classes',get_defined_vars())->withDetails($Search);
 
     }
 }

@@ -28,7 +28,7 @@ class PromotionController extends Controller
     public function index()
     {
         $promotions = $this->promotionService->all();
-        return view('pages.Students.promotion.index', compact('promotions'));
+        return view('pages.Students.promotion.index', get_defined_vars());
     }
 
     /**
@@ -37,7 +37,7 @@ class PromotionController extends Controller
     public function create()
     {
         $Grades = $this->gradeService->all();
-        return view('pages.Students.promotion.add', compact('Grades'));
+        return view('pages.Students.promotion.add', get_defined_vars());
     }
 
     /**

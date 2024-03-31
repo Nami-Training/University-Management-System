@@ -21,7 +21,7 @@ class SettingController extends Controller
     public function index()
     {
         $setting = $this->settingService->get();
-        return view('pages.setting.index', compact('setting'));
+        return view('pages.setting.index', get_defined_vars());
     }
 
     /**

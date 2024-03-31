@@ -96,4 +96,9 @@ return [
     'list_Graduate' => 'Graduated List',
     'return_student' => 'Return Student',
     'forceDelete_student' => 'Delete Student',
+    'join_date' => 'Joining Date',
+    'specialization' => 'Specialization',
+    'work_date' => 'Hired Date',
+    'invoice_date' => 'Invoice Date',
+    'created_date' => 'Created Date',
 ];

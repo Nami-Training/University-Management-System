@@ -1,26 +1,31 @@
 <?php
 
+use App\Models\Promotion;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FeesController;
 use App\Http\Controllers\GradeController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\QuizzController;
+use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ClassroomController;
-use App\Http\Controllers\Fees_InvoicesController;
 use App\Http\Controllers\GraduatedController;
-use App\Http\Controllers\LibraryController;
-use App\Http\Controllers\OnlineClasseController;
-use App\Http\Controllers\PaymentStudentController;
-use App\Http\Controllers\ProcessingFeeController;
 use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\OnlineClasseController;
+use App\Http\Controllers\Fees_InvoicesController;
+use App\Http\Controllers\ProcessingFeeController;
+use App\Http\Controllers\PaymentStudentController;
 use App\Http\Controllers\ReceiptStudentController;
-use App\Http\Controllers\SettingController;
-use App\Models\Promotion;
+use App\Models\Classroom;
+use App\Models\Teacher;
+use App\Services\StudentService;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,14 +38,32 @@ use App\Models\Promotion;
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
+// Route::get('/', function () {
+//     return view('auth.login');
+// });
+
+Route::get('/', function(){
+    return view('auth.selection');
+})->name('selection');
+
+Route::group(['namespace' => 'Auth'], function () {
+
+    // Route::get('/login/{type}',[LoginController::class,'loginForm'])->middleware('guest')->name('login.show');
+    Route::get('/Login/{type}',[LoginController::class,'loginForm'])->name('Login.show');
+    Route::post('/Login',[LoginController::class,'login'])->name('Login');
+    Route::get('/Logout/{type}', [LoginController::class,'logout'])->name('Logout');
 });
 
-Route::group(['verified', 'middleare' => 'auth'], function()
+Route::group(['verified', 'middleware' => ['auth']], function()
 {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        $student = new StudentService;
+        $studentsCount =  count($student->all());
+        $teachers = new Teacher;
+        $teachersCount = count($teachers->all());
+        $classrooms = new Classroom;
+        $classroomsCount = count($classrooms->all());
+        return view('dashboard', get_defined_vars());
     });
 
     //==============================Garde============================
@@ -132,5 +155,6 @@ Route::group(['verified', 'middleare' => 'auth'], function()
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
 
 require __DIR__.'/auth.php';

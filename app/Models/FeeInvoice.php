@@ -24,10 +24,10 @@ class FeeInvoice extends Model
     }
 
 
-    public function section()
-    {
-        return $this->belongsTo(Section::class);
-    }
+    // public function section()
+    // {
+    //     return $this->belongsTo(Section::class);
+    // }
 
     public function student()
     {
