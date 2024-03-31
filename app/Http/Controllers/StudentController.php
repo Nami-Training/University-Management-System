@@ -3,10 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StudentRequest;
-use App\Models\Blood_Type;
-use App\Models\BloodType;
-use App\Models\Nationality;
-use App\Models\Student;
 use App\Services\BloodService;
 use App\Services\ClassroomService;
 use App\Services\GenderService;

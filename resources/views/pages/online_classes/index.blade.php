@@ -2,13 +2,13 @@
 @section('css')
     @toastr_css
 @section('title')
-    حصص اونلاين
+    {{ trans('onlineClass.Onlineclasses') }}
 @stop
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
 @section('PageTitle')
-    حصص اونلاين
+    {{ trans('onlineClass.Onlineclasses') }}
 @stop
 <!-- breadcrumb -->
 @endsection
@@ -21,8 +21,8 @@
                     <div class="col-xl-12 mb-30">
                         <div class="card card-statistics h-100">
                             <div class="card-body">
-                                <a href="{{route('online_classes.create')}}" class="btn btn-success" role="button" aria-pressed="true">اضافة حصة اونلاين جديدة</a>
-                                <a class="btn btn-warning" href="{{route('indirect.create')}}">اضافة حصة اوفلاين جديدة</a>
+                                <a href="{{route('OnlineClass.create')}}" class="btn btn-success" role="button" aria-pressed="true">{{ trans('onlineClass.add_new_OnlineClass') }}</a>
+                                <a class="btn btn-warning" href="{{route('OnlineClass.indirect.create')}}">{{ trans('onlineClass.add_new_OfflineClass') }}</a>
                                 <div class="table-responsive">
                                     <table id="datatable" class="table  table-hover table-sm table-bordered p-0"
                                            data-page-length="50"
@@ -30,15 +30,15 @@
                                         <thead>
                                         <tr class="alert-success">
                                             <th>#</th>
-                                            <th>المرحلة</th>
-                                            <th>الصف</th>
-                                            <th>القسم</th>
-                                            <th>المعلم</th>
-                                            <th>عنوان الحصة</th>
-                                            <th>تاريخ البداية</th>
-                                            <th>وقت الحصة</th>
-                                            <th>رابط الحصة</th>
-                                            <th>العمليات</th>
+                                            <th>{{ trans('onlineClass.grade') }}</th>
+                                            <th>{{ trans('onlineClass.classroom') }}</th>
+                                            <th>{{ trans('onlineClass.section') }}</th>
+                                            <th>{{ trans('onlineClass.teacher') }}</th>
+                                            <th>{{ trans('onlineClass.class_title') }}</th>
+                                            <th>{{ trans('onlineClass.starting_date') }}</th>
+                                            <th>{{ trans('onlineClass.class_time') }}</th>
+                                            <th>{{ trans('onlineClass.class_link') }}</th>
+                                            <th>{{ trans('onlineClass.processes') }}</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -52,7 +52,7 @@
                                                 <td>{{$online_classe->topic}}</td>
                                                 <td>{{$online_classe->start_at}}</td>
                                                 <td>{{$online_classe->duration}}</td>
-                                                <td class="text-danger"><a href="{{$online_classe->join_url}}" target="_blank">انضم الان</a></td>
+                                                <td class="text-danger"><a href="{{$online_classe->join_url}}" target="_blank">{{ trans('onlineClass.join_now') }}</a></td>
                                                 <td>
                                                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#Delete_receipt{{$online_classe->meeting_id}}" ><i class="fa fa-trash"></i></button>
                                                 </td>

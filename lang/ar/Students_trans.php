@@ -31,6 +31,7 @@ return [
     'Student_details' => 'معلومات الطالب',
     'Deleted_Student' => 'حذف بيانات الطالب',
     'Deleted_Student_tilte' => 'هل انت متأكد من حذف الطالب ؟',
+    'return_Student_tilte' => 'هل انت متأكد من اعادة الطالب ؟',
     'Delete_attachment' => 'حذف مرفق',
     'Delete_attachment_tilte' => 'هل انت متأكد من حذف المرفق ؟',
     'filename' => 'اسم الملف',
@@ -86,10 +87,12 @@ return [
     'delete_student' => 'ارجاع الطالب',
     'graduate_student' => 'تخريج الطالب',
     'Cancle_Warning' => 'هل انت متاكد من عملية الاغاء ؟',
+    'garduate_Warning' => 'هل انت متاكد من عملية التخريج ؟',
     'students_promotions' => 'ترقيات الطلاب',
     'there_is_no_students' => 'لا يوجد طلاب',
     'Graduate_students' => 'الطلاب الخريجين',
     'add_Graduate' => 'اضافة خريج',
     'list_Graduate' => 'قائمة الخريجين',
-
+    'return_student' => 'ارجاع الطالب',
+    'forceDelete_student' => 'حذف الطالب',
 ];

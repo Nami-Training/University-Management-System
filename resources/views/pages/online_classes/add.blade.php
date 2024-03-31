@@ -2,13 +2,13 @@
 @section('css')
     @toastr_css
 @section('title')
-    اضافة حصة جديدة
+    {{ trans('onlineClass.add_new_class') }}
 @stop
 @endsection
 @section('page-header')
 <!-- breadcrumb -->
 @section('PageTitle')
-    اضافة حصة جديدة
+    {{ trans('onlineClass.add_new_class') }}
 @stop
 <!-- breadcrumb -->
 @endsection
@@ -29,14 +29,14 @@
                     </div>
                 @endif
 
-                <form method="post" action="{{ route('online_classes.store') }}" autocomplete="off">
+                <form method="post" action="{{ route('OnlineClass.store') }}" autocomplete="off">
                     @csrf
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="Grade_id">{{ trans('Students_trans.Grade') }} : <span
+                                <label for="grade_id">{{ trans('Students_trans.Grade') }} : <span
                                         class="text-danger">*</span></label>
-                                <select class="custom-select mr-sm-2" name="Grade_id">
+                                <select class="custom-select mr-sm-2" name="grade_id">
                                     <option selected disabled>{{ trans('Parent_trans.Choose') }}...</option>
                                     @foreach ($Grades as $Grade)
                                         <option value="{{ $Grade->id }}">{{ $Grade->Name }}</option>
@@ -47,9 +47,9 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="Classroom_id">{{ trans('Students_trans.classrooms') }} : <span
+                                <label for="classroom_id">{{ trans('Students_trans.classrooms') }} : <span
                                         class="text-danger">*</span></label>
-                                <select class="custom-select mr-sm-2" name="Classroom_id">
+                                <select class="custom-select mr-sm-2" name="classroom_id">
 
                                 </select>
                             </div>
@@ -69,27 +69,27 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>عنوان الحصة : <span class="text-danger">*</span></label>
+                                <label>{{ trans('onlineClass.class_title') }} : <span class="text-danger">*</span></label>
                                 <input class="form-control" name="topic" type="text">
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>تاريخ ووقت الحصة : <span class="text-danger">*</span></label>
+                                <label>{{ trans('onlineClass.starting_date') }} <span class="text-danger">*</span></label>
                                 <input class="form-control" type="datetime-local" name="start_time">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>مدة الحصة بالدقائق : <span class="text-danger">*</span></label>
-                                <input class="form-control" name="duration" type="text">
+                                <label>{{ trans('onlineClass.class_duration_munites') }}: <span class="text-danger">*</span></label>
+                                <input class="form-control" name="duration" type="number">
                             </div>
                         </div>
 
                     </div>
                     <button class="btn btn-success btn-sm nextBtn btn-lg pull-right"
-                        type="submit">{{ trans('Students_trans.submit') }}</button>
+                        type="submit">{{ trans('onlineClass.add') }}</button>
                 </form>
 
             </div>
@@ -99,7 +99,55 @@
 <!-- row closed -->
 @endsection
 @section('js')
-@toastr_js
-@toastr_render
+    @toastr_js
+    @toastr_render
+    <script>
+        $(document).ready(function () {
+            $('select[name="grade_id"]').on('change', function () {
+                var grade_id = $(this).val();
+                if (grade_id) {
+                    $.ajax({
+                        url: "{{ URL::to('Classrooms/getClasses') }}/" + grade_id,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            $('select[name="classroom_id"]').empty();
+                            $.each(data, function (key, value) {
+                                $('select[name="classroom_id"]').append('<option value="' + key + '">' + value + '</option>');
+                            });
+                        },
+                    });
+                } else {
+                    console.log('AJAX load did not work');
+                }
+            });
+        });
+    </script>
 
+    {{-- get section based on classroom --}}
+    <script>
+        $(document).ready(function () {
+            $('select[name="classroom_id"]').on('change', function () {
+                var Classroom_id = $(this).val();
+                if (Classroom_id) {
+                    $.ajax({
+                        url: "{{ URL::to('Sections/getSections') }}/" + Classroom_id,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            $('select[name="section_id"]').empty();
+                            $.each(data, function (key, value) {
+                                $('select[name="section_id"]').append('<option value="' + key + '">' + value + '</option>');
+                            });
+
+                        },
+                    });
+                }
+
+                else {
+                    console.log('AJAX load did not work');
+                }
+            });
+        });
+    </script>
 @endsection

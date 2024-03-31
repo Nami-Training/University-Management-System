@@ -4,8 +4,8 @@ return [
 
     'Dashboard'=>'الرئيسية',
     'Dashboard_page'=>'لوحة التحكم',
-    'Main_title'=>'برنامج أيوب سوفت لادارة المدارس',
-    'Programname' => 'برنامج أيوب سوفت لادارة المدارس',
+    'Main_title'=>'برنامج Xdevloper سوفت لادارة المدارس',
+    'Programname' => 'برنامج Xdevloper سوفت لادارة المدارس',
     'change_language'=>'تغير اللغة',
     'Grades'=>'المراحل الدراسية',
     'Grades_list'=>'قائمة المراحل الدراسية',

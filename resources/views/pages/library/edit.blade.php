@@ -2,13 +2,13 @@
 @section('css')
     @toastr_css
 @section('title')
-    تعديل كتاب {{$book->title}}
+    {{ trans('library.edit_book') }} {{$book->title}}
 @stop
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
 @section('PageTitle')
-    تعديل كتاب {{$book->title}}
+    {{ trans('library.edit_book') }} : {{$book->title}}
 @stop
 <!-- breadcrumb -->
 @endsection
@@ -19,24 +19,26 @@
             <div class="card card-statistics h-100">
                 <div class="card-body">
 
-                    @if(session()->has('error'))
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <strong>{{ session()->get('error') }}</strong>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </div>
                     @endif
+
                     <div class="col-xs-12">
                         <div class="col-md-12">
                             <br>
-                            <form action="{{route('library.update','test')}}" method="post" enctype="multipart/form-data">
+                            <form action="{{route('library.update',$book->id)}}" method="post" enctype="multipart/form-data">
                                 @method('PUT')
                                 @csrf
                                 <div class="form-row">
 
                                     <div class="col">
-                                        <label for="title">اسم الكتاب</label>
+                                        <label for="title">{{ trans('library.book_Name') }}</label>
                                         <input type="text" name="title" value="{{$book->title}}" class="form-control">
                                         <input type="hidden" name="id" value="{{$book->id}}" class="form-control">
                                     </div>
@@ -47,11 +49,11 @@
                                 <div class="form-row">
                                     <div class="col">
                                         <div class="form-group">
-                                            <label for="Grade_id">{{trans('Students_trans.Grade')}} : <span class="text-danger">*</span></label>
-                                            <select class="custom-select mr-sm-2" name="Grade_id">
+                                            <label for="grade_id">{{trans('library.grade')}} : <span class="text-danger">*</span></label>
+                                            <select class="custom-select mr-sm-2" name="grade_id">
                                                 <option selected disabled>{{trans('Parent_trans.Choose')}}...</option>
                                                 @foreach($grades as $grade)
-                                                    <option  value="{{ $grade->id }}" {{$book->Grade_id == $grade->id ?'selected':''}}>{{ $grade->Name }}</option>
+                                                    <option  value="{{ $grade->id }}" @selected($book->grade_id == $grade->id)>{{ $grade->Name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -59,18 +61,18 @@
 
                                     <div class="col">
                                         <div class="form-group">
-                                            <label for="Classroom_id">{{trans('Students_trans.classrooms')}} : <span class="text-danger">*</span></label>
-                                            <select class="custom-select mr-sm-2" name="Classroom_id">
-                                              <option value="{{$book->Classroom_id}}">{{$book->classroom->Name_Class}}</option>
+                                            <label for="classroom_id">{{trans('library.classroom')}} : <span class="text-danger">*</span></label>
+                                            <select class="custom-select mr-sm-2" name="classroom_id">
+                                              <option value="{{$book->classroom_id}}">{{$book->classroom->Name}}</option>
                                             </select>
                                         </div>
                                     </div>
 
                                     <div class="col">
                                         <div class="form-group">
-                                            <label for="section_id">{{trans('Students_trans.section')}} : </label>
+                                            <label for="section_id">{{trans('library.section')}} : </label>
                                             <select class="custom-select mr-sm-2" name="section_id">
-                                                <option value="{{$book->section_id}}">{{$book->section->Name_Section}}</option>
+                                                <option value="{{$book->section_id}}">{{$book->section->Name}}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -78,18 +80,17 @@
 
                                 <div class="form-row">
                                     <div class="col">
-
-                                        <embed src="{{ URL::asset('attachments/library/'.$book->file_name) }}" type="application/pdf"   height="150px" width="100px"><br><br>
+                                        <embed src="{{ asset($book->path) }}" type="application/pdf"   height="350px" width="200px"><br><br>
 
                                         <div class="form-group">
-                                            <label for="academic_year">المرفقات : <span class="text-danger">*</span></label>
-                                            <input type="file" accept="application/pdf"  name="file_name">
+                                            <label for="academic_year">{{ trans('library.attachments') }} : <span class="text-danger">*</span></label>
+                                            <input type="file" accept="application/pdf"  name="Book_file">
                                         </div>
 
                                     </div>
                                 </div>
 
-                                <button class="btn btn-success btn-sm nextBtn btn-lg pull-right" type="submit">حفظ البيانات</button>
+                                <button class="btn btn-success btn-sm nextBtn btn-lg pull-right" type="submit">{{ trans('library.update') }}</button>
                             </form>
                         </div>
                     </div>
@@ -104,21 +105,48 @@
     @toastr_render
     <script>
         $(document).ready(function () {
-            $('select[name="Grade_id"]').on('change', function () {
-                var Grade_id = $(this).val();
-                if (Grade_id) {
+            $('select[name="grade_id"]').on('change', function () {
+                var grade_id = $(this).val();
+                if (grade_id) {
                     $.ajax({
-                        url: "{{ URL::to('classes') }}/" + Grade_id,
+                        url: "{{ URL::to('Classrooms/getClasses') }}/" + grade_id,
                         type: "GET",
                         dataType: "json",
                         success: function (data) {
-                            $('select[name="Class_id"]').empty();
+                            $('select[name="classroom_id"]').empty();
                             $.each(data, function (key, value) {
-                                $('select[name="Class_id"]').append('<option value="' + key + '">' + value + '</option>');
+                                $('select[name="classroom_id"]').append('<option value="' + key + '">' + value + '</option>');
                             });
                         },
                     });
                 } else {
+                    console.log('AJAX load did not work');
+                }
+            });
+        });
+    </script>
+
+    {{-- get section based on classroom --}}
+    <script>
+        $(document).ready(function () {
+            $('select[name="classroom_id"]').on('change', function () {
+                var Classroom_id = $(this).val();
+                if (Classroom_id) {
+                    $.ajax({
+                        url: "{{ URL::to('Sections/getSections') }}/" + Classroom_id,
+                        type: "GET",
+                        dataType: "json",
+                        success: function (data) {
+                            $('select[name="section_id"]').empty();
+                            $.each(data, function (key, value) {
+                                $('select[name="section_id"]').append('<option value="' + key + '">' + value + '</option>');
+                            });
+
+                        },
+                    });
+                }
+
+                else {
                     console.log('AJAX load did not work');
                 }
             });

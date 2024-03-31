@@ -4,8 +4,8 @@ return [
 
     'Dashboard'=>'Dashboard',
     'Dashboard_page'=>'Dashboard',
-    'Main_title' => 'Ayoub School Management Program',
-    'Programname' => 'Ayoub School Management Program',
+    'Main_title' => 'Xdevloper School Management Program',
+    'Programname' => 'Xdevloper School Management Program',
     'change_language'=>'language',
     'Grades'=>'Grades',
     'Grades_list'=>'Grades List',

@@ -182,12 +182,12 @@
         <li>
             <a href="javascript:void(0);" data-toggle="collapse" data-target="#library-icon">
                 <div class="pull-left"><i class="fas fa-book"></i><span
-                        class="right-nav-text">{{ trans('main_trans.library') }}</span></div>
+                        class="right-nav-text">{{ trans('library.Library') }}</span></div>
                 <div class="pull-right"><i class="ti-plus"></i></div>
                 <div class="clearfix"></div>
             </a>
             <ul id="library-icon" class="collapse" data-parent="#sidebarnav">
-                {{-- <li> <a href="{{route('library.index')}}">قائمة الكتب</a> </li> --}}
+                <li> <a href="{{route('library.index')}}">{{ trans('library.book_list') }} </a> </li>
             </ul>
         </li>
 
@@ -201,14 +201,14 @@
                 <div class="clearfix"></div>
             </a>
             <ul id="Onlineclasses-icon" class="collapse" data-parent="#sidebarnav">
-                {{-- <li> <a href="{{route('online_classes.index')}}">حصص اونلاين مع زوم</a> </li> --}}
+                <li> <a href="{{route('OnlineClass.index')}}">{{ trans('main_trans.Onlineclasses') }}</a> </li>
             </ul>
         </li>
 
 
         <!-- Settings-->
         <li>
-            {{-- <a href="{{route('settings.index')}}"><i class="fas fa-cogs"></i><span class="right-nav-text">{{trans('main_trans.Settings')}} </span></a> --}}
+            <a href="{{route('settings.index')}}"><i class="fas fa-cogs"></i><span class="right-nav-text">{{trans('main_trans.Settings')}} </span></a>
         </li>
 
 
@@ -216,7 +216,7 @@
         <!-- Users-->
         <li>
             <a href="javascript:void(0);" data-toggle="collapse" data-target="#Users-icon">
-                {{-- <div class="pull-left"><i class="fas fa-users"></i><span class="right-nav-text">{{trans('main_trans.Users')}}</span></div> --}}
+                <div class="pull-left"><i class="fas fa-users"></i><span class="right-nav-text">{{trans('main_trans.Users')}}</span></div>
                 <div class="pull-right"><i class="ti-plus"></i></div>
                 <div class="clearfix"></div>
             </a>

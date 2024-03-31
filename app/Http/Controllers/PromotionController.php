@@ -47,7 +47,6 @@ class PromotionController extends Controller
     {
         $students = $this->studentService->where('grade_id', $request->grade_id)->where('classroom_id', $request->classroom_id)->where('section_id', $request->section_id)->where('academic_year', $request->academic_year);
 
-        // dd($students);
         if ($students->count() < 1) {
             return redirect()->back()->with('error_promotions', trans('there_is_no_students'));
         }

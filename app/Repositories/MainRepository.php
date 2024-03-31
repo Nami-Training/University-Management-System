@@ -52,4 +52,9 @@ class MainRepository
     {
         return $this->model::WhereIn($id, $values)->get();
     }
+
+    public function first()
+    {
+        return $this->model::first();
+    }
 }

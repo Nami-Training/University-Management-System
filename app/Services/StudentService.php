@@ -4,12 +4,12 @@ namespace App\Services;
 
 use App\Models\Image;
 use App\Models\Student;
-use App\Http\Trait\UploadImage;
+use App\Http\Trait\FileHandling;
 use Illuminate\Support\Facades\File;
 
 class StudentService extends MainService
 {
-    use UploadImage;
+    use FileHandling;
 
     private $Student;
 
@@ -41,9 +41,7 @@ class StudentService extends MainService
     public function Delete_attachment($filename, $image_id)
     {
         $image = Image::find($image_id);
-        if(File::exists(public_path($image->path))){
-            File::delete(public_path($image->path));
-        }
+       $this->deleteFile($image->path);
 
         if ($image->filename == $filename){
             $image->delete();
@@ -53,7 +51,7 @@ class StudentService extends MainService
     public function Upload_attachment($id, $file)
     {
         $student = $this->findById($id);
-        $path = $this->uplaod($file, 'attachments/students/' . $student->Name . '/');
+        $path = $this->uplaodFile($file, 'attachments/students/' . $student->Name . '/');
         $name = $file->getClientOriginalName();
 
         Image::create([
@@ -74,7 +72,17 @@ class StudentService extends MainService
     public function updateWhereIn($id, $ids, $data)
     {
         return $this->Student->whereIn($id, $ids)->update($data);
-
         return $this;
+    }
+
+    public function deleteWhereIn($id, $ids)
+    {
+        return $this->Student->whereIn($id, $ids)->delete();
+        return $this;
+    }
+
+    public function onlyTrashed()
+    {
+        return $this->Student->onlyTrashed()->get();
     }
 }

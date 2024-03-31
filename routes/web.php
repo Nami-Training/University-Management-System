@@ -13,10 +13,13 @@ use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\Fees_InvoicesController;
 use App\Http\Controllers\GraduatedController;
+use App\Http\Controllers\LibraryController;
+use App\Http\Controllers\OnlineClasseController;
 use App\Http\Controllers\PaymentStudentController;
 use App\Http\Controllers\ProcessingFeeController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\ReceiptStudentController;
+use App\Http\Controllers\SettingController;
 use App\Models\Promotion;
 
 /*
@@ -105,8 +108,23 @@ Route::group(['verified', 'middleare' => 'auth'], function()
     Route::resource('promotion', PromotionController::class);
 
     //==============================Graduated============================
-    Route::delete('graduated/delete_all', [GraduatedController::class, 'delete_all'])->name('graduated.delete_all');
+    Route::post('graduated/delete', [GraduatedController::class, 'delete'])->name('graduated.delete');
+    Route::post('graduated/graduateStudentFromPromotion/{id}', [GraduatedController::class, 'graduateStudentFromPromotion'])->name('graduated.graduateStudentFromPromotion');
+    Route::post('graduated/ReturnStudent/{id}', [GraduatedController::class, 'ReturnStudent'])->name('graduated.ReturnStudent');
     Route::resource('graduated', GraduatedController::class);
+
+    //==============================Setting============================
+    Route::resource('settings', SettingController::class);
+
+    //==============================Library============================
+    Route::get('library/downloadAttachment/{fileName}', [LibraryController::class, 'downloadAttachment'])->name('library.downloadAttachment');
+    Route::resource('library', LibraryController::class);
+
+
+    //==============================Online Classes============================
+    Route::get('OnlineClass/indirect', [OnlineClasseController::class, 'indirectCreate'])->name('OnlineClass.indirect.create');
+        Route::post('OnlineClass/Indirect', [OnlineClasseController::class, 'IndirectStore'])->name('OnlineClass.indirect.store');
+    Route::resource('OnlineClass', OnlineClasseController::class);
 
 
     //==============================Profile============================

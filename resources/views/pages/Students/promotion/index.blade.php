@@ -63,11 +63,12 @@
                                                 <td>
 
                                                     <button type="button" class="btn btn-outline-danger mb-2" data-toggle="modal" data-target="#Delete_one{{$promotion->id}}">{{ trans('Students_trans.delete_student') }}</button>
-                                                    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#">{{ trans('Students_trans.graduate_student') }}</button>
+                                                    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#Graduate_student{{$promotion->id}}">{{ trans('Students_trans.graduate_student') }}</button>
                                                 </td>
                                             </tr>
                                         @include('pages.Students.promotion.Delete_all')
                                         @include('pages.Students.promotion.Delete_one')
+                                        @include('pages.Students.promotion.Graduate_student')
                                         @endforeach
                                     </table>
                                 </div>
