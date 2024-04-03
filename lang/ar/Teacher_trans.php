@@ -17,4 +17,5 @@ return [
     'Processes'=>'العمليات',
     'Warning_delete'=> 'هل انت متاكد من عملية الحذف ؟',
     'Update' => 'تحديث',
+    'welcome' => 'مرحبا بك',
 ];

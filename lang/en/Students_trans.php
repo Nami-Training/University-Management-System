@@ -101,4 +101,6 @@ return [
     'work_date' => 'Hired Date',
     'invoice_date' => 'Invoice Date',
     'created_date' => 'Created Date',
+    'student_dashboard' => 'Student Dashboard',
+
 ];

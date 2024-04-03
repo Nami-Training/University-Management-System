@@ -48,13 +48,38 @@ class MainRepository
         $this->findById($id)->forceDelete();
     }
 
+    public function where($col, $value)
+    {
+        return $this->model->where($col, $value);
+    }
+
     public function whereIn($id, $values)
     {
-        return $this->model::WhereIn($id, $values)->get();
+        return $this->model::whereIn($id, $values)->get();
     }
 
     public function first()
     {
         return $this->model::first();
+    }
+
+    public function getWith($col)
+    {
+        return $this->model::with([$col])->get();
+    }
+
+    public function getWithWhere($withCol,$whereCol, $whereVal)
+    {
+        return $this->model::with($withCol)->where($whereCol,$whereVal)->get();
+    }
+
+    public function updateorCreate($checks, $data)
+    {
+        return $this->model::updateOrCreate($checks, $data);
+    }
+
+    public function whereBetween($col, $values)
+    {
+        return $this->model::whereBetween($col, $values)->get();
     }
 }

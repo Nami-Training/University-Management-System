@@ -2,13 +2,13 @@
 @section('css')
     @toastr_css
 @section('title')
-    قائمة الحضور والغياب للطلاب
+   {{ trans('main_trans.Student_attendance_list') }}
 @stop
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
 @section('PageTitle')
-    قائمة الحضور والغياب للطلاب
+    {{ trans('main_trans.Student_attendance_list') }}
 @stop
 <!-- breadcrumb -->
 @endsection
@@ -33,7 +33,7 @@
         </div>
     @endif
 
-    <h5 style="font-family: 'Cairo', sans-serif;color: red"> تاريخ اليوم : {{ date('Y-m-d') }}</h5>
+    <h5 style="font-family: 'Cairo', sans-serif;color: red"> {{ trans('main_trans.todayDate') }} : {{ date('Y-m-d') }}</h5>
     <form method="post" action="{{ route('attendance') }}" autocomplete="off">
 
         @csrf
@@ -48,42 +48,42 @@
                 <th class="alert-success">{{ trans('Students_trans.Grade') }}</th>
                 <th class="alert-success">{{ trans('Students_trans.classrooms') }}</th>
                 <th class="alert-success">{{ trans('Students_trans.section') }}</th>
-                <th class="alert-success">الحضور والغياب</th>
+                <th class="alert-success">{{ trans('main_trans.Attendance') }}</th>
             </tr>
             </thead>
             <tbody>
             @foreach ($students as $student)
                 <tr>
                     <td>{{ $loop->index + 1 }}</td>
-                    <td>{{ $student->name }}</td>
+                    <td>{{ $student->Name }}</td>
                     <td>{{ $student->email }}</td>
                     <td>{{ $student->gender->Name }}</td>
                     <td>{{ $student->grade->Name }}</td>
-                    <td>{{ $student->classroom->Name_Class }}</td>
-                    <td>{{ $student->section->Name_Section }}</td>
+                    <td>{{ $student->classroom->Name }}</td>
+                    <td>{{ $student->section->Name }}</td>
                     <td>
                         <label class="block text-gray-500 font-semibold sm:border-r sm:pr-4">
                             <input name="attendences[{{ $student->id }}]"
                                    @foreach($student->attendance()->where('attendence_date',date('Y-m-d'))->get() as $attendance)
-                                   {{ $attendance->attendence_status == 1 ? 'checked' : '' }}
+                                        @checked($attendance->attendence_status == 1)
                                    @endforeach
                                    class="leading-tight" type="radio"
                                    value="presence">
-                            <span class="text-success">حضور</span>
+                            <span class="text-success">{{ trans('main_trans.presence') }}</span>
                         </label>
 
                         <label class="ml-4 block text-gray-500 font-semibold">
                             <input name="attendences[{{ $student->id }}]"
                                    @foreach($student->attendance()->where('attendence_date',date('Y-m-d'))->get() as $attendance)
-                                   {{ $attendance->attendence_status == 0 ? 'checked' : '' }}
+                                   @checked($attendance->attendence_status == 0)
                                    @endforeach
                                    class="leading-tight" type="radio"
                                    value="absent">
-                            <span class="text-danger">غياب</span>
+                            <span class="text-danger">{{ trans('main_trans.absent') }}</span>
                         </label>
 
-                        <input type="hidden" name="grade_id" value="{{ $student->Grade_id }}">
-                        <input type="hidden" name="classroom_id" value="{{ $student->Classroom_id }}">
+                        <input type="hidden" name="grade_id" value="{{ $student->grade_id }}">
+                        <input type="hidden" name="classroom_id" value="{{ $student->classroom_id }}">
                         <input type="hidden" name="section_id" value="{{ $student->section_id }}">
                     </td>
 

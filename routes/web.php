@@ -1,11 +1,13 @@
 <?php
 
+use App\Models\Teacher;
+use App\Models\Classroom;
 use App\Models\Promotion;
 use Illuminate\Http\Request;
+use App\Services\StudentService;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FeesController;
 use App\Http\Controllers\GradeController;
-use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\QuizzController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\ProfileController;
@@ -18,14 +20,14 @@ use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\GraduatedController;
 use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\AttendanceController1;
 use App\Http\Controllers\OnlineClasseController;
 use App\Http\Controllers\Fees_InvoicesController;
 use App\Http\Controllers\ProcessingFeeController;
 use App\Http\Controllers\PaymentStudentController;
 use App\Http\Controllers\ReceiptStudentController;
-use App\Models\Classroom;
-use App\Models\Teacher;
-use App\Services\StudentService;
 
 /*
 |--------------------------------------------------------------------------
@@ -138,6 +140,9 @@ Route::group(['verified', 'middleware' => ['auth']], function()
 
     //==============================Setting============================
     Route::resource('settings', SettingController::class);
+
+    //==============================Attendance============================
+    Route::resource('Attendance', AttendanceController::class);
 
     //==============================Library============================
     Route::get('library/downloadAttachment/{fileName}', [LibraryController::class, 'downloadAttachment'])->name('library.downloadAttachment');

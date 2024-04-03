@@ -17,5 +17,5 @@ return [
     'Processes'=>'Processes',
     'Warning_delete'=> 'Are Sure Of The Deleting Process ?',
     'Update' => 'Update',
-
+    'welcome' => 'Welcome',
 ];

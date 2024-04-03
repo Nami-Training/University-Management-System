@@ -2,13 +2,13 @@
 @section('css')
 
 @section('title')
-  الاقسام الدراسية
+    {{ trans('main_trans.sections') }}
 @stop
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
 @section('PageTitle')
-    الاقسام الدراسية
+    {{ trans('main_trans.sections') }}
 @stop
 <!-- breadcrumb -->
 @endsection
@@ -26,16 +26,16 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>اسم المرحلة</th>
-                                <th>اسم القسم</th>
+                                <th>{{ trans('main_trans.Grades') }}</th>
+                                <th>{{ trans('Sections_trans.Name_Section') }}</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach ($sections as $section)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $section->Grades->Name }}</td>
-                                    <td>{{ $section->Name_Section }}</td>
+                                    <td>{{ $section->grade->Name }}</td>
+                                    <td>{{ $section->Name }}</td>
                                 </tr>
                             @endforeach
                         </table>

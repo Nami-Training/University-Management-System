@@ -26,4 +26,11 @@ return [
     'meeting_password' => 'كلمة سر الاجتماع',
     'starter_link' => 'رابط البدء',
     'entry_link_students' => 'رابط دخول الطلاب',
+    'all' => 'الكل',
+    'finish_date' => 'تاريخ الانتهاء',
+    'to_date' => 'الي تاريخ',
+    'date' => 'تاريخ',
+    'status' => 'الحالة',
+    'dateMustBeBigger' => 'تاريخ النهاية لابد ان اكبر من تاريخ البداية او يساويه',
+    'dateFormate' => 'صيغة التاريخ يجب ان تكون yyyy-mm-dd',
 ];

@@ -100,4 +100,5 @@ return [
     'work_date' => 'تاريخ التعين',
     'invoice_date' => 'تاريخ الفاتورة',
     'created_date' => 'تاريخ الاضافة',
+    'student_dashboard' => 'لوحة تحكم الطالب',
 ];

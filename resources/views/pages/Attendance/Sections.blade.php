@@ -2,13 +2,13 @@
 @section('css')
     @toastr_css
 @section('title')
-    {{ trans('Sections_trans.title_page') }}: الحضور والغياب
+    {{ trans('Sections_trans.title_page') }}: {{ trans('main_trans.presenceAndAbsent') }}
 @stop
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
 @section('PageTitle')
-    {{ trans('Sections_trans.title_page') }}: الحضور والغياب
+    {{ trans('Sections_trans.title_page') }}: {{ trans('main_trans.presenceAndAbsent') }}
 @stop
 <!-- breadcrumb -->
 @endsection
@@ -71,14 +71,14 @@
                                                                     <tr>
                                                                         <?php $i++; ?>
                                                                         <td>{{ $i }}</td>
-                                                                        <td>{{ $list_Sections->Name_Section }}</td>
-                                                                        <td>{{ $list_Sections->My_classs->Name_Class }}</td>
+                                                                        <td>{{ $list_Sections->Name }}</td>
+                                                                        <td>{{ $list_Sections->classroom->Name }}</td>
                                                                         <td>
-                                                                            <label class="badge badge-{{$list_Sections->Status == 1 ? 'success':'danger'}}">{{$list_Sections->Status == 1 ? 'نشط':'غير نشط'}}</label>
+                                                                            <label class="badge badge-{{$list_Sections->Status == 1 ? 'success':'danger'}}">{{$list_Sections->Status == 1 ? trans('main_trans.active'):trans('main_trans.notActive')}}</label>
                                                                         </td>
 
                                                                         <td>
-                                                                            <a href="{{route('Attendance.show',$list_Sections->id)}}" class="btn btn-warning btn-sm" role="button" aria-pressed="true">قائمة الطلاب</a>
+                                                                            <a href="{{route('Attendance.show',$list_Sections->id)}}" class="btn btn-warning btn-sm" role="button" aria-pressed="true">{{ trans('Students_trans.students list') }}</a>
                                                                         </td>
                                                                     </tr>
                                                                 @endforeach
@@ -106,7 +106,7 @@
             @toastr_render
             <script>
                 $(document).ready(function () {
-                    $('select[name="Grade_id"]').on('change', function () {
+                    $('select[name="grade_id"]').on('change', function () {
                         var Grade_id = $(this).val();
                         if (Grade_id) {
                             $.ajax({
@@ -114,9 +114,9 @@
                                 type: "GET",
                                 dataType: "json",
                                 success: function (data) {
-                                    $('select[name="Class_id"]').empty();
+                                    $('select[name="classroom_id"]').empty();
                                     $.each(data, function (key, value) {
-                                        $('select[name="Class_id"]').append('<option value="' + key + '">' + value + '</option>');
+                                        $('select[name="classroom_id"]').append('<option value="' + key + '">' + value + '</option>');
                                     });
                                 },
                             });

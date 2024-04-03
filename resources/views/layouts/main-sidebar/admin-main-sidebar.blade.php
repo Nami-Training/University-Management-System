@@ -137,7 +137,7 @@
         </li>
 
         <!-- Attendance-->
-        {{-- <li>
+        <li>
             <a href="javascript:void(0);" data-toggle="collapse" data-target="#Attendance-icon">
                 <div class="pull-left"><i class="fas fa-calendar-alt"></i><span
                         class="right-nav-text">{{ trans('main_trans.Attendance') }}</span></div>
@@ -145,9 +145,9 @@
                 <div class="clearfix"></div>
             </a>
             <ul id="Attendance-icon" class="collapse" data-parent="#sidebarnav">
-                <li> <a href="{{route('Attendance.index')}}">قائمة الطلاب</a> </li>
+                <li> <a href="{{route('Attendance.index')}}">{{ trans('Students_trans.students list') }}</a> </li>
             </ul>
-        </li> --}}
+        </li>
 
         <!-- Subjects-->
         <li>

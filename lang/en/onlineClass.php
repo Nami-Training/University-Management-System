@@ -26,4 +26,11 @@ return [
     'meeting_password' => 'Meeting Password',
     'starter_link' => 'Starter Link',
     'entry_link_students' => 'Entry link for students',
+    'all' => 'All',
+    'finish_date' => 'Finish Date',
+    'to_date' => 'To Date',
+    'date' => 'Date',
+    'status' => 'Status',
+    'dateMustBeBigger' => 'The end date must be greater than or equal to the start date',
+    'dateFormate' => 'Date format should be yyyy-mm-dd',
 ];

@@ -16,14 +16,14 @@
         <!-- الامتحانات-->
         <li>
             <a href="{{route('settings.index')}}"><i class="fas fa-book-open"></i><span
-                    class="right-nav-text">الامتحانات</span></a>
+                    class="right-nav-text">{{ trans('quizz.quizzes') }}</span></a>
         </li>
 
 
         <!-- Settings-->
         <li>
             <a href="{{route('settings.index')}}"><i class="fas fa-id-card-alt"></i><span
-                    class="right-nav-text">الملف الشخصي</span></a>
+                    class="right-nav-text">{{ trans('main_trans.profile') }}</span></a>
         </li>
 
     </ul>
