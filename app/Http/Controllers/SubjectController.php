@@ -45,8 +45,13 @@ class SubjectController extends Controller
      */
     public function store(SubjectRequest $request)
     {
-        $this->subjectService->create($request->validated());
-        return redirect()->route('Subjects.index');
+        try {
+            $this->subjectService->create($request->validated());
+            toastr()->success(trans('messages.success'));
+            return redirect()->route('Subjects.index');
+        }catch (\Exception $e) {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -74,14 +79,24 @@ class SubjectController extends Controller
      */
     public function update(SubjectRequest $request, string $id)
     {
-        $this->subjectService->update($id, $request->validated());
-        return redirect()->route('Subjects.index');
+        try {
+            $this->subjectService->update($id, $request->validated());
+            toastr()->success(trans('messages.Update'));
+            return redirect()->route('Subjects.index');
+        }catch (\Exception $e) {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
     }
 
     public function delete(string $id)
     {
-        $this->subjectService->delete($id);
-        return redirect()->route('Subjects.index');
+        try {
+            $this->subjectService->delete($id);
+            toastr()->error(trans('messages.Delete'));
+            return redirect()->route('Subjects.index');
+        }catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -89,7 +104,12 @@ class SubjectController extends Controller
      */
     public function destroy(string $id)
     {
-        $this->subjectService->forceDelete($id);
-        return redirect()->route('Subjects.index');
+        try {
+            $this->subjectService->forceDelete($id);
+            toastr()->error(trans('messages.Delete'));
+            return redirect()->route('Subjects.index');
+        }catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 }

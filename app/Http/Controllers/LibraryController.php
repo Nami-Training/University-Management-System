@@ -52,8 +52,13 @@ class LibraryController extends Controller
      */
     public function store(LibraryRequest $request)
     {
-        $this->libraryService->uplaodBook($request->Book_file, $request->all());
-        return redirect()->route('library.index');
+        try {
+            $this->libraryService->uplaodBook($request->Book_file, $request->all());
+            toastr()->success(trans('messages.success'));
+            return redirect()->route('library.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -79,8 +84,13 @@ class LibraryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $this->libraryService->updateBook($id, $request);
-        return redirect()->route('library.index');
+        try {
+            $this->libraryService->updateBook($id, $request);
+            toastr()->success(trans('messages.Update'));
+            return redirect()->route('library.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
     }
 
     /**

@@ -51,8 +51,13 @@ class QuizzController extends Controller
      */
     public function store(QuizzRequest $request)
     {
-        $this->quizService->create($request->validated());
-        return redirect()->route('Quizzes.index');
+        try {
+            $this->quizService->create($request->validated());
+            toastr()->success(trans('messages.success'));
+            return redirect()->route('Quizzes.index');
+        }catch (\Exception $e) {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -81,14 +86,24 @@ class QuizzController extends Controller
      */
     public function update(QuizzRequest $request, string $id)
     {
-        $this->quizService->update($id, $request->validated());
-        return redirect()->route('Quizzes.index');
+        try {
+            $this->quizService->update($id, $request->validated());
+            toastr()->success(trans('messages.Update'));
+            return redirect()->route('Quizzes.index');
+        }catch (\Exception $e) {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
     }
 
     public function delete(String $id)
     {
-        $this->quizService->delete($id);
-        return redirect()->route('Quizzes.index');
+        try {
+            $this->quizService->delete($id);
+            toastr()->error(trans('messages.Delete'));
+            return redirect()->route('Quizzes.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -96,7 +111,12 @@ class QuizzController extends Controller
      */
     public function destroy(string $id)
     {
-        $this->quizService->forceDelete($id);
-        return redirect()->route('Quizzes.index');
+        try {
+            $this->quizService->forceDelete($id);
+            toastr()->error(trans('messages.Delete'));
+            return redirect()->route('Quizzes.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 }

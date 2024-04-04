@@ -53,19 +53,24 @@ class Fees_InvoicesController extends Controller
      */
     public function store(FeeInvoicesRequest $request)
     {
-        $fee = $this->feeInvoicesService->create($request->validated());
+        try {
+            $fee = $this->feeInvoicesService->create($request->validated());
 
-        $this->studentAccountService->create([
-            'date' => now(),
-            'type' => 'invoice',
-            'fee_invoice_id' => $fee->id,
-            'student_id' => $request->student_id,
-            'Debit' => $request->amount,
-            'credit' => 0.00,
-            'description' => $request->description
-        ]);
+            $this->studentAccountService->create([
+                'date' => now(),
+                'type' => 'invoice',
+                'fee_invoice_id' => $fee->id,
+                'student_id' => $request->student_id,
+                'Debit' => $request->amount,
+                'credit' => 0.00,
+                'description' => $request->description
+            ]);
 
-        return redirect()->route('Fee_Invoices.index');
+            toastr()->success(trans('messages.success'));
+            return redirect()->route('Fee_Invoices.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -93,32 +98,47 @@ class Fees_InvoicesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $this->feeInvoicesService->update($id, $request->only('student_id', 'amount', 'fee_id', 'description'));
+        try {
+            $this->feeInvoicesService->update($id, $request->only('student_id', 'amount', 'fee_id', 'description'));
 
-        $this->studentAccountService->update($id, [
-            'date' => now(),
-            'type' => 'invoice',
-            'fee_invoice_id' => $id,
-            'student_id' => $request->student_id,
-            'Debit' => $request->amount,
-            'credit' => 0.00,
-            'description' => $request->description
-        ]);
+            $this->studentAccountService->update($id, [
+                'date' => now(),
+                'type' => 'invoice',
+                'fee_invoice_id' => $id,
+                'student_id' => $request->student_id,
+                'Debit' => $request->amount,
+                'credit' => 0.00,
+                'description' => $request->description
+            ]);
 
-        return redirect()->route('Fee_Invoices.index');
+            toastr()->success(trans('messages.Update'));
+            return redirect()->route('Fee_Invoices.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     public function delete($id)
     {
-        $this->feeInvoicesService->delete($id);
-        return redirect()->back();
+        try {
+            $this->feeInvoicesService->delete($id);
+            toastr()->error(trans('messages.Delete'));
+            return redirect()->back();
+        }catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        $this->feeInvoicesService->forceDelete($id);
-        return redirect()->back();
+        try {
+            $this->feeInvoicesService->forceDelete($id);
+            toastr()->error(trans('messages.Delete'));
+            return redirect()->back();
+        }catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 }

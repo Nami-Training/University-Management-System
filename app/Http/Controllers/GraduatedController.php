@@ -55,6 +55,7 @@ class GraduatedController extends Controller
             $this->studentService->deleteWhereIn('id', $ids);
         }
 
+        toastr()->success(trans('messages.success'));
         return redirect()->route('graduated.index');
     }
 
@@ -99,12 +100,14 @@ class GraduatedController extends Controller
     public function destroy(string $id)
     {
         $this->studentService->onlyTrashed()->where('id', $id)->first()->forceDelete();
+        toastr()->error(trans('messages.Delete'));
         return redirect()->back();
     }
 
     public function ReturnStudent(string $id)
     {
         $this->studentService->onlyTrashed()->where('id', $id)->first()->restore();
+        toastr()->success(trans('messages.success'));
         return redirect()->back();
     }
 }

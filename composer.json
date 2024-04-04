@@ -13,7 +13,8 @@
         "laravel/tinker": "^2.8",
         "macsidigital/laravel-zoom": "^8.0",
         "mcamara/laravel-localization": "^1.8",
-        "staudenmeir/eloquent-eager-limit": "^1.8"
+        "staudenmeir/eloquent-eager-limit": "^1.8",
+        "yoeunes/toastr": "^2.3"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

@@ -50,26 +50,30 @@ class ReceiptStudentController extends Controller
      */
     public function store(ReceiptStudentRequest $request)
     {
-        $receipt_students = $this->receiptStudentService->create($request->validated());
-        $this->fundAccountService->create([
-            'date' => now(),
-            'receipt_id' => $receipt_students->id,
-            'Debit' => $request->Debit,
-            'credit' => '0.00',
-            'description' => $request->description
-        ]);
+        try {
+            $receipt_students = $this->receiptStudentService->create($request->validated());
+            $this->fundAccountService->create([
+                'date' => now(),
+                'receipt_id' => $receipt_students->id,
+                'Debit' => $request->Debit,
+                'credit' => '0.00',
+                'description' => $request->description
+            ]);
 
-        $this->studentAccountService->create([
-            'date' => now(),
-            'type' => 'receipt',
-            'receipt_id' => $receipt_students->id,
-            'student_id' => $request->student_id,
-            'Debit' => 0.00,
-            'credit' => $request->Debit,
-            'description' => $request->description,
-        ]);
-
-        return redirect()->route('ReceiptStudent.index');
+            $this->studentAccountService->create([
+                'date' => now(),
+                'type' => 'receipt',
+                'receipt_id' => $receipt_students->id,
+                'student_id' => $request->student_id,
+                'Debit' => 0.00,
+                'credit' => $request->Debit,
+                'description' => $request->description,
+            ]);
+            toastr()->success(trans('messages.success'));
+            return redirect()->route('ReceiptStudent.index');
+        }catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -95,40 +99,54 @@ class ReceiptStudentController extends Controller
      */
     public function update(ReceiptStudentRequest $request, string $id)
     {
-        $this->receiptStudentService->update($id, $request->validated());
+        try {
+            $this->receiptStudentService->update($id, $request->validated());
 
-        $this->fundAccountService->update($id, [
-            'date' => now(),
-            'receipt_id' => $id,
-            'Debit' => $request->Debit,
-            'credit' => '0.00',
-            'description' => $request->description
-        ]);
+            $this->fundAccountService->update($id, [
+                'date' => now(),
+                'receipt_id' => $id,
+                'Debit' => $request->Debit,
+                'credit' => '0.00',
+                'description' => $request->description
+            ]);
 
-        $this->studentAccountService->update($id, [
-            'date' => now(),
-            'type' => 'receipt',
-            'receipt_id' => $id,
-            'student_id' => $request->student_id,
-            'Debit' => 0.00,
-            'credit' => $request->Debit,
-            'description' => $request->description,
-        ]);
-
-        return redirect()->route('ReceiptStudent.index');
+            $this->studentAccountService->update($id, [
+                'date' => now(),
+                'type' => 'receipt',
+                'receipt_id' => $id,
+                'student_id' => $request->student_id,
+                'Debit' => 0.00,
+                'credit' => $request->Debit,
+                'description' => $request->description,
+            ]);
+            toastr()->success(trans('messages.Update'));
+            return redirect()->route('ReceiptStudent.index');
+        }catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     public function delete(string $id)
     {
-        $this->receiptStudentService->delete($id);
-        return redirect()->route('ReceiptStudent.index');
+        try {
+            $this->receiptStudentService->delete($id);
+            toastr()->error(trans('messages.Delete'));
+            return redirect()->route('ReceiptStudent.index');
+        }catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        $this->receiptStudentService->forceDelete($id);
-        return redirect()->route('ReceiptStudent.index');
+        try {
+            $this->receiptStudentService->forceDelete($id);
+            toastr()->error(trans('messages.Delete'));
+            return redirect()->route('ReceiptStudent.index');
+        }catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 }

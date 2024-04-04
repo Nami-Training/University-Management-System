@@ -46,26 +46,30 @@ class PaymentStudentController extends Controller
      */
     public function store(PaymentStudentRequest $request)
     {
-        $payment_students = $this->paymentStudentService->create($request->validated());
+        try {
+            $payment_students = $this->paymentStudentService->create($request->validated());
 
-        $this->fundAccountService->create([
-            'payment_id' => $payment_students->id,
-            'Debit' => '0.00',
-            'credit' => $request->amount,
-            'description' => $request->description
-        ]);
+            $this->fundAccountService->create([
+                'payment_id' => $payment_students->id,
+                'Debit' => '0.00',
+                'credit' => $request->amount,
+                'description' => $request->description
+            ]);
 
-        $this->studentAccountService->create([
-            'date' => now(),
-            'type' => 'payment',
-            'student_id' => $request->student_id,
-            'payment_id' => $payment_students->id,
-            'Debit' => $request->amount,
-            'credit' => 0.00,
-            'description' => $request->description
-        ]);
-
-        return redirect()->route('PaymentStudent.index');
+            $this->studentAccountService->create([
+                'date' => now(),
+                'type' => 'payment',
+                'student_id' => $request->student_id,
+                'payment_id' => $payment_students->id,
+                'Debit' => $request->amount,
+                'credit' => 0.00,
+                'description' => $request->description
+            ]);
+            toastr()->success(trans('messages.success'));
+            return redirect()->route('PaymentStudent.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -91,32 +95,41 @@ class PaymentStudentController extends Controller
      */
     public function update(PaymentStudentRequest $request, string $id)
     {
-        $this->paymentStudentService->update($id, $request->validated());
+        try {
+            $this->paymentStudentService->update($id, $request->validated());
 
-        $this->fundAccountService->update($id, [
-            'payment_id' => $id,
-            'Debit' => '0.00',
-            'credit' => $request->amount,
-            'description' => $request->description
-        ]);
+            $this->fundAccountService->update($id, [
+                'payment_id' => $id,
+                'Debit' => '0.00',
+                'credit' => $request->amount,
+                'description' => $request->description
+            ]);
 
-        $this->studentAccountService->update($id, [
-            'date' => now(),
-            'type' => 'payment',
-            'student_id' => $request->student_id,
-            'payment_id' => $id,
-            'Debit' => $request->amount,
-            'credit' => 0.00,
-            'description' => $request->description
-        ]);
-
-        return redirect()->route('PaymentStudent.index');
+            $this->studentAccountService->update($id, [
+                'date' => now(),
+                'type' => 'payment',
+                'student_id' => $request->student_id,
+                'payment_id' => $id,
+                'Debit' => $request->amount,
+                'credit' => 0.00,
+                'description' => $request->description
+            ]);
+            toastr()->success(trans('messages.Update'));
+            return redirect()->route('PaymentStudent.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     public function delete($id)
     {
-        $this->paymentStudentService->delete($id);
-        return redirect()->back();
+        try {
+            $this->paymentStudentService->delete($id);
+            toastr()->error(trans('messages.Delete'));
+            return redirect()->back();
+        }catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -124,7 +137,12 @@ class PaymentStudentController extends Controller
      */
     public function destroy(string $id)
     {
-        $this->paymentStudentService->forceDelete($id);
-        return redirect()->back();
+        try {
+            $this->paymentStudentService->forceDelete($id);
+            toastr()->error(trans('messages.Delete'));
+            return redirect()->back();
+        }catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 }

@@ -45,23 +45,29 @@ class OnlineClasseController extends Controller
      */
     public function store(OnlineClassRequest $request)
     {
-        $meeting = $this->createMeeting($request);
+        try {
+            $meeting = $this->createMeeting($request);
 
-        $this->onlineClassService->create([
-            'integration' => true,
-            'Grade_id' => $request->grade_id,
-            'Classroom_id' => $request->classroom_id,
-            'section_id' => $request->section_id,
-            'user_id' => auth()->user()->id,
-            'meeting_id' => $meeting->id,
-            'topic' => $request->topic,
-            'start_at' => $request->start_time,
-            'duration' => $meeting->duration,
-            'password' => $meeting->password,
-            'start_url' => $meeting->start_url,
-            'join_url' => $meeting->join_url,
-        ]);
-        return redirect()->route('OnlineClass.index');
+            $this->onlineClassService->create([
+                'integration' => true,
+                'Grade_id' => $request->grade_id,
+                'Classroom_id' => $request->classroom_id,
+                'section_id' => $request->section_id,
+                'user_id' => auth()->user()->id,
+                'meeting_id' => $meeting->id,
+                'topic' => $request->topic,
+                'start_at' => $request->start_time,
+                'duration' => $meeting->duration,
+                'password' => $meeting->password,
+                'start_url' => $meeting->start_url,
+                'join_url' => $meeting->join_url,
+            ]);
+            return redirect()->route('OnlineClass.index');
+            toastr()->success(trans('messages.success'));
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -93,20 +99,25 @@ class OnlineClasseController extends Controller
      */
     public function destroy(Request $request)
     {
-        $info = $this->onlineClassService->findById($request->id);
+        try {
+            $info = $this->onlineClassService->findById($request->id);
 
-        if($info->integration == true){
-            $meeting = Zoom::meeting()->find($request->meeting_id);
-            $meeting->delete();
-            // online_classe::where('meeting_id', $request->id)->delete();
-            $this->onlineClassService->delete($request->id);
-        }
-        else{
-            // online_classe::where('meeting_id', $request->id)->delete();
-            $this->onlineClassService->delete($request->id);
-        }
+            if($info->integration == true){
+                $meeting = Zoom::meeting()->find($request->meeting_id);
+                $meeting->delete();
+                // online_classe::where('meeting_id', $request->id)->delete();
+                $this->onlineClassService->delete($request->id);
+            }
+            else{
+                // online_classe::where('meeting_id', $request->id)->delete();
+                $this->onlineClassService->delete($request->id);
+            }
 
-        return redirect()->route('online_classes.index');
+            toastr()->success(trans('messages.Delete'));
+            return redirect()->route('online_classes.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
     }
 
     public function indirectCreate()
@@ -117,20 +128,25 @@ class OnlineClasseController extends Controller
 
     public function IndirectStore(Request $request)
     {
-        $this->onlineClassService->create([
-            'integration' => false,
-            'Grade_id' => $request->Grade_id,
-            'Classroom_id' => $request->Classroom_id,
-            'section_id' => $request->section_id,
-            'user_id' => auth()->user()->id,
-            'meeting_id' => $request->meeting_id,
-            'topic' => $request->topic,
-            'start_at' => $request->start_time,
-            'duration' => $request->duration,
-            'password' => $request->password,
-            'start_url' => $request->start_url,
-            'join_url' => $request->join_url,
-        ]);
-        return redirect()->route('OnlineClass.index');
+        try {
+            $this->onlineClassService->create([
+                'integration' => false,
+                'Grade_id' => $request->Grade_id,
+                'Classroom_id' => $request->Classroom_id,
+                'section_id' => $request->section_id,
+                'user_id' => auth()->user()->id,
+                'meeting_id' => $request->meeting_id,
+                'topic' => $request->topic,
+                'start_at' => $request->start_time,
+                'duration' => $request->duration,
+                'password' => $request->password,
+                'start_url' => $request->start_url,
+                'join_url' => $request->join_url,
+            ]);
+            toastr()->success(trans('messages.success'));
+            return redirect()->route('OnlineClass.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
     }
 }

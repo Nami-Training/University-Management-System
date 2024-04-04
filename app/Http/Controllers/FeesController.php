@@ -42,8 +42,13 @@ class FeesController extends Controller
      */
     public function store(FeeRequest $request)
     {
-        $this->feesService->create($request->validated());
-        return redirect()->route('Fees.index');
+        try {
+            $this->feesService->create($request->validated());
+            toastr()->success(trans('messages.success'));
+            return redirect()->route('Fees.index');
+        }catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -69,8 +74,13 @@ class FeesController extends Controller
      */
     public function update(FeeRequest $request, string $id)
     {
-        $this->feesService->update($id, $request->validated());
-        return redirect()->route('Fees.index');
+        try {
+            $this->feesService->update($id, $request->validated());
+            toastr()->success(trans('messages.Update'));
+            return redirect()->route('Fees.index');
+        }catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -79,13 +89,23 @@ class FeesController extends Controller
 
     public function delete($id)
     {
-        $this->feesService->delete($id);
-        return redirect()->back();
+        try {
+            $this->feesService->delete($id);
+            toastr()->error(trans('messages.Delete'));
+            return redirect()->back();
+        }catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     public function destroy(string $id)
     {
-        $this->feesService->forceDelete($id);
-        return redirect()->back();
+        try {
+            $this->feesService->forceDelete($id);
+            toastr()->error(trans('messages.Delete'));
+            return redirect()->back();
+        }catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 }

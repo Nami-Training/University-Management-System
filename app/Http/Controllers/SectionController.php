@@ -53,9 +53,14 @@ class SectionController extends Controller
      */
     public function store(SectionRequest $request)
     {
-        $section = $this->sectionService->create($request->validated());
-        $section->teachers()->attach($request->teacher_id);
-        return redirect()->route('Sections.index');
+        try {
+            $section = $this->sectionService->create($request->validated());
+            $section->teachers()->attach($request->teacher_id);
+            toastr()->success(trans('messages.success'));
+            return redirect()->route('Sections.index');
+        }catch (\Exception $e){
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -79,21 +84,36 @@ class SectionController extends Controller
      */
     public function update(SectionRequest $request, string $id)
     {
-        $this->sectionService->update($id, $request->validated());
-        return redirect()->route('Sections.index');
+        try {
+            $this->sectionService->update($id, $request->validated());
+            toastr()->success(trans('messages.Update'));
+            return redirect()->route('Sections.index');
+        }catch (\Exception $e){
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     public function delete(string $id)
     {
-        $this->sectionService->delete($id);
-        return redirect()->route('Sections.index');
+        try {
+            $this->sectionService->delete($id);
+            toastr()->success(trans('messages.Delete'));
+            return redirect()->route('Sections.index');
+        }catch (\Exception $e){
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        $this->sectionService->forceDelete($id);
-        return redirect()->route('Sections.index');
+        try {
+            $this->sectionService->forceDelete($id);
+            toastr()->success(trans('messages.Delete'));
+            return redirect()->route('Sections.index');
+        }catch (\Exception $e){
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 }

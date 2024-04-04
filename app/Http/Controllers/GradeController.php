@@ -37,8 +37,13 @@ class GradeController extends Controller
      */
     public function store(GradeRequest $request)
     {
-        $this->gradeService->create($request->validated());
-        return redirect()->route('Grades.index');
+        try {
+            $this->gradeService->create($request->validated());
+            toastr()->success(trans('messages.success'));
+            return redirect()->route('Grades.index');
+        } catch (\Exception $e){
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -62,14 +67,19 @@ class GradeController extends Controller
      */
     public function update(GradeRequest $request, string $id)
     {
-        $this->gradeService->update($id, $request->validated());
-        return redirect()->route('Grades.index');
+        try {
+            $this->gradeService->update($id, $request->validated());
+            toastr()->success(trans('messages.Update'));
+            return redirect()->route('Grades.index');
+        } catch (\Exception $e){
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
 
     public function delete(string $id)
     {
-        $this->gradeService->delete($id);
+        $this->gradeService->deleteGarde($id);
         return redirect()->route('Grades.index');
     }
     /**

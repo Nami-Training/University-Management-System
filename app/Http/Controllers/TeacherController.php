@@ -48,8 +48,13 @@ class TeacherController extends Controller
      */
     public function store(TeacherRequest $request)
     {
-        $this->teacherService->createTeacher($request->validated(), $request->password, $request->Address);
-        return redirect()->route('Teachers.index');
+        try {
+            $this->teacherService->createTeacher($request->validated(), $request->password, $request->Address);
+            toastr()->success(trans('messages.success'));
+            return redirect()->route('Teachers.index');
+        }catch (\Exception $e) {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -76,13 +81,19 @@ class TeacherController extends Controller
      */
     public function update(TeacherRequest $request, string $id)
     {
-        $this->teacherService->updateTeacher($id, $request->validated(), $request->password, $request->Address);
-        return redirect()->route('Teachers.index');
+        try {
+            $this->teacherService->updateTeacher($id, $request->validated(), $request->password, $request->Address);
+            toastr()->success(trans('messages.success'));
+            return redirect()->route('Teachers.index');
+        }catch (\Exception $e) {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
     }
 
     public function delete(string $id)
     {
         $this->teacherService->delete($id);
+        toastr()->error(trans('messages.Delete'));
         return redirect()->route('Teachers.index');
     }
 
@@ -92,6 +103,7 @@ class TeacherController extends Controller
     public function destroy(string $id)
     {
         $this->teacherService->forceDelete($id);
+        toastr()->error(trans('messages.Delete'));
         return redirect()->route('Teachers.index');
     }
 }

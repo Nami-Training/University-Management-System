@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\dashboard;
 
-use App\Models\Section;
 use App\Services\SectionService;
 use App\Services\StudentService;
 use App\Http\Controllers\Controller;
 use App\Services\AttendanceService;
 use App\Services\TeacherSectionService;
-use App\Services\TeacherService;
 use Illuminate\Http\Request;
+use Exception;
 
 class StudentController extends Controller
 {
@@ -29,27 +28,32 @@ class StudentController extends Controller
 
     public function attendance(Request $request, AttendanceService $attendanceService)
     {
-        $attenddate = date('Y-m-d');
-        foreach ($request->attendences as $studentid => $attendence) {
+        try {
+            $attenddate = date('Y-m-d');
+            foreach ($request->attendences as $studentid => $attendence) {
 
-            if ($attendence == 'presence') {
-                $attendence_status = true;
-            } else if ($attendence == 'absent') {
-                $attendence_status = false;
+                if ($attendence == 'presence') {
+                    $attendence_status = true;
+                } else if ($attendence == 'absent') {
+                    $attendence_status = false;
+                }
+
+                $attendanceService->updateorCreate(['student_id'=> $studentid],[
+                    'student_id' => $studentid,
+                    'grade_id' => $request->grade_id,
+                    'classroom_id' => $request->classroom_id,
+                    'section_id' => $request->section_id,
+                    'teacher_id' => 1,
+                    'attendence_date' => $attenddate,
+                    'attendence_status' => $attendence_status
+                ]);
             }
-
-            $attendanceService->updateorCreate(['student_id'=> $studentid],[
-                'student_id' => $studentid,
-                'grade_id' => $request->grade_id,
-                'classroom_id' => $request->classroom_id,
-                'section_id' => $request->section_id,
-                'teacher_id' => 1,
-                'attendence_date' => $attenddate,
-                'attendence_status' => $attendence_status
-            ]);
+            toastr()->success(trans('messages.success'));
+            return redirect()->back();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-        // toastr()->success(trans('messages.success'));
-        return redirect()->back();
+
     }
 
     public function editAttendance(Request $request, AttendanceService $attendanceService){
@@ -65,7 +69,7 @@ class StudentController extends Controller
             $student_id->update([
                 'attendence_status'=> $attendence_status
             ]);
-            // toastr()->success(trans('messages.success'));
+            toastr()->success(trans('messages.success'));
             return redirect()->back();
         }
         catch (\Exception $e){

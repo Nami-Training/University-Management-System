@@ -61,15 +61,21 @@ class SettingController extends Controller
      */
     public function update(SettingRequest $request, string $id)
     {
-        $this->settingService->update($id, $request->validated());
-        $setting = $this->settingService->get();
-        if($request->file('logo')){
-            if ($setting->image){
-                $this->settingService->Delete_attachment($setting->image->filename, $setting->image->id);
+        try{
+            $this->settingService->update($id, $request->validated());
+            $setting = $this->settingService->get();
+            if($request->file('logo')){
+                if ($setting->image){
+                    $this->settingService->Delete_attachment($setting->image->filename, $setting->image->id);
+                }
+                $this->settingService->Upload_attachment($request->logo);
             }
-            $this->settingService->Upload_attachment($request->logo);
+            toastr()->success(trans('messages.Update'));
+            return redirect()->route('settings.index');
+        }catch (\Exception $e){
+
+            return redirect()->back()->with(['error' => $e->getMessage()]);
         }
-        return redirect()->route('settings.index');
     }
 
     /**

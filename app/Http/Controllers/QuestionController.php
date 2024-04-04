@@ -44,8 +44,13 @@ class QuestionController extends Controller
      */
     public function store(QuestionRequest $request)
     {
-        $this->questionService->create($request->validated());
-        return redirect()->route('Questions.index');
+        try {
+            $this->questionService->create($request->validated());
+            toastr()->success(trans('messages.success'));
+            return redirect()->route('Questions.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -71,14 +76,25 @@ class QuestionController extends Controller
      */
     public function update(QuestionRequest $request, string $id)
     {
-        $this->questionService->update($id, $request->validated());
-        return redirect()->route('Questions.index');
+
+        try {
+            $this->questionService->update($id, $request->validated());
+            toastr()->success(trans('messages.Update'));
+            return redirect()->route('Questions.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['error' => $e->getMessage()]);
+        }
     }
 
     public function delete(String $id)
     {
-        $this->questionService->delete($id);
-        return redirect()->route('Questions.index');
+        try {
+            $this->questionService->delete($id);
+            toastr()->error(trans('messages.Delete'));
+            return redirect()->route('Questions.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     /**

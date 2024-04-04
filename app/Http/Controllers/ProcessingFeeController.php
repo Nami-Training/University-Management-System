@@ -43,19 +43,23 @@ class ProcessingFeeController extends Controller
      */
     public function store(ProcessingFeeRequest $request)
     {
-        $ProcessingFee = $this->processingFeeService->create($request->validated());
+        try {
+            $ProcessingFee = $this->processingFeeService->create($request->validated());
 
-        $this->studentAccountService->create([
-            'date' => now(),
-            'type' => 'ProcessingFee',
-            'processing_id' => $ProcessingFee->id,
-            'student_id' => $request->student_id,
-            'Debit' => 0.00,
-            'credit' => $request->amount,
-            'description' => $request->description,
-        ]);
-
-        return redirect()->route('ProcessingFee.index');
+            $this->studentAccountService->create([
+                'date' => now(),
+                'type' => 'ProcessingFee',
+                'processing_id' => $ProcessingFee->id,
+                'student_id' => $request->student_id,
+                'Debit' => 0.00,
+                'credit' => $request->amount,
+                'description' => $request->description,
+            ]);
+            toastr()->success(trans('messages.success'));
+            return redirect()->route('ProcessingFee.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -81,24 +85,33 @@ class ProcessingFeeController extends Controller
      */
     public function update(ProcessingFeeRequest $request, string $id)
     {
-        $this->processingFeeService->update($id ,$request->validated());
-        $this->studentAccountService->update($id, [
-            'date' => now(),
-            'type' => 'ProcessingFee',
-            'processing_id' => $id,
-            'student_id' => $request->student_id,
-            'Debit' => 0.00,
-            'credit' => $request->amount,
-            'description' => $request->description,
-        ]);
-
-        return redirect()->route('ProcessingFee.index');
+        try {
+            $this->processingFeeService->update($id ,$request->validated());
+            $this->studentAccountService->update($id, [
+                'date' => now(),
+                'type' => 'ProcessingFee',
+                'processing_id' => $id,
+                'student_id' => $request->student_id,
+                'Debit' => 0.00,
+                'credit' => $request->amount,
+                'description' => $request->description,
+            ]);
+            toastr()->success(trans('messages.Update'));
+            return redirect()->route('ProcessingFee.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     public function delete($id)
     {
-        $this->processingFeeService->delete($id);
-        return redirect()->back();
+        try {
+            $this->processingFeeService->delete($id);
+            toastr()->error(trans('messages.Delete'));
+            return redirect()->back();
+        }catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -106,7 +119,12 @@ class ProcessingFeeController extends Controller
      */
     public function destroy(string $id)
     {
-        $this->processingFeeService->forceDelete($id);
-        return redirect()->back();
+        try {
+            $this->processingFeeService->forceDelete($id);
+            toastr()->error(trans('messages.Delete'));
+            return redirect()->back();
+        }catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 }

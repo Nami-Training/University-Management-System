@@ -62,8 +62,13 @@ class StudentController extends Controller
      */
     public function store(StudentRequest $request)
     {
-        $this->studentService->createStudent($request->validated(), $request->password, $request->file('photo'));
-        return redirect()->route('Students.index');
+        try {
+            $this->studentService->createStudent($request->validated(), $request->password, $request->file('photo'));
+            toastr()->success(trans('messages.success'));
+            return redirect()->route('Students.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -93,25 +98,33 @@ class StudentController extends Controller
      */
     public function update(StudentRequest $request, string $id)
     {
-        $this->studentService->updateStudent($id, $request->validated(), $request->password);
-        return redirect()->route('Students.index');
+        try {
+            $this->studentService->updateStudent($id, $request->validated(), $request->password);
+            toastr()->success(trans('messages.Update'));
+            return redirect()->route('Students.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     public function Upload_attachment(Request $request)
     {
         $this->studentService->Upload_attachment($request->student_id, $request->file('photo'));
+        toastr()->success(trans('messages.success'));
         return redirect()->route('Students.show', $request->student_id);
     }
 
     public function Delete_attachment(Request $request)
     {
         $this->studentService->Delete_attachment($request->student_id, $request->filename, $request->id);
+        toastr()->error(trans('messages.Delete'));
         return redirect()->route('Students.show', $request->student_id);
     }
 
     public function delete($id)
     {
         $this->studentService->delete($id);
+        toastr()->error(trans('messages.Delete'));
         return redirect()->route('Students.index');
     }
 
@@ -121,6 +134,7 @@ class StudentController extends Controller
     public function destroy(string $id)
     {
         $this->studentService->forceDelete($id);
+        toastr()->error(trans('messages.Delete'));
         return redirect()->route('Students.index');
     }
 }

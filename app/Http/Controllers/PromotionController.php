@@ -45,35 +45,39 @@ class PromotionController extends Controller
      */
     public function store(PromotionRequest $request)
     {
-        $students = $this->studentService->where('grade_id', $request->grade_id)->where('classroom_id', $request->classroom_id)->where('section_id', $request->section_id)->where('academic_year', $request->academic_year);
+        try {
+            $students = $this->studentService->where('grade_id', $request->grade_id)->where('classroom_id', $request->classroom_id)->where('section_id', $request->section_id)->where('academic_year', $request->academic_year);
 
-        if ($students->count() < 1) {
-            return redirect()->back()->with('error_promotions', trans('there_is_no_students'));
+            if ($students->count() < 1) {
+                return redirect()->back()->with('error_promotions', trans('there_is_no_students'));
+            }
+
+            // update in table student
+            foreach ($students as $student) {
+                $student->update([
+                    'grade_id' => $request->grade_id_new,
+                    'classroom_id' => $request->classroom_id_new,
+                    'section_id' => $request->section_id_new,
+                    'academic_year' => $request->academic_year_new,
+                ]);
+
+                $this->promotionService->create([
+                    'student_id' => $student->id,
+                    'from_grade' => $request->grade_id,
+                    'from_Classroom' => $request->classroom_id,
+                    'from_section' => $request->section_id,
+                    'to_grade' => $request->grade_id_new,
+                    'to_Classroom' => $request->classroom_id_new,
+                    'to_section' => $request->section_id_new,
+                    'academic_year' => $request->academic_year,
+                    'academic_year_new' => $request->academic_year_new,
+                ]);
+            }
+            toastr()->success(trans('messages.success'));
+            return redirect()->route('promotion.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-
-        // update in table student
-        foreach ($students as $student) {
-            $student->update([
-                'grade_id' => $request->grade_id_new,
-                'classroom_id' => $request->classroom_id_new,
-                'section_id' => $request->section_id_new,
-                'academic_year' => $request->academic_year_new,
-            ]);
-
-            $this->promotionService->create([
-                'student_id' => $student->id,
-                'from_grade' => $request->grade_id,
-                'from_Classroom' => $request->classroom_id,
-                'from_section' => $request->section_id,
-                'to_grade' => $request->grade_id_new,
-                'to_Classroom' => $request->classroom_id_new,
-                'to_section' => $request->section_id_new,
-                'academic_year' => $request->academic_year,
-                'academic_year_new' => $request->academic_year_new,
-            ]);
-        }
-
-        return redirect()->route('promotion.index');
     }
 
     /**
@@ -102,21 +106,26 @@ class PromotionController extends Controller
 
     public function delete_all(Request $request)
     {
-        if ($request->page_id == 1) {
-            $Promotions = $this->promotionService->all();
-            foreach ($Promotions as $Promotion) {
-                $ids = explode(',', $Promotion->student_id);
-                $this->studentService->updateWhereIn('id', $ids, [
-                    'grade_id' => $Promotion->from_grade,
-                    'classroom_id' => $Promotion->from_Classroom,
-                    'section_id' => $Promotion->from_section,
-                    'academic_year' => $Promotion->academic_year,
-                ]);
+        try {
+            if ($request->page_id == 1) {
+                $Promotions = $this->promotionService->all();
+                foreach ($Promotions as $Promotion) {
+                    $ids = explode(',', $Promotion->student_id);
+                    $this->studentService->updateWhereIn('id', $ids, [
+                        'grade_id' => $Promotion->from_grade,
+                        'classroom_id' => $Promotion->from_Classroom,
+                        'section_id' => $Promotion->from_section,
+                        'academic_year' => $Promotion->academic_year,
+                    ]);
 
-                $Promotion->truncate();
+                    $Promotion->truncate();
+                }
             }
+            toastr()->error(trans('messages.Delete'));
+            return redirect()->route('promotion.index');
+        }catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-        return redirect()->route('promotion.index');
     }
 
     /**
@@ -124,15 +133,20 @@ class PromotionController extends Controller
      */
     public function destroy(string $id)
     {
-        $Promotion = $this->promotionService->findById($id);
-        $student = $this->studentService->findById($Promotion->student_id);
-        $student->update([
-            'grade_id' => $Promotion->from_grade,
-            'classroom_id' => $Promotion->from_Classroom,
-            'section_id' => $Promotion->from_section,
-            'academic_year' => $Promotion->academic_year,
-        ]);
-        $this->promotionService->delete($id);
-        return redirect()->route('promotion.index');
+        try {
+            $Promotion = $this->promotionService->findById($id);
+            $student = $this->studentService->findById($Promotion->student_id);
+            $student->update([
+                'grade_id' => $Promotion->from_grade,
+                'classroom_id' => $Promotion->from_Classroom,
+                'section_id' => $Promotion->from_section,
+                'academic_year' => $Promotion->academic_year,
+            ]);
+            $this->promotionService->delete($id);
+            toastr()->error(trans('messages.Delete'));
+            return redirect()->route('promotion.index');
+        }catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 }

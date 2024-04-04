@@ -50,8 +50,13 @@ class ClassroomController extends Controller
      */
     public function store(ClassroomRequest $request)
     {
-        $this->classroomService->create($request->validated());
-        return redirect()->route('Classrooms.index');
+        try {
+            $this->classroomService->create($request->validated());
+            toastr()->success(trans('messages.success'));
+            return redirect()->route('Classrooms.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -75,8 +80,13 @@ class ClassroomController extends Controller
      */
     public function update(ClassroomRequest $request, string $id)
     {
-        $this->classroomService->update($id, $request->validated());
-        return redirect()->route('Classrooms.index');
+        try {
+            $this->classroomService->update($id, $request->validated());
+            toastr()->success(trans('messages.Update'));
+            return redirect()->route('Classrooms.index');
+        }catch(\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
 
     public function delete(string $id)

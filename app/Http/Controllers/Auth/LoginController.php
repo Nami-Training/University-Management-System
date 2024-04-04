@@ -27,12 +27,9 @@ class LoginController extends Controller
 
     public function login(LoginRequest $request)
     {
-        // dd($request->all());
         if (Auth::guard($this->chekGuard($request))->attempt(['email' => $request->email, 'password' => $request->password])) {
             return $this->redirect($request);
-        }else{
-            return redirect()->route('Login.show', $request->type)->with('error');
-        }
+         }
     }
 
     public function logout(Request $request, $type)
